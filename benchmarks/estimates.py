@@ -3,9 +3,9 @@ from timeit import Timer
 from functools import partial
 from random import randint
 
-from mergesort import MergeSort
-from insertion_sort import insertion_sort_slice
-from insertion_sort import insertion_sort
+from src.mergesort import MergeSort
+from src.insertion_sort import insertion_sort_slice
+from src.insertion_sort import insertion_sort
 
 arr = [randint(0, 10 ** 3) for _ in range(10 ** 4)]
 

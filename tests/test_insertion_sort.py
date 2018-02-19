@@ -4,8 +4,8 @@ from random import randint
 from hypothesis import strategies as st
 from hypothesis import given
 
-from insertion_sort import insertion_sort
-from insertion_sort import insertion_sort_slice
+from src.insertion_sort import insertion_sort
+from src.insertion_sort import insertion_sort_slice
 
 
 class TestInsertionSort(unittest.TestCase):

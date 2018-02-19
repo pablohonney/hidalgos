@@ -1,12 +1,10 @@
 import unittest
-from random import randint
 
 from hypothesis import strategies as st
 from hypothesis import given
-from hypothesis import reproduce_failure
 
-from mergesort import MergeSort
-from insertion_sort import insertion_sort_slice
+from src.mergesort import MergeSort
+from src.insertion_sort import insertion_sort_slice
 
 
 class TestMerge(unittest.TestCase):
