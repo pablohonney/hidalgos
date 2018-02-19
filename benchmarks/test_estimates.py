@@ -30,6 +30,7 @@ class TestEstimates(unittest.TestCase):
         print('>>> high entropy. unsorted')
         self.help()
 
+    # TODO no boost with timsort. research
     def test_low_entropy_input(self):
         print('>>> low entropy. partially sorted')
         self.input.sort()

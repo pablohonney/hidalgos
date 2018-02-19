@@ -1,11 +1,9 @@
 import unittest
-from functools import reduce
 
 from hypothesis import strategies as st
 from hypothesis import given
 
 from src.mergesort import MergeSort
-from src.mergesort import sort_online
 from src.insertion_sort import insertion_sort_slice
 
 
@@ -29,15 +27,6 @@ class TestMerge(unittest.TestCase):
         merge_sort._merge(arr, 0, len(left), len(arr))
 
         self.assertListEqual(expected, arr)
-
-    # @given(*[st.lists(st.integers()) for i in range(5)])
-    # def test_online_property(self, a, b, c, d, e):
-    #     sorted_arrays = [sorted(x) for x in [a, b, c, d, e]]
-    #
-    #     expected = sorted(reduce(lambda x, y: x + y, sorted_arrays))
-    #     result = reduce(lambda l, r: list(sort_online(l, r)), sorted_arrays)
-    #
-    #     self.assertListEqual(expected, result)
 
 
 class TestMergeSort(unittest.TestCase):

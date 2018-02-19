@@ -2,9 +2,10 @@ import unittest
 from tempfile import TemporaryFile
 
 
-@unittest.skip('TODO')
-class TestExternalSOrt(unittest.TestCase):
+class TestExternalSort(unittest.TestCase):
 
-    def runTest(self):
-        with TemporaryFile() as f:
-            pass
+    def test_merge_files(self):
+        pass
+
+    def test_merge_db_tables(self):
+        pass

@@ -13,7 +13,7 @@ Lacks in-placement: Can be imitated with linked lists.
 
 Some optimizations...
 Runtime: minimize comparisons
-    - observation: one of the halves may exhaust much earlier. no need for
+    - observation: one of the halves may exhaust earlier.
 
 Runtime: use simpler algorithm deeper in recursion tree.
     - observation 1: data in the wild is usually semi-sorted. smaller input chunks deeper in the tree may
@@ -39,7 +39,7 @@ from src.commons import cmp_fun
 from src.commons import key_fun
 
 
-class MergeSort(object):
+class SimpleMergeSort(object):
     CUT_OFF = 2  # merge sort base case
 
     def __init__(self, cmp=cmp_fun, key=key_fun, cut_off=CUT_OFF, callback=None):
@@ -75,6 +75,15 @@ class MergeSort(object):
         self._sort(arr, mid, end)
         self._merge(arr, start, mid, end)
 
+    def _merge(self, arr, start, mid, end):
+        raise NotImplementedError
+        # implement naive version here. it is more generic
+
+        # also implement co-routine version for external sort ?
+
+
+class MergeSort(SimpleMergeSort):
+
     # O(n) time [n/2 more operation], O(n) space [n/2 less space, the rest is in-place]
     # left & right halves should be equal !
     def _merge(self, arr, start, mid, end):
@@ -98,21 +107,4 @@ class MergeSort(object):
         while j < r_size:
             arr[start + i + j] = arr[mid + j]
             j += 1
-
-
-# O(n) time, O(n) space
-def sort_online(left, right):
-
-    while left and right:
-        if left[-1] <= right[-1]:
-            yield left.pop()
-        else:
-            yield right.pop()
-
-    while left:
-        yield left.pop()
-
-    while right:
-        yield right.pop()
-
 
