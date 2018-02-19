@@ -1,9 +1,11 @@
 import unittest
+from functools import reduce
 
 from hypothesis import strategies as st
 from hypothesis import given
 
 from src.mergesort import MergeSort
+from src.mergesort import sort_online
 from src.insertion_sort import insertion_sort_slice
 
 
@@ -27,6 +29,15 @@ class TestMerge(unittest.TestCase):
         merge_sort._merge(arr, 0, len(left), len(arr))
 
         self.assertListEqual(expected, arr)
+
+    # @given(*[st.lists(st.integers()) for i in range(5)])
+    # def test_online_property(self, a, b, c, d, e):
+    #     sorted_arrays = [sorted(x) for x in [a, b, c, d, e]]
+    #
+    #     expected = sorted(reduce(lambda x, y: x + y, sorted_arrays))
+    #     result = reduce(lambda l, r: list(sort_online(l, r)), sorted_arrays)
+    #
+    #     self.assertListEqual(expected, result)
 
 
 class TestMergeSort(unittest.TestCase):
@@ -64,14 +75,17 @@ class TestMergeSort(unittest.TestCase):
         self.merge_sort.sort(arr)
         self.assertListEqual(expected, arr)
 
-    @given(st.lists(st.integers()))
-    def test_key_property(self, arr):
-        expected = sorted(arr, key=abs)
+    @given(st.lists(st.integers(min_value=10, max_value=20)))
+    def test_stability_property(self, arr):
+        arr = [(value, (value + salt) % 7) for salt, value in enumerate(arr)]
 
-        merge_sort = MergeSort(key=lambda x: x ** 2)
-        merge_sort.sort(arr)
+        expected = sorted(arr, key=lambda x: x[1])
+        expected = sorted(expected, key=lambda x: x[0])
 
-        self.assertListEqual(expected, arr)
+        MergeSort(key=lambda x: x[1]).sort(arr)
+        MergeSort(key=lambda x: x[0]).sort(arr)
+
+        self.assertListEqual(arr, expected)
 
 
 class TestTimSort(unittest.TestCase):

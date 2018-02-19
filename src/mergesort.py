@@ -34,18 +34,19 @@ Memory impact: Can be solved with constant auxiliary space with linked-list. Com
 """
 
 from math import ceil
-import sys
+
+from src.commons import cmp_fun
+from src.commons import key_fun
 
 
 class MergeSort(object):
     CUT_OFF = 2  # merge sort base case
 
-    def __init__(self, cmp=None, key=None, cut_off=CUT_OFF, callback=None):
-        self.cmp = cmp if cmp else _cmp
-        self.key = key if key else _key
+    def __init__(self, cmp=cmp_fun, key=key_fun, cut_off=CUT_OFF, callback=None):
+        self.cmp = cmp
+        self.key = key
         self.callback = callback if callback else None
         self.cut_off = cut_off
-
 
     def sort(self, arr):
         self._sort(arr, 0, len(arr))
@@ -66,7 +67,7 @@ class MergeSort(object):
 
         if end - start < self.cut_off:
             if self.callback:
-                self.callback(arr, start, end)
+                self.callback(arr, start, end, self.cmp, self.key)
             return
 
         mid = ceil((start + end) / 2)
@@ -74,8 +75,8 @@ class MergeSort(object):
         self._sort(arr, mid, end)
         self._merge(arr, start, mid, end)
 
-
     # O(n) time [n/2 more operation], O(n) space [n/2 less space, the rest is in-place]
+    # left & right halves should be equal !
     def _merge(self, arr, start, mid, end):
         left = arr[start:mid]
         l_size = mid - start
@@ -99,21 +100,19 @@ class MergeSort(object):
             j += 1
 
 
-def _key(item):
-    """
-    Identity function
-    """
-    return item
+# O(n) time, O(n) space
+def sort_online(left, right):
 
+    while left and right:
+        if left[-1] <= right[-1]:
+            yield left.pop()
+        else:
+            yield right.pop()
 
-if sys.version_info > (3, 0):
-    def _cmp(a, b):
-        """
-        Rich comparison
-        """
-        return (a > b) - (a < b)
-else:
-    _cmp = cmp
+    while left:
+        yield left.pop()
 
+    while right:
+        yield right.pop()
 
 
