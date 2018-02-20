@@ -1,12 +1,17 @@
+from src.commons import key_fun
+
+
 class DivideConquerSearch(object):
     """
-    Generates a customizable search function based on the pivot configuration
+    Base class for divide and conquer searches
+
 
     :param left: if True return the position of the leftmost matching item, rightmost otherwise
-    :return: search function
     """
+    def __init__(self, key=key_fun):
+        self.key = key
 
-    def indexer(self, low, high):
+    def get_pivot(self, low, high):
         raise NotImplementedError
 
     def search(self, arr, x, left=True):
@@ -16,19 +21,20 @@ class DivideConquerSearch(object):
         if low == high:
             return -1
 
-        index = low + int(self.indexer(low, high))
+        index = low + int(self.get_pivot(low, high))
 
-        if x > arr[index]:
+        k = self.key(x)
+        if k > self.key(arr[index]):
             return self._search(arr, x, index + 1, high, left)
-        elif x < arr[index]:
+        elif k < self.key(arr[index]):
             return self._search(arr, x, low, index, left)
 
         # TODO this might degrade on long spans
         if left:
-            while index and arr[index - 1] == x:
+            while index and self.key(arr[index - 1]) == k:
                 index -= 1
         else:
-            while index < high - 1 and arr[index + 1] == x:
+            while index < high - 1 and self.key(arr[index + 1]) == k:
                 index += 1
             index += 1
 
@@ -36,17 +42,18 @@ class DivideConquerSearch(object):
 
 
 class BinarySearch(DivideConquerSearch):
-    def indexer(self, low, high):
+    def get_pivot(self, low, high):
         return (high - low) / 2
 
 
 class GoldenSectionSearch(DivideConquerSearch):
     GOLDEN_SECTION_RATIO = (1 + 5 ** .5) / 2
 
-    def indexer(self, low, high):
+    def get_pivot(self, low, high):
         return (high - low) / self.GOLDEN_SECTION_RATIO
 
 
+# TODO need heavy revision
 def fib_iter(n):
     a, b = 0, 1
     for _ in range(n):
@@ -69,9 +76,10 @@ def ge_fib(x):
 
 
 class FibonacciSearch(DivideConquerSearch):
-    def indexer(self, low, high):
+    def get_pivot(self, low, high):
         return fib(ge_fib(high - low) - 2)
 
 
+# TODO
 class InterpolationSearch(DivideConquerSearch):
     pass
