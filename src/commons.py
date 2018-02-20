@@ -1,4 +1,5 @@
 import sys
+import random
 
 
 def key_fun(item):
@@ -47,3 +48,8 @@ def add_swap(sequence, first, second):
     sequence[first] += sequence[second]
     sequence[second] = sequence[first] - sequence[second]
     sequence[first] = sequence[second]
+
+
+def random_by_ratio(set_, ratio):
+    limit = int(ratio * len(set_))
+    return ''.join(random.choice(set_) for _ in range(limit))
