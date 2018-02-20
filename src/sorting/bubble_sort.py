@@ -47,14 +47,13 @@ from src.commons import key_fun
 from src.commons import swap
 
 
-# TODO cmp keeps a side reference. figure it out
 def bubble_sort(sequence, cmp=cmp_fun, key=key_fun):
     is_over = False
 
     while not is_over:
         is_over = True
         for i in range(1, len(sequence)):
-            if cmp_fun(key(sequence[i - 1]), key(sequence[i])) == 1:
+            if cmp(key(sequence[i - 1]), key(sequence[i])) == 1:
                 swap(sequence, i - 1, i)
                 is_over = False
 
@@ -68,7 +67,7 @@ def shaker_sort(sequence, cmp=cmp_fun, key=key_fun):
         counter += 1
         is_over = True
         for i in range(1, ll) if counter % 2 else range(ll - 1, 0, -1):
-            if cmp_fun(key(sequence[i - 1]), key(sequence[i])) == 1:
+            if cmp(key(sequence[i - 1]), key(sequence[i])) == 1:
                 swap(sequence, i - 1, i)
                 is_over = False
 
@@ -80,7 +79,7 @@ def _bubble_frames(sequence, cmp=cmp_fun, key=key_fun):
     while not is_over and frame > 1:
         is_over = True
         for i in range(len(sequence) - frame):
-            if cmp_fun(key(sequence[i]), key(sequence[i + frame])) == 1:
+            if cmp(key(sequence[i]), key(sequence[i + frame])) == 1:
                 swap(sequence, i, i + frame)
                 is_over = False
 

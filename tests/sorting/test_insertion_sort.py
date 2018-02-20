@@ -6,6 +6,7 @@ from hypothesis import given
 
 from src.sorting.insertion_sort import insertion_sort
 from src.sorting.insertion_sort import insertion_sort_slice
+from src.sorting.insertion_sort import shell_sort
 
 
 class TestInsertionSort(unittest.TestCase):
@@ -53,5 +54,10 @@ class TestInsertionSortSlice(unittest.TestCase):
         self.assertListEqual(expected, arr)
 
 
-if __name__ == '__main__':
-    unittest.main(verbosity=1)
+class TestShellSort(unittest.TestCase):
+
+    @given(st.lists(st.integers()))
+    def runTest(self, arr):
+        expected = sorted(arr)
+        shell_sort(arr)
+        self.assertListEqual(arr, expected)

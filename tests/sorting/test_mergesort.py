@@ -87,7 +87,3 @@ class TestTimSort(unittest.TestCase):
         tim_sort.sort(arr)
 
         self.assertListEqual(expected, arr)
-
-
-if __name__ == '__main__':
-    unittest.main(verbosity=1)
