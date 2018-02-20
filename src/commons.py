@@ -28,3 +28,22 @@ def is_sorted(sequence):
 
 def swap(sequence, first, second):
     sequence[first], sequence[second] = sequence[second], sequence[first]
+
+
+def xor_swap(sequence, first, second):
+    """
+    works only on numeric types
+    """
+    sequence[first] ^= sequence[second]
+    sequence[second] ^= sequence[first]
+    sequence[first] ^= sequence[second]
+
+
+def add_swap(sequence, first, second):
+    """
+    works only on numeric types
+    arithmetic overflow risk in typed languages
+    """
+    sequence[first] += sequence[second]
+    sequence[second] = sequence[first] - sequence[second]
+    sequence[first] = sequence[second]

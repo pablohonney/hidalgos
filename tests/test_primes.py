@@ -3,10 +3,10 @@ from itertools import islice
 
 from hypothesis import strategies as st, given
 
-from src.primes.primes import feed_primes
-from src.primes.primes import naive
-from src.primes.primes import eratosthenes
-from src.primes.primes import eratosthenes_bits
+from src.primes import eratosthenes
+from src.primes import eratosthenes_bits
+from src.primes import feed_primes
+from src.primes import naive
 
 
 class TestNaive(unittest.TestCase):
@@ -39,7 +39,6 @@ class TestEratosthenesBits(unittest.TestCase):
 
 
 class TestFeedPrimes(unittest.TestCase):
-
     def setUp(self):
         self.primes_pool = list(eratosthenes_bits(10 ** 4))
 

@@ -35,8 +35,8 @@ Memory impact: Can be solved with constant auxiliary space with linked-list. Com
 
 from math import ceil
 
-from src.sorting.commons import cmp_fun
-from src.sorting.commons import key_fun
+from src.commons import cmp_fun
+from src.commons import key_fun
 
 
 class SimpleMergeSort(object):
@@ -70,7 +70,7 @@ class SimpleMergeSort(object):
                 self.callback(arr, start, end, self.cmp, self.key)
             return
 
-        mid = ceil((start + end) / 2)
+        mid = int(ceil((start + end) / 2))  # PY2
         self._sort(arr, start, mid)
         self._sort(arr, mid, end)
         self._merge(arr, start, mid, end)

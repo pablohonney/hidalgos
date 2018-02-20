@@ -27,7 +27,7 @@ def naive(n):
 
 def eratosthenes(n):
     if n < 2:
-        raise StopIteration
+        return
 
     arr = array('H', range(n + 1))
     arr[0] = arr[1] = 0
@@ -43,7 +43,7 @@ def eratosthenes(n):
 
 def eratosthenes_bits(n):
     if n < 2:
-        raise StopIteration
+        return
 
     arr = int('0b' + '1' * (n + 1), 2)
     arr ^= 0b11
