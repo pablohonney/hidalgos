@@ -2,7 +2,7 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.sorting.bubble_sort import bubble_sort, comb_sort, shaker_sort
+from src.sorting import bubble_sort, comb_sort, shaker_sort
 
 
 class TestBubbleSort(unittest.TestCase):

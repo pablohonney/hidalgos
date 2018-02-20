@@ -3,8 +3,8 @@ import unittest
 import hypothesis as hypo
 from hypothesis import strategies as st
 
-from src.crc import crc
-from src.crc import binary_length
+from src.channel_coding.crc import crc
+from src.channel_coding.crc import binary_length
 
 
 class TestCrc(unittest.TestCase):
@@ -36,7 +36,3 @@ class TestBinaryLength(unittest.TestCase):
 
     def test_leading_zeroes(self):
         self.assertEqual(binary_length(0b000111), 3)
-
-
-if __name__ == '__main__':
-    unittest.main()

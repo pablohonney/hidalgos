@@ -1,12 +1,11 @@
 import unittest
 from random import randint
 
-from hypothesis import strategies as st
-from hypothesis import given
+from hypothesis import strategies as st, given
 
-from src.sorting.insertion_sort import insertion_sort
+from src.sorting import insertion_sort
+from src.sorting import shell_sort
 from src.sorting.insertion_sort import insertion_sort_slice
-from src.sorting.insertion_sort import shell_sort
 
 
 class TestInsertionSort(unittest.TestCase):

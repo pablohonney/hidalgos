@@ -1,9 +1,11 @@
 class SLList(object):
     def __init__(self):
         self.root = _RootNode()
-
         self.head = self.root
-        self.neck = self.root
+
+    def _get_nth_item(self, n):
+        node = self.head.next
+        # while n and
 
     # deque behaviour
     def append(self, item):
@@ -11,10 +13,7 @@ class SLList(object):
         self.head = self.head.next
 
     def pop(self, index: int = -1):
-        node = self.head
-        prev = self.root
-        while prev and prev.next == node:
-            prev = node
+        node = self.root.next
 
     # random access
     def __setitem__(self, key, value):

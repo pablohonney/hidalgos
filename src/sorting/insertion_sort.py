@@ -1,7 +1,7 @@
 from src.commons import cmp_fun
 from src.commons import key_fun
 
-from src.sorting.bubble_sort import _bubble_frames
+from src.sorting.bubble_sort import bubble_with_gaps
 
 
 def insertion_sort(arr, cmp=cmp_fun, key=key_fun):
@@ -20,5 +20,5 @@ def insertion_sort_slice(arr, start, end, cmp=cmp_fun, key=key_fun):
 
 
 def shell_sort(arr):
-    _bubble_frames(arr)
+    bubble_with_gaps(arr)
     insertion_sort(arr)

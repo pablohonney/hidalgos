@@ -2,7 +2,7 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.sorting.selection_sort import selection_sort
+from src.sorting import selection_sort
 
 
 class TestSelectionSort(unittest.TestCase):

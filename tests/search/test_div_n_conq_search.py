@@ -1,63 +1,42 @@
 import unittest
-import bisect
 
 from hypothesis import strategies as st, given
 
-from src.search.div_n_conq_search import BinarySearch
-from src.search.div_n_conq_search import GoldenSectionSearch
-from src.search.div_n_conq_search import FibonacciSearch, ge_fib
-from src.search.div_n_conq_search import DivideConquerSearch
+from src.search import BinarySearch
+from src.search import GoldenSectionSearch
+from src.search import FibonacciSearch
 
-
-def _check(arr, x, left):
-    if left:
-        bisect_ = bisect.bisect_left
-    else:
-        bisect_ = bisect.bisect_right
-
-    return bisect_(arr, x) if x in arr else -1
+from tests.search import _search
 
 
 class TestBinarySearch(unittest.TestCase):
     search = BinarySearch()
 
     @given(st.lists(st.integers()), st.integers())
-    def test_left(self, arr, x):
+    def runTest(self, arr, x):
         arr.sort()
-        self.assertEqual(self.search.search(arr, x, left=True), _check(arr, x, True))
-
-    @given(st.lists(st.integers()), st.integers())
-    def test_right(self, arr, x):
-        arr.sort()
-        self.assertEqual(self.search.search(arr, x, left=False), _check(arr, x, False))
+        self.assertEqual(self.search.search(arr, x, left=True), _search(arr, x, True))
+        self.assertEqual(self.search.search(arr, x, left=False), _search(arr, x, False))
 
 
 class TestGoldenSection(unittest.TestCase):
     search = GoldenSectionSearch()
 
     @given(st.lists(st.integers()), st.integers())
-    def test_left(self, arr, x):
+    def runTest(self, arr, x):
         arr.sort()
-        self.assertEqual(self.search.search(arr, x, left=True), _check(arr, x, True))
-
-    @given(st.lists(st.integers()), st.integers())
-    def test_right(self, arr, x):
-        arr.sort()
-        self.assertEqual(self.search.search(arr, x, left=False), _check(arr, x, False))
+        self.assertEqual(self.search.search(arr, x, left=True), _search(arr, x, True))
+        self.assertEqual(self.search.search(arr, x, left=False), _search(arr, x, False))
 
 
 class TestFibonacciSearch(unittest.TestCase):
     search = FibonacciSearch()
 
     @given(st.lists(st.integers()), st.integers())
-    def test_left(self, arr, x):
+    def runTest(self, arr, x):
         arr.sort()
-        self.assertEqual(self.search.search(arr, x, left=True), _check(arr, x, True))
-
-    @given(st.lists(st.integers()), st.integers())
-    def test_right(self, arr, x):
-        arr.sort()
-        self.assertEqual(self.search.search(arr, x, left=False), _check(arr, x, False))
+        self.assertEqual(self.search.search(arr, x, left=True), _search(arr, x, True))
+        self.assertEqual(self.search.search(arr, x, left=False), _search(arr, x, False))
 
 # class memoize_first_returned(object):
 #     def __init__(self, method):

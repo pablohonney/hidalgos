@@ -2,8 +2,8 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.sorting.counting_sort import counter_sort
-from src.sorting.counting_sort import counter_sort_inplace
+from src.sorting import counter_sort
+from src.sorting import counter_sort_inplace
 
 
 class TestCountingSort(unittest.TestCase):

@@ -4,9 +4,6 @@ from src.commons import key_fun
 class DivideConquerSearch(object):
     """
     Base class for divide and conquer searches
-
-
-    :param left: if True return the position of the leftmost matching item, rightmost otherwise
     """
     def __init__(self, key=key_fun):
         self.key = key
@@ -14,29 +11,34 @@ class DivideConquerSearch(object):
     def get_pivot(self, low, high):
         raise NotImplementedError
 
-    def search(self, arr, x, left=True):
-        return self._search(arr, x, 0, len(arr), left)
+    def search(self, sequence, item, left=True):
+        """
+        :param sequence:
+        :param item:
+        :param left: if True return the position of the leftmost matching item, rightmost otherwise
+        """
+        return self._search(sequence, item, 0, len(sequence), left)
 
-    def _search(self, arr, x, low, high, left):
+    def _search(self, sequence, item, low, high, left):
         if low == high:
             return -1
 
         index = low + int(self.get_pivot(low, high))
 
-        k = self.key(x)
-        if k > self.key(arr[index]):
-            return self._search(arr, x, index + 1, high, left)
-        elif k < self.key(arr[index]):
-            return self._search(arr, x, low, index, left)
+        k = self.key(item)
+        if k > self.key(sequence[index]):
+            return self._search(sequence, item, index + 1, high, left)
+        elif k < self.key(sequence[index]):
+            return self._search(sequence, item, low, index, left)
 
         # TODO this might degrade on long spans
+        # rewrite with recursion
         if left:
-            while index and self.key(arr[index - 1]) == k:
+            while index and self.key(sequence[index - 1]) == k:
                 index -= 1
         else:
-            while index < high - 1 and self.key(arr[index + 1]) == k:
+            while index < high - 1 and self.key(sequence[index + 1]) == k:
                 index += 1
-            index += 1
 
         return index
 
@@ -82,4 +84,5 @@ class FibonacciSearch(DivideConquerSearch):
 
 # TODO
 class InterpolationSearch(DivideConquerSearch):
-    pass
+    def get_pivot(self, low, high):
+        raise NotImplementedError

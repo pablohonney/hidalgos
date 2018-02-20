@@ -72,20 +72,19 @@ def shaker_sort(sequence, cmp=cmp_fun, key=key_fun):
                 is_over = False
 
 
-def _bubble_frames(sequence, cmp=cmp_fun, key=key_fun):
-    is_over = False
-    frame = len(sequence) // 2
+def bubble_with_gaps(sequence, cmp=cmp_fun, key=key_fun):
+    """
+    Mitigate turtles problem.
+    """
+    gap = len(sequence) // 2
 
-    while not is_over and frame > 1:
-        is_over = True
-        for i in range(len(sequence) - frame):
-            if cmp(key(sequence[i]), key(sequence[i + frame])) == 1:
-                swap(sequence, i, i + frame)
-                is_over = False
-
-        frame //= 2
+    while gap > 1:
+        for i in range(len(sequence) - gap):
+            if cmp(key(sequence[i]), key(sequence[i + gap])) == 1:
+                swap(sequence, i, i + gap)
+        gap //= 2
 
 
 def comb_sort(sequence, cmp=cmp_fun, key=key_fun):
-    _bubble_frames(sequence, cmp, key)
+    bubble_with_gaps(sequence, cmp, key)
     bubble_sort(sequence, cmp, key)

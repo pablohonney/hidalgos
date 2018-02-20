@@ -107,4 +107,3 @@ class MergeSort(SimpleMergeSort):
         while j < r_size:
             arr[start + i + j] = arr[mid + j]
             j += 1
-

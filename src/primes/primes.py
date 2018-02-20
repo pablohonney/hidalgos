@@ -2,7 +2,7 @@ from array import array
 from itertools import count
 
 
-def feed_primes():
+def primes_stream():
     yield 2
 
     for i in count(3, 2):

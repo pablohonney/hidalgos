@@ -8,7 +8,7 @@ from hypothesis import strategies as st, given
 
 from src.primes import eratosthenes
 from src.primes import eratosthenes_bits
-from src.primes import feed_primes
+from src.primes import primes_stream
 from src.primes import naive
 
 
@@ -41,18 +41,14 @@ class TestEratosthenesBits(unittest.TestCase):
         self.assertListEqual(list(eratosthenes_bits(n)), expected)
 
 
-class TestFeedPrimes(unittest.TestCase):
+class TestPrimesStream(unittest.TestCase):
     def setUp(self):
         self.primes_pool = list(eratosthenes_bits(10 ** 4))
 
     @given(st.integers(min_value=0, max_value=100))
     def runTest(self, n):
         expected = self.primes_pool[:n]
-        self.assertListEqual(list(islice(feed_primes(), n)), expected)
+        self.assertListEqual(list(islice(primes_stream(), n)), expected)
 
 
 # TODO Sundaram
-
-
-if __name__ == '__main__':
-    unittest.main()

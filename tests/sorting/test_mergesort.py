@@ -1,9 +1,8 @@
 import unittest
 
-from hypothesis import strategies as st
-from hypothesis import given
+from hypothesis import strategies as st, given
 
-from src.sorting.mergesort import MergeSort
+from src.sorting import MergeSort
 from src.sorting.insertion_sort import insertion_sort_slice
 
 
