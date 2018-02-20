@@ -1,3 +1,6 @@
+"""
+As our implementations become increasingly faster, let's check each with the previous.
+"""
 import unittest
 from itertools import islice
 
