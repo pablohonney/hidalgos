@@ -3,8 +3,8 @@ import unittest
 from hypothesis import strategies as st
 from hypothesis import given
 
-from src.mergesort import MergeSort
-from src.insertion_sort import insertion_sort_slice
+from src.sorting.mergesort import MergeSort
+from src.sorting.insertion_sort import insertion_sort_slice
 
 
 class TestMerge(unittest.TestCase):

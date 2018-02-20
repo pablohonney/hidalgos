@@ -1,5 +1,5 @@
-from src.commons import cmp_fun
-from src.commons import key_fun
+from src.sorting.commons import cmp_fun
+from src.sorting.commons import key_fun
 
 
 def insertion_sort(arr, cmp=cmp_fun, key=key_fun):

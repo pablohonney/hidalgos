@@ -35,8 +35,8 @@ Memory impact: Can be solved with constant auxiliary space with linked-list. Com
 
 from math import ceil
 
-from src.commons import cmp_fun
-from src.commons import key_fun
+from src.sorting.commons import cmp_fun
+from src.sorting.commons import key_fun
 
 
 class SimpleMergeSort(object):

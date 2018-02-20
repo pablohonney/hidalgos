@@ -5,9 +5,9 @@ from functools import partial
 from random import randint
 from random import shuffle
 
-from src.mergesort import MergeSort
-from src.insertion_sort import insertion_sort_slice
-from src.insertion_sort import insertion_sort
+from src.sorting.mergesort import MergeSort
+from src.sorting.insertion_sort import insertion_sort_slice
+from src.sorting.insertion_sort import insertion_sort
 
 
 class TestEstimates(unittest.TestCase):
