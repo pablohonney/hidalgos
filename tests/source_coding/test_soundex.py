@@ -1,11 +1,8 @@
-"""
-wikipedia soundex
-http://ntz-develop.blogspot.am/2011/03/phonetic-algorithms.html
-"""
 import unittest
 
 from src.source_coding import soundex
-from src.source_coding import soundex_refined
+from src.source_coding import refined_soundex
+from src.source_coding import daitch_mokotoff
 
 
 class TestSoundex(unittest.TestCase):
@@ -37,7 +34,7 @@ class TestSoundex(unittest.TestCase):
                     self.assertEqual(soundex(name), code)
 
 
-class TestSoundexRefined(unittest.TestCase):
+class TestRefinedSoundex(unittest.TestCase):
 
     def runTest(self):
         cases = {
@@ -53,4 +50,26 @@ class TestSoundexRefined(unittest.TestCase):
         for code, case in cases.items():
             for name in case.split(' '):
                 with self.subTest(name):
-                    self.assertEqual(soundex_refined(name), code)
+                    self.assertEqual(refined_soundex(name), code)
+
+
+class TestDaitchMokotoff(unittest.TestCase):
+
+    @unittest.skip('TODO jewish soundex')
+    def runTest(self):
+        cases = {
+            '147740': 'Iozefovich Jacobovitch Jacobovitz Jacobowicz Jacobowits Jacobowitz Josefovic Josefowicz '
+                      'Josifovic Josifovitz Josipovic Josipovitz Josofovitz Jozefowicz Yezafovich',
+            '147750': 'Iozefovich Josefovic Josifovic Josipovic Yezafovich',
+            '345750': 'Dashkovich Djakovic Djekovic Djokovic',
+            '783940': 'Baldrick Fielders Walters Weldrick Wolters',
+            '783950': 'Baldrick Weldrake Weldrick Welldrake',
+            '964660': 'Runchman Runcieman Runciman',
+            '965660': 'Runchman Runcieman Runciman',
+            '596490': 'Grancher Greenacre',
+            '596590': 'Gehringer Grainger Grancher Granger Grangier Greenacre Grunguer',
+        }
+        for code, case in cases.items():
+            for name in case.split(' '):
+                with self.subTest(name):
+                    self.assertEqual(daitch_mokotoff(name), code)

@@ -3,9 +3,13 @@ from itertools import count
 
 def naive(n):
     """
+    // discuss limiting and multiple skipping approaches.
+    // they work much like extra- & interpolation.
+
     optimizations:
     - evens go home:
         skip halves altogether. spare 2 though.
+        // skipping the multiples of checked nums will be elaborated in sieves.
 
     - half way is the way:
         finding primes is about dividing.
@@ -24,6 +28,8 @@ def naive(n):
         we can generalize this approach.
         n / 3 == third  <===>  n / third == 3
         1xx-----------s--s---------------n
+
+        n / x == s
         1xxx-------s--s--s---------------n
         1xxxx----s-s--s--s---------------n
 

@@ -1,12 +1,19 @@
+import re
+
+
 def soundex(plain_text):
-    if not isinstance(plain_text, str):
+    """
+    only single characters are replaced.
+    no combos or conditional substitutions.
+    """
+    if not isinstance(plain_text, str):  # turn into a validation decorator ?
         raise TypeError
 
     if not plain_text:
         raise ValueError
 
-    plain_text = plain_text.lower()
-    head = plain_text[0].upper()
+    code = plain_text.lower()
+    head = code[0].upper()
 
     # substitution order is irrelevant here. dict is ok
     rules = {
@@ -22,39 +29,39 @@ def soundex(plain_text):
     for rule, value in rules.items():
         value = str(value)
         for char in rule:
-            plain_text = plain_text.replace(char, value)
+            code = code.replace(char, value)
 
     # skip duplicates
     old = ''
     acc = []
-    for char in plain_text:
+    for char in code:
         if old == char:
             pass
         else:
             old = char
             acc.append(char)
-    plain_text = ''.join(acc)
+        code = ''.join(acc)
 
     # skip head
-    plain_text = plain_text[1:]
+        code = code[1:]
 
     # skip vowels
     for char in 'aeiouy':
-        plain_text = plain_text.replace(char, '')
+        code = code.replace(char, '')
 
-    # fill with tailing zeroes
-    return head + (plain_text + '000')[:3]
+    # fill with trailing zeroes
+    return head + (code + '000')[:3]
 
 
-def soundex_refined(plain_text):
+def refined_soundex(plain_text):
     if not isinstance(plain_text, str):
         raise TypeError
 
     if not plain_text:
         raise ValueError
 
-    plain_text = plain_text.lower()
-    head = plain_text[0].upper()
+    code = plain_text.lower()
+    head = code[0].upper()
 
     # substitution order is irrelevant here. dict is ok
     rules = {
@@ -71,23 +78,44 @@ def soundex_refined(plain_text):
     for rule, value in rules.items():
         value = str(value)
         for char in rule:
-            plain_text = plain_text.replace(char, value)
+            code = code.replace(char, value)
 
     # substitute everything else
-    for char in plain_text:
+    for char in code:
         if char not in '123456789':
-            plain_text = plain_text.replace(char, '0')
+            code = code.replace(char, '0')
 
     # skip duplicates
     old = ''
     acc = []
-    for char in plain_text:
+    for char in code:
         if old == char:
             pass
         else:
             old = char
             acc.append(char)
-    plain_text = ''.join(acc)
+        code = ''.join(acc)
 
-    # fill with tailing zeroes
-    return head + plain_text
+    return head + code
+
+
+def daitch_mokotoff(plain_text):
+    if not isinstance(plain_text, str):
+        raise TypeError
+
+    if not plain_text:
+        raise ValueError
+
+    code = plain_text.lower()
+
+    rules = ('AI, AJ, AY, EI, EY, EJ, OI, OJ, OY, UI, UJ, UY', [0, 1, None])
+    rule, [start, post_vowel, other] = rules
+    for affix in rule.split(', '):
+        if code.startswith(affix):
+            code = code.replace(affix, str(start), 1)
+
+        # use own multi-index find func, when it's ready. )
+        # if post_vowel:
+        #     for index in [m.start() for m in re.finditer(affix, code)]:
+        #         if index > 0 and code[index-1]
+
