@@ -4,4 +4,5 @@ from .run_length_encoding import decode_run_length
 
 # phonetic algorithms
 from .phonetics.soundex import soundex
+from .phonetics.soundex import soundex_refined
 from .phonetics.nysiis import nysiis
