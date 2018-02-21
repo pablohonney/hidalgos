@@ -1,17 +1,10 @@
-import math
-
+from src.commons import binary_length
 
 MASK = 0
 
 
-def binary_length(number):
-    if not number:
-        return 0
-    return int(math.floor(math.log(number, 2)) + 1)
-
-
 def crc(data, divisor, mask=MASK):
-    shift = binary_length(divisor)-1
+    shift = binary_length(divisor) - 1
     data <<= shift
     data |= mask
 

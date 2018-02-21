@@ -2,14 +2,13 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.linked_list.singly_linked_list import SLList
+from src.linked_list import SinglyLinkedList as SLL
 
 
 class TestSinglyLinkedList(unittest.TestCase):
-
-    @unittest.skip('TODO under construction')
+    @unittest.skip('TODO Linked List')
     def test_deque_access(self):
-        sll = SLList()
+        sll = SLL()
         for i in range(5):
             sll.append(i)
 
@@ -17,7 +16,7 @@ class TestSinglyLinkedList(unittest.TestCase):
 
     @given(st.lists(st.integers()))
     def test_sequential_access(self, arr):
-        sll = SLList()
+        sll = SLL()
         for i in arr:
             sll.append(i)
 

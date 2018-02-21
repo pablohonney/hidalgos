@@ -6,10 +6,10 @@ from itertools import islice
 
 from hypothesis import strategies as st, given
 
+from src.primes import naive
+from src.primes import primes_stream
 from src.primes import eratosthenes
 from src.primes import eratosthenes_bits
-from src.primes import primes_stream
-from src.primes import naive
 
 
 class TestNaive(unittest.TestCase):
@@ -51,4 +51,9 @@ class TestPrimesStream(unittest.TestCase):
         self.assertListEqual(list(islice(primes_stream(), n)), expected)
 
 
-# TODO Sundaram
+@unittest.skip('TODO sundaram')
+class TestSundaram(unittest.TestCase):
+    @given(st.integers(min_value=0, max_value=1000))
+    def runTest(self, n):
+        expected = list(naive(n))
+        # self.assertListEqual(list(eratosthenes_bits(n)), expected)

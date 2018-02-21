@@ -1,5 +1,6 @@
 import sys
 import random
+import math
 
 
 def key_fun(item):
@@ -53,3 +54,9 @@ def add_swap(sequence, first, second):
 def random_by_ratio(set_, ratio):
     limit = int(ratio * len(set_))
     return ''.join(random.choice(set_) for _ in range(limit))
+
+
+def binary_length(number):
+    if not number:
+        return 0
+    return int(math.floor(math.log(number, 2)) + 1)

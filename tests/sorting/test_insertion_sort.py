@@ -24,7 +24,7 @@ class TestInsertionSort(unittest.TestCase):
         insertion_sort(arr)
         self.assertListEqual([2, 5], arr)
 
-    def test_already_tested(self):
+    def test_already_sorted(self):
         arr = list(range(5))
         insertion_sort(arr)
         self.assertListEqual(list(range(5)), arr)

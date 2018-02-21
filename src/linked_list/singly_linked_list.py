@@ -1,4 +1,4 @@
-class SLList(object):
+class SinglyLinkedList(object):
     def __init__(self):
         self.root = _RootNode()
         self.head = self.root

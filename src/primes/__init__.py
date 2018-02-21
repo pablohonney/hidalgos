@@ -1,4 +1,7 @@
+# naive
 from .primes import naive
-from .primes import eratosthenes
-from .primes import eratosthenes_bits
 from .primes import primes_stream
+
+# sieves
+from .sieves import eratosthenes
+from .sieves import eratosthenes_bits
