@@ -7,7 +7,7 @@ from src.linked_list.singly_linked_list import SLList
 
 class TestSinglyLinkedList(unittest.TestCase):
 
-    # TODO under construction
+    @unittest.skip('TODO under construction')
     def test_deque_access(self):
         sll = SLList()
         for i in range(5):
