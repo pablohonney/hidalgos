@@ -1,3 +1,22 @@
+"""
+Concepts:
+
+order:
+sortedness:
+
+when we sort things we usually
+key:
+satellite data:
+
+
+
+Sorting properties
+
+Stability:
+
+how does one sort words? Seems trivial? Ok, then how does one sort kanji.
+"""
+
 # exchange sorts
 from .bubble_sort import bubble_sort
 from .bubble_sort import shaker_sort
@@ -16,4 +35,3 @@ from .counting_sort import counter_sort_inplace
 
 # merge sorts
 from .mergesort import MergeSort
-
