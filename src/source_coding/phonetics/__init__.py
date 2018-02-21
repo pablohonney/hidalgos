@@ -8,7 +8,7 @@ Your fellow assistant checks him up in the table, but he can't find him there.
 It comes out there was a typo.
 
 Unlike common dictionary words that we hopefully know quite well
-proper names may heavily vary in spelling, also they're hard to spell checked.
+proper names may heavily vary in spelling, also they're hard to spell check.
 
 That said, we need a way to encode the pronunciation, bypassing spelling pitfalls.
 Encoding requires rules. Languages have grammatical rules. everyone's happy? no way.
@@ -30,7 +30,7 @@ observations:
     languages with irregular orthography may strongly benefit from these.
 
     These algorithms are language, culture and anthroponymy* specific.
-    *(I know that's scary. it's just stats on what human names usage)
+    *(I know that's scary. it's just stats on what human names are in use)
 
     I believe with corpus linguistics (statistics on the language usage in the wild) and some clever
     AI/dynamicProgramming at hand it'd be possible to generate phonetic algorithm rule sets with tolerable
