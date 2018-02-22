@@ -1,3 +1,22 @@
+"""
+Levenshtein distance is an edit distance.
+It tells how many edit operations should be performed to turn one string into the other.
+There are a few edit operations. namely...
+    add a char
+    remove a char
+    replace a char with a new one (technically add and remove at once)
+    keep the char. (technically replace with the same char)
+    swap 2 chars
+
+Each operation has costs assigned to it based on its type and the input characters.
+
+Different edit distance algorithms use different sets of operations.
+Levenshtein uses add, remove and replace with following values by default.
+    add costs 1
+    remove costs 1
+    replace costs 1
+    keep costs 0
+"""
 from functools import reduce
 from array import array
 
@@ -14,7 +33,7 @@ def _levenshtein_recursive(str1, str2, i, j):
 
     add = _levenshtein_recursive(str1, str2, i - 1, j) + 1
     remove = _levenshtein_recursive(str1, str2, i, j - 1) + 1
-    replace = _levenshtein_recursive(str1, str2, i - 1, j - 1) + cost
+    replace = _levenshtein_recursive(str1, str2, i - 1, j - 1) + cost  # replace/keep
 
     return reduce(min, [add, remove, replace])
 
@@ -23,25 +42,26 @@ def levenshtein_matrix(str1, str2):
     if not (str1 and str2):
         return len(str1) or len(str2)
 
-    matrix = [array('H', [0] * len(str2)) for _ in range(len(str1))]
+    str1_len = len(str1) + 1
+    str2_len = len(str2) + 1
 
-    for i in range(len(str1)):
+    matrix = [array('H', [0] * str2_len) for _ in range(str1_len)]
+
+    for i in range(str1_len):
         matrix[i][0] = i
 
-    for j in range(len(str2)):
+    for j in range(str2_len):
         matrix[0][j] = j
 
-    for i in range(len(str1)):
-        for j in range(len(str2)):
-            cost = 1 if str1[i] != str2[j] else 0
+    for i in range(1, str1_len):
+        for j in range(1, str2_len):
+            cost = 1 if str1[i - 1] != str2[j - 1] else 0
 
             add = matrix[i - 1][j] + 1
             remove = matrix[i][j - 1] + 1
-            replace = matrix[i - 1][j - 1] + cost
+            replace = matrix[i - 1][j - 1] + cost  # replace/keep
 
             matrix[i][j] = reduce(min, [add, remove, replace])
-
-        print(matrix[i])
 
     return matrix[-1][-1]
 
@@ -50,25 +70,61 @@ def levenshtein_compressed_matrix(str1, str2):
     if not (str1 and str2):
         return len(str1) or len(str2)
 
-    matrix = [array('H', [0] * len(str2)) for _ in range(2)]
+    str1_len = len(str1) + 1
+    str2_len = len(str2) + 1
 
-    for i in range(2):
+    matrix = [array('H', [0] * str2_len) for _ in range(3)]
+
+    for i in range(3):
         matrix[i][0] = i
 
-    for j in range(len(str2)):
+    for j in range(str2_len):
         matrix[0][j] = j
 
-    for i in range(len(str1)):
-        for j in range(len(str2)):
-            cost = 1 if str1[i] != str2[j] else 0
+    for i in range(1, str1_len):
+        for j in range(1, str2_len):
+            cost = 1 if str1[i - 1] != str2[j - 1] else 0
 
             add = matrix[0][j] + 1
             remove = matrix[1][j - 1] + 1
-            replace = matrix[0][j - 1] + cost
+            replace = matrix[0][j - 1] + cost  # replace/keep
 
             matrix[1][j] = reduce(min, [add, remove, replace])
 
-        print(matrix[1])
+        for pos, cell in enumerate(matrix[1]):
+            matrix[0][pos] = cell
+            matrix[1][pos] = 0
+        matrix[1][0] = 1
+
+    return matrix[0][-1]
+
+
+# a slight rewrite
+def wagner_fischer_compressed_matrix(str1, str2):
+    if not (str1 and str2):
+        return len(str1) or len(str2)
+
+    str1_len = len(str1) + 1
+    str2_len = len(str2) + 1
+
+    matrix = [array('H', [0] * str2_len) for _ in range(3)]
+
+    for i in range(3):
+        matrix[i][0] = i
+
+    for j in range(str2_len):
+        matrix[0][j] = j
+
+    for i in range(1, str1_len):
+        for j in range(1, str2_len):
+            if str1[i - 1] == str2[j - 1]:  # keep
+                matrix[1][j] = matrix[0][j-1]
+            else:
+                add = matrix[0][j] + 1
+                remove = matrix[1][j - 1] + 1
+                replace = matrix[0][j - 1] + 1  # replace
+
+                matrix[1][j] = reduce(min, [add, remove, replace])
 
         for pos, cell in enumerate(matrix[1]):
             matrix[0][pos] = cell

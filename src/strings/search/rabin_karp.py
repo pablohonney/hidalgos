@@ -20,6 +20,9 @@ Rabin fingerprint provides us with one.
 ...
 
 Thus the hash is both roll-able and order-sensitive. Nice, isn't it?
+
+The really great news is that multiple phrases can be compared against the text at once with minimal overhead.
+It's said to be handy when checking for plagiarism with multiple keywords.
 """
 
 BASE = 101  # primes are favoured
@@ -32,7 +35,7 @@ def rabin_fingerprint(plain_text):
 def _rabin_fingerprint(plain_text, start, end):
     code = 0
 
-    for degree in range(end - start + 1):
+    for degree in range(end - start):
         char = plain_text[start + degree]
         code += ord(char) * (BASE ** degree)
     return code
@@ -40,11 +43,16 @@ def _rabin_fingerprint(plain_text, start, end):
 
 def rabin_roller(plain_text, window):  # rewrite as a class to access the pointer info.
     code = _rabin_fingerprint(plain_text, 0, window)
-    head = plain_text[0]
 
-    for i in range(len(plain_text) - window + 1):
+    yield code
+    for i in range(len(plain_text) - window):
+        tail = plain_text[i]
+        head = plain_text[window + i]
+
+        code -= ord(tail)  # cut off the rail
+        code //= BASE  # shift the code
+        code += ord(head) * (BASE ** (window-1))  # add the new head
         yield code
-        code = code - ord(head) + ord(plain_text[i + window]) * (BASE ** window)
 
 
 def rabin_karp(text, *phrases):
@@ -53,10 +61,13 @@ def rabin_karp(text, *phrases):
 
     window = len(phrases[0])
 
+    if window == 0:
+        return 0
+
     if len(text) < window:
         return -1
 
-    roller = rabin_fingerprint(text[:window])
+    roller = rabin_roller(text, window)
     phrase_codes = list(map(rabin_fingerprint, phrases))
 
     for i, code in enumerate(roller):
