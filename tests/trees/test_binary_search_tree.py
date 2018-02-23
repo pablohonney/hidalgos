@@ -7,29 +7,52 @@ from src.trees import BinarySearchTree
 
 class TestBinarySearchTree(unittest.TestCase):
 
-    @given(st.lists(st.integers()))
-    def test_add(self, arr):
-        bst = BinarySearchTree()
-        for i in arr:
-            bst.add(i)
+    @given(st.dictionaries(st.integers(), st.characters()))
+    def test_add_and_length(self, d):
+        bst = BinarySearchTree(d)
+        self.assertEqual(len(bst), len(d))
 
-    def test_remove(self):
-        pass
+    @given(st.dictionaries(st.integers(), st.characters()))
+    def test_remove(self, d):
+        bst = BinarySearchTree(d)
 
-    def test_serialization(self):
-        pass
 
-    def test_length(self):
-        pass
+    @given(st.dictionaries(st.integers(), st.characters()))
+    def test_serialization(self, d):
+        serialized = repr(BinarySearchTree(d))
+        bst = eval(serialized)
 
-    def test_sequential_access(self):
-        pass
+        self.assertEqual(dict(bst.items()), d)
 
-    def test_membership(self):
-        pass
+    @given(st.dictionaries(st.integers(), st.characters()))
+    def test_sequential_access(self, d):
+        bst = BinarySearchTree(d)
+        sorted_items = sorted(d.items(), key=lambda x: x[0])
+        sorted_keys = [x for x, _ in sorted_items]
+        sorted_values = [y for _, y in sorted_items]
 
-    def test_random_access(self):
-        pass
+        self.assertListEqual(list(bst), sorted_keys)
+        self.assertListEqual(list(bst.keys()), sorted_keys)
+        self.assertListEqual(list(bst.values()), sorted_values)
+        self.assertListEqual(list(bst.items()), sorted_items)
+
+    @given(st.dictionaries(st.integers(), st.characters()))
+    def test_membership(self, d):
+        bst = BinarySearchTree(d)
+        for key in d:
+            self.assertIn(key, bst)
+        if d:
+            self.assertNotIn(max(d)+1, bst)
+
+    @given(st.dictionaries(st.integers(), st.characters()))
+    def test_random_access(self, d):
+        bst = BinarySearchTree(d)
+        for key, value in d.items():
+            self.assertEqual(bst[key], value)
+
+        if d:
+            with self.assertRaises(KeyError):
+                _ = bst[max(d)+1]
 
     def test_deque_access(self):
         pass
