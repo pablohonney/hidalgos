@@ -1,5 +1,5 @@
 """
-Tree sort is nice example of the 'Smart data structures and dumb code' principle.
+Tree sort is a nice example of the 'smart data structures and dumb code' principle.
 
 TODO Right now the implementation is intimidating.
 
