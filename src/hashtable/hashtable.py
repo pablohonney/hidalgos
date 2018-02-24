@@ -93,7 +93,7 @@ class HashTable(object):
     # solutions?
     # 1: rehash all values on remove. bad.
     # 2: rehash round robin on get/put/remove. bad.
-    # 3: damn, any ideas ?
+    # 3: damn, any ideas ?  Gotcha. use chaining for a while.
     def remove(self, key):
         i = self.index(key)
         while self.list[i] is not empty:
@@ -111,3 +111,7 @@ class HashTable(object):
 
     def __len__(self):
         return int(self.size)
+
+
+class HashTableChained(object):
+    pass
