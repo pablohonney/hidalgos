@@ -56,7 +56,7 @@ def bezier_curve(matrix, mark, steps, *points):
     only p6 points are printed.
 
     all the points are put on the same line for convenience.
-    this results in a strait line, which is not very illustrative.
+    this results in a straight line, which is not very illustrative.
     but it shows the concept.
 
 
