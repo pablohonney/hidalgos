@@ -42,4 +42,3 @@ class TestLevenshteinDistance(unittest.TestCase):
             with self.subTest('%s_%s' % (s1, s2)):
                 self.assertEqual(wagner_fischer_compressed_matrix(s1, s2), dist)
                 self.assertEqual(wagner_fischer_compressed_matrix(s2, s1), dist)
-

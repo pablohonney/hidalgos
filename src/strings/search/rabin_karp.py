@@ -51,7 +51,7 @@ def rabin_roller(plain_text, window):  # rewrite as a class to access the pointe
 
         code -= ord(tail)  # cut off the rail
         code //= BASE  # shift the code
-        code += ord(head) * (BASE ** (window-1))  # add the new head
+        code += ord(head) * (BASE ** (window - 1))  # add the new head
         yield code
 
 

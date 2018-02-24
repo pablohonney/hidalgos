@@ -16,4 +16,3 @@ class TestCrc(unittest.TestCase):
     def test_property(self, plain_text, divisor):
         code = crc(plain_text, divisor)
         self.assertEqual(crc(plain_text, divisor, code), 0)
-

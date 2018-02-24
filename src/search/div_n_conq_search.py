@@ -5,6 +5,7 @@ class DivideConquerSearch(object):
     """
     Base class for divide and conquer searches
     """
+
     def __init__(self, key=key_fun):
         self.key = key
 

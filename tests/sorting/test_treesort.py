@@ -9,6 +9,5 @@ class TestTreeSort(unittest.TestCase):
 
     @given(st.sets(st.integers()))
     def test_distinct_keys(self, arr):
-
         expected = sorted(arr)
         self.assertListEqual(expected, list(tree_sort(arr)))

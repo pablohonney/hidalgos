@@ -6,4 +6,3 @@ from .linear_search import unbound_linear_search
 from .div_n_conq_search import BinarySearch
 from .div_n_conq_search import GoldenSectionSearch
 from .div_n_conq_search import FibonacciSearch
-

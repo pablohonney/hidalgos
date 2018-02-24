@@ -118,7 +118,7 @@ def wagner_fischer_compressed_matrix(str1, str2):
     for i in range(1, str1_len):
         for j in range(1, str2_len):
             if str1[i - 1] == str2[j - 1]:  # keep
-                matrix[1][j] = matrix[0][j-1]
+                matrix[1][j] = matrix[0][j - 1]
             else:
                 add = matrix[0][j] + 1
                 remove = matrix[1][j - 1] + 1

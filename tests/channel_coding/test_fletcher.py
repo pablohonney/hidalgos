@@ -13,5 +13,3 @@ class TestFletcher(unittest.TestCase):
         self.assertEqual(fletcher16_optimized('abcde', 16), 4031760169)
         # self.assertEqual(fletcher16_optimized('abcdef', 6), 1448095018)
         # self.assertEqual(fletcher16_optimized('abcdefgh', 8), 3957429649)
-
-

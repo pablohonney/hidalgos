@@ -31,7 +31,7 @@ class TestNaiveSearch(unittest.TestCase):
 class TestRabinKarp(unittest.TestCase):
 
     def test_rabin_fingerprint(self):
-        expected = ord('c') + ord('a')*BASE + ord('t')*(BASE**2)
+        expected = ord('c') + ord('a') * BASE + ord('t') * (BASE ** 2)
         self.assertEqual(rabin_fingerprint('cat'), expected)
 
     def test_rabin_roller_byte_sequence(self):

@@ -21,5 +21,3 @@ class TestHammingDistance(unittest.TestCase):
     def test_1011101_1001001_bits(self):
         self.assertEqual(hamming_distance_bits_shift(0b1011101, 0b1001001), 2)
         self.assertEqual(hamming_distance_bits_and(0b1011101, 0b1001001), 2)
-
-

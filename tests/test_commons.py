@@ -9,7 +9,6 @@ class TestBinaryLength(unittest.TestCase):
 
     @given(st.integers(min_value=1))
     def test_length(self, number):
-
         binary_string = bin(number)[2:]
         assume(binary_string[0] == '1')
 

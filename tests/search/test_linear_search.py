@@ -24,5 +24,3 @@ class TestUnboundLinearSearch(unittest.TestCase):
         sequence.sort()
         self.assertEqual(unbound_linear_search(sequence, item, True), _search(sequence, item, True))
         self.assertEqual(unbound_linear_search(sequence, item, False), _search(sequence, item, False))
-
-

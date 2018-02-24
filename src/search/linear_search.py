@@ -51,4 +51,3 @@ def unbound_linear_search(sequence, elephant, left=True):
                 return -1
             return i
         i += inc
-

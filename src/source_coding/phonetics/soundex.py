@@ -42,7 +42,7 @@ def soundex(plain_text):
             acc.append(char)
         code = ''.join(acc)
 
-    # skip head
+        # skip head
         code = code[1:]
 
     # skip vowels
@@ -118,4 +118,3 @@ def daitch_mokotoff(plain_text):
         # if post_vowel:
         #     for index in [m.start() for m in re.finditer(affix, code)]:
         #         if index > 0 and code[index-1]
-

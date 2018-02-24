@@ -4,6 +4,7 @@ from hypothesis import strategies as st, given
 
 from src.sorting.quicksort import quick_sort
 
+
 @unittest.skip('TODO quicksort')
 class TestQuickSort(unittest.TestCase):
 

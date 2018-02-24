@@ -114,4 +114,3 @@ class _Node(object):
         self.value = value
         self.left = left
         self.right = right
-

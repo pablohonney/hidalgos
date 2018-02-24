@@ -16,7 +16,6 @@ class TestBinarySearchTree(unittest.TestCase):
     def test_remove(self, d):
         bst = BinarySearchTree(d)
 
-
     @given(st.dictionaries(st.integers(), st.characters()))
     def test_serialization(self, d):
         serialized = repr(BinarySearchTree(d))
@@ -42,7 +41,7 @@ class TestBinarySearchTree(unittest.TestCase):
         for key in d:
             self.assertIn(key, bst)
         if d:
-            self.assertNotIn(max(d)+1, bst)
+            self.assertNotIn(max(d) + 1, bst)
 
     @given(st.dictionaries(st.integers(), st.characters()))
     def test_random_access(self, d):
@@ -52,7 +51,7 @@ class TestBinarySearchTree(unittest.TestCase):
 
         if d:
             with self.assertRaises(KeyError):
-                _ = bst[max(d)+1]
+                _ = bst[max(d) + 1]
 
     def test_deque_access(self):
         pass
