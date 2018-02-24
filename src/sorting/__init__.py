@@ -28,6 +28,7 @@ from .selection_sort import selection_sort
 # insertions sorts
 from .insertion_sort import insertion_sort
 from .insertion_sort import shell_sort
+from .treesort import tree_sort
 
 # distribution/integer sorts
 from .counting_sort import counter_sort
