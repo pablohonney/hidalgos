@@ -113,10 +113,9 @@ class InterpolationSearch(DivideConquerSearch):
     This is a highly opinionated approach. It strongly relies on the input.
     For exponentially increasing values we'll come up locating sequential pivots that'll
     degrade the performance to linear search or even worse, given the high D&C constant.
-    """
-    def get_pivot_extended(self, low, high, seq, item):
-        return int((item - seq[low]) * (high - low) / (seq[high] - seq[low]))
 
+    With so many restrictions it may have very restricted usage.
+    """
     def search(self, sequence, item, left: bool = True):
         if len(sequence) == 1:
             return 0 if self.key(sequence[0]) == item else -1
@@ -131,7 +130,8 @@ class InterpolationSearch(DivideConquerSearch):
         if not sequence[low] <= item <= sequence[high]:
             return -1
 
-        index = low + int(self.get_pivot_extended(low, high, sequence, item))
+        # pivot calculation requires context data. better inline the formula.
+        index = int((item - sequence[low]) * (high - low) / (sequence[high] - sequence[low]))
 
         k = self.key(item)
         if k > self.key(sequence[index]):
