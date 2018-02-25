@@ -1,0 +1,2 @@
+class TreeDict(object):
+    pass

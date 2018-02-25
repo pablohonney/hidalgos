@@ -7,16 +7,17 @@ from src.trees import BinarySearchTree
 
 # force bigger values to avoid small values clustering
 MIN_KEY_SIZE = 10000
+MAX_DICT_SIZE = 10
 
 
 class TestBinarySearchTree(unittest.TestCase):
 
-    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters()))
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters(), max_size=MAX_DICT_SIZE))
     def test_add_and_length(self, d):
         bst = BinarySearchTree(d)
         self.assertEqual(len(d), len(bst))
 
-    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.integers()))
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.integers(), max_size=MAX_DICT_SIZE))
     def test_remove(self, d):
         bst = BinarySearchTree(d)
 
@@ -28,14 +29,14 @@ class TestBinarySearchTree(unittest.TestCase):
 
         self.assertEqual(len(bst), 0)
 
-    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters()))
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters(), max_size=MAX_DICT_SIZE))
     def test_serialization(self, d):
         serialized = repr(BinarySearchTree(d))
         bst = eval(serialized)
 
         self.assertEqual(d, dict(bst.items()))
 
-    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters()))
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters(), max_size=MAX_DICT_SIZE))
     def test_sequential_access(self, d):
         bst = BinarySearchTree(d)
         sorted_items = sorted(d.items(), key=lambda x: x[0])
@@ -47,7 +48,7 @@ class TestBinarySearchTree(unittest.TestCase):
         self.assertListEqual(list(bst.values()), sorted_values)
         self.assertListEqual(list(bst.items()), sorted_items)
 
-    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters()))
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters(), max_size=MAX_DICT_SIZE))
     def test_membership(self, d):
         bst = BinarySearchTree(d)
         for key in d:
@@ -55,7 +56,7 @@ class TestBinarySearchTree(unittest.TestCase):
         if d:
             self.assertNotIn(max(d) + 1, bst)
 
-    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters()))
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters(), max_size=MAX_DICT_SIZE))
     def test_random_access(self, d):
         bst = BinarySearchTree(d)
         for key, value in d.items():
@@ -65,7 +66,7 @@ class TestBinarySearchTree(unittest.TestCase):
             with self.assertRaises(KeyError):
                 _ = bst[max(d) + 1]
 
-    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters()))
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters(), max_size=MAX_DICT_SIZE))
     def test_smallest_item(self, d):
         bst = BinarySearchTree(d)
 
@@ -78,7 +79,7 @@ class TestBinarySearchTree(unittest.TestCase):
 
         self.assertEqual(0, len(bst))
 
-    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters()))
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters(), max_size=MAX_DICT_SIZE))
     def test_biggest_item(self, d):
         bst = BinarySearchTree(d)
 

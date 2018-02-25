@@ -1,0 +1,2 @@
+class TreeSet(object):
+    pass
