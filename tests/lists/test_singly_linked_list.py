@@ -3,11 +3,11 @@ from random import randint
 
 from hypothesis import strategies as st, given
 
-from src.linked_list import SinglyLinkedList
+from src.lists import SinglyLinkedList
 
 
 class TestSinglyLinkedList(unittest.TestCase):
-    def test_length(self):
+    def test_append(self):
         sll = SinglyLinkedList()
         for i in range(1, 100):
             sll.append(i)
@@ -15,6 +15,17 @@ class TestSinglyLinkedList(unittest.TestCase):
 
         sll2 = SinglyLinkedList(range(1, 100))
         self.assertEqual(len(sll2), 99)
+
+    def test_insert(self):
+        sll1 = SinglyLinkedList()
+        sll2 = SinglyLinkedList()
+        for i in range(1, 100):
+            sll1.prepend(i)
+            sll2.append(i)
+
+        self.assertEqual(len(sll1), 99)
+        self.assertEqual(len(sll2), 99)
+        self.assertListEqual(list(sll1), list(sll2)[::-1])
 
     @given(st.lists(st.integers()))
     def test_queue_pop(self, arr):

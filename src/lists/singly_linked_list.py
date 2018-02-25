@@ -1,12 +1,25 @@
 class SinglyLinkedList(object):
-    def __init__(self, sequence=None):
+    def __init__(self, iterable=None):
         self.root = _RootNode()
-        self.head = self.root
         self.length = 0
 
-        if sequence:
-            for item in sequence:
-                self.append(item)
+        # support instant read access on both ends
+        self.head = self.root
+
+        if iterable:
+            # insert at index 0 takes O(1) time, but it reverses the input order
+            if isinstance(iterable, range):
+                # can't help about this
+                for item in iterable:
+                    self.append(item)
+            else:
+                # we can cheat by double reversing.
+
+                # if iterable is random access, we get O(1) access and O(1) insert.
+                # if iterable its sequential, we get O(n) access and O(1) insert.
+                # which is bad, but we'd get it with append() anyway
+                for i in range(len(iterable) - 1, -1, -1):
+                    self.insert(iterable[i], 0)
 
     def _normalize_index(self, index):
         if index < 0:
@@ -30,15 +43,26 @@ class SinglyLinkedList(object):
 
         return prev, node
 
-    # deque behaviour
+    # deque-like interface
     def append(self, item):
-        self.head.next = _Node(item)
-        self.head = self.head.next
+        self.insert(item, len(self))
+
+    def prepend(self, item):
+        self.insert(item, 0)
+
+    def insert(self, item, index: int = -1):
+        prev, head = self._get_nth_item(index)
+
+        node = _Node(item)
+        prev.next = node
+        if head:
+            node.next = head
+        else:
+            self.head = node
+
         self.length += 1
 
     def pop(self, index: int = -1):
-        # head pop optimization
-
         prev, head = self._get_nth_item(index)
         if not head:
             raise IndexError()
@@ -103,6 +127,14 @@ class _Node(object):
         return str(self.value)
 
 
-class _RootNode(_Node):  # sentinel node
+class _RootNode(_Node):
+    """
+    A sentinel node.
+
+    It's used just a trick for better internal organization.
+    While note carrying any data, it implies uniformity to our code.
+    So that we don't need to check for any special cases when the node is the root.
+    """
+
     def __init__(self):
         super(_RootNode, self).__init__(None)

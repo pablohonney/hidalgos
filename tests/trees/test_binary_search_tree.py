@@ -12,9 +12,15 @@ class TestBinarySearchTree(unittest.TestCase):
         bst = BinarySearchTree(d)
         self.assertEqual(len(bst), len(d))
 
-    @given(st.dictionaries(st.integers(), st.characters()))
-    def test_remove(self, d):
+    @unittest.skip('TODO remove on BST')
+    # @given(st.dictionaries(st.integers(), st.characters(), min_size=1))
+    def test_remove(self, d=0):
+        d = {5: 8, 1: 5, 2: 4, 11: 9}
+        key, *_ = d.keys()
         bst = BinarySearchTree(d)
+        print(bst.get(key))
+        bst.remove(key)
+        print(bst.get(key))
 
     @given(st.dictionaries(st.integers(), st.characters()))
     def test_serialization(self, d):
@@ -55,3 +61,29 @@ class TestBinarySearchTree(unittest.TestCase):
 
     def test_deque_access(self):
         pass
+
+    @given(st.dictionaries(st.integers(), st.characters(), min_size=1))
+    def test_smallest_item(self, d):
+        bst = BinarySearchTree(d)
+        expected = min(d.items(), key=lambda x: x[0])
+        item = bst.get_smallest_item()
+        self.assertEqual(item, expected)
+
+    @given(st.dictionaries(st.integers(), st.characters(), min_size=1))
+    def test_biggest_item(self, d):
+        bst = BinarySearchTree(d)
+        expected = max(d.items(), key=lambda x: x[0])
+        item = bst.get_biggest_item()
+        self.assertEqual(item, expected)
+
+    def test_is_left_node(self):
+        bst = BinarySearchTree([(5, 25), (3, 9), (4, 16)])
+        expected_left = bst._get(3)
+        self.assertTrue(bst.is_left_node(expected_left))
+        self.assertFalse(bst.is_right_node(expected_left))
+
+    def test_is_right_node(self):
+        bst = BinarySearchTree([(5, 25), (3, 9), (4, 16)])
+        expected_right = bst._get(4)
+        self.assertTrue(bst.is_right_node(expected_right))
+        self.assertFalse(bst.is_left_node(expected_right))
