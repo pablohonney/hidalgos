@@ -1,8 +1,8 @@
 """
-To support FIFO behaviour stacks need instant O(1) set and get operations on the opposite ends.
+To support FIFO behaviour queues need instant O(1) set and get operations on the opposite ends.
 
 It'd be easy with DoublyLinkedList class.
-DLL is overkill though. It's got some cool features we don't really need that imply memory overhead.
+DLL is overkill though. It's got some nice features we don't really need that also imply memory overhead.
 We'd keep it for a deque behaviour rather.
 
 As for plain queues, we can combine two stacks to imitate one.

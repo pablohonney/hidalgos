@@ -1,17 +1,7 @@
 """
-Levenshtein distance is an edit distance.
-It tells how many edit operations should be performed to turn one string into the other.
-There are a few edit operations. namely...
-    add a char
-    remove a char
-    replace a char with a new one (technically add and remove at once)
-    keep the char. (technically replace with the same char)
-    swap 2 chars
+beginning in __init__.py
 
-Each operation has costs assigned to it based on its type and the input characters.
-
-Different edit distance algorithms use different sets of operations.
-Levenshtein uses add, remove and replace with following values by default.
+Levenshtein uses add, remove, keep and replace operations with following values by default.
     add costs 1
     remove costs 1
     replace costs 1

@@ -1,4 +1,16 @@
-def hamming_distance_str(str1, str2):
+"""
+beginning in __init__.py
+
+Hamming uses keep and replace operations with following values by default.
+    replace costs 1
+    keep costs 0
+
+Since it doesn't support add/remove. the string must be of same length.
+This condition can be checked right away.
+"""
+
+
+def hamming_str(str1, str2):
     if not (isinstance(str1, str) and isinstance(str2, str)):
         raise TypeError
 
@@ -12,7 +24,7 @@ def hamming_distance_str(str1, str2):
     return distance
 
 
-def hamming_distance_decimal(num1, num2):
+def hamming_decimal(num1, num2):
     if num1 == num2:
         return 0
 
@@ -27,7 +39,7 @@ def hamming_distance_decimal(num1, num2):
     return distance
 
 
-def hamming_distance_bits_shift(num1, num2):
+def hamming_bits_shift(num1, num2):
     if num1 == num2:
         return 0
 
@@ -42,7 +54,7 @@ def hamming_distance_bits_shift(num1, num2):
     return distance
 
 
-def hamming_distance_bits_and(num1, num2):
+def hamming_bits_and(num1, num2):
     if num1 == num2:
         return 0
 
