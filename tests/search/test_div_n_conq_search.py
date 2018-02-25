@@ -5,6 +5,7 @@ from hypothesis import strategies as st, given
 from src.search import BinarySearch
 from src.search import GoldenSectionSearch
 from src.search import FibonacciSearch
+from src.search import InterpolationSearch
 
 from tests.search import _search
 
@@ -37,6 +38,19 @@ class TestFibonacciSearch(unittest.TestCase):
         arr.sort()
         self.assertEqual(self.search.search(arr, x, left=True), _search(arr, x, True))
         self.assertEqual(self.search.search(arr, x, left=False), _search(arr, x, False))
+
+
+class TestInterpolationSearch(unittest.TestCase):
+    search = InterpolationSearch()
+
+    # works only with unique data
+    @given(st.sets(st.integers()), st.integers())
+    def runTest(self, arr, x):
+        arr = sorted(arr)
+        self.assertEqual(self.search.search(arr, x), _search(arr, x, True))
+
+
+# -----------
 
 # class memoize_first_returned(object):
 #     def __init__(self, method):

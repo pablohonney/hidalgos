@@ -19,7 +19,7 @@ n*k vs (n+k)*log(n)
 """
 
 
-def bound_linear_search(sequence, item, left=True):
+def bound_linear_search(sequence, item, left: bool = True):
     # the iterator checks boundary condition under the hood
     counter = range(len(sequence)) if left else range(len(sequence) - 1, -1, -1)
 
@@ -32,7 +32,7 @@ def bound_linear_search(sequence, item, left=True):
 linear_search = bound_linear_search
 
 
-def unbound_linear_search(sequence, elephant, left=True):
+def unbound_linear_search(sequence, elephant, left: bool = True):
     """
     check out "Elephant in Cairo" metaphor )
     """
