@@ -5,31 +5,37 @@ from hypothesis import strategies as st, given
 from src.trees import BinarySearchTree
 
 
+# force bigger values to avoid small values clustering
+MIN_KEY_SIZE = 10000
+
+
 class TestBinarySearchTree(unittest.TestCase):
 
-    @given(st.dictionaries(st.integers(), st.characters()))
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters()))
     def test_add_and_length(self, d):
         bst = BinarySearchTree(d)
-        self.assertEqual(len(bst), len(d))
+        self.assertEqual(len(d), len(bst))
 
-    @unittest.skip('TODO remove on BST')
-    # @given(st.dictionaries(st.integers(), st.characters(), min_size=1))
-    def test_remove(self, d=0):
-        d = {5: 8, 1: 5, 2: 4, 11: 9}
-        key, *_ = d.keys()
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.integers()))
+    def test_remove(self, d):
         bst = BinarySearchTree(d)
-        print(bst.get(key))
-        bst.remove(key)
-        print(bst.get(key))
 
-    @given(st.dictionaries(st.integers(), st.characters()))
+        for key, value in d.items():
+            self.assertEqual(bst[key], value)
+            del bst[key]
+            with self.assertRaises(KeyError):
+                _ = bst[key]
+
+        self.assertEqual(len(bst), 0)
+
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters()))
     def test_serialization(self, d):
         serialized = repr(BinarySearchTree(d))
         bst = eval(serialized)
 
-        self.assertEqual(dict(bst.items()), d)
+        self.assertEqual(d, dict(bst.items()))
 
-    @given(st.dictionaries(st.integers(), st.characters()))
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters()))
     def test_sequential_access(self, d):
         bst = BinarySearchTree(d)
         sorted_items = sorted(d.items(), key=lambda x: x[0])
@@ -41,7 +47,7 @@ class TestBinarySearchTree(unittest.TestCase):
         self.assertListEqual(list(bst.values()), sorted_values)
         self.assertListEqual(list(bst.items()), sorted_items)
 
-    @given(st.dictionaries(st.integers(), st.characters()))
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters()))
     def test_membership(self, d):
         bst = BinarySearchTree(d)
         for key in d:
@@ -49,7 +55,7 @@ class TestBinarySearchTree(unittest.TestCase):
         if d:
             self.assertNotIn(max(d) + 1, bst)
 
-    @given(st.dictionaries(st.integers(), st.characters()))
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters()))
     def test_random_access(self, d):
         bst = BinarySearchTree(d)
         for key, value in d.items():
@@ -59,31 +65,40 @@ class TestBinarySearchTree(unittest.TestCase):
             with self.assertRaises(KeyError):
                 _ = bst[max(d) + 1]
 
-    def test_deque_access(self):
-        pass
-
-    @given(st.dictionaries(st.integers(), st.characters(), min_size=1))
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters()))
     def test_smallest_item(self, d):
         bst = BinarySearchTree(d)
-        expected = min(d.items(), key=lambda x: x[0])
-        item = bst.get_smallest_item()
-        self.assertEqual(item, expected)
 
-    @given(st.dictionaries(st.integers(), st.characters(), min_size=1))
+        for expected in sorted(d.items(), key=lambda x: x[0]):
+            item = bst.get_smallest_item()
+            self.assertEqual(expected, item)
+
+            item = bst.pop_smallest_item()
+            self.assertEqual(expected, item)
+
+        self.assertEqual(0, len(bst))
+
+    @given(st.dictionaries(st.integers(max_value=MIN_KEY_SIZE), st.characters()))
     def test_biggest_item(self, d):
         bst = BinarySearchTree(d)
-        expected = max(d.items(), key=lambda x: x[0])
-        item = bst.get_biggest_item()
-        self.assertEqual(item, expected)
+
+        for expected in sorted(d.items(), key=lambda x: x[0], reverse=True):
+            item = bst.get_biggest_item()
+            self.assertEqual(expected, item)
+
+            item = bst.pop_biggest_item()
+            self.assertEqual(expected, item)
+
+        self.assertEqual(0, len(bst))
 
     def test_is_left_node(self):
         bst = BinarySearchTree([(5, 25), (3, 9), (4, 16)])
-        expected_left = bst._get(3)
-        self.assertTrue(bst.is_left_node(expected_left))
-        self.assertFalse(bst.is_right_node(expected_left))
+        expected_left = bst.root.get(3)
+        self.assertTrue(expected_left.is_left_node)
+        self.assertFalse(expected_left.is_right_node)
 
     def test_is_right_node(self):
         bst = BinarySearchTree([(5, 25), (3, 9), (4, 16)])
-        expected_right = bst._get(4)
-        self.assertTrue(bst.is_right_node(expected_right))
-        self.assertFalse(bst.is_left_node(expected_right))
+        expected_right = bst.root.get(4)
+        self.assertTrue(expected_right.is_right_node)
+        self.assertFalse(expected_right.is_left_node)
