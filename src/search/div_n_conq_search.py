@@ -131,7 +131,7 @@ class InterpolationSearch(DivideConquerSearch):
             return -1
 
         # pivot calculation requires context data. better inline the formula.
-        index = int((item - sequence[low]) * (high - low) / (sequence[high] - sequence[low]))
+        index = low + int((item - sequence[low]) * (high - low) / (sequence[high] - sequence[low]))
 
         k = self.key(item)
         if k > self.key(sequence[index]):
