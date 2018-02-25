@@ -17,11 +17,11 @@ def jaro(str1, str2):
 
 
 dd = map(''.join, combinations_with_replacement('ABC', 2))
-print(dd)
-print(collections.Counter(dd))
+# print(dd)
+# print(collections.Counter(dd))
 # msets = map(collections.Counter, dd)
 # print msets
-print(reduce(lambda acc, x: acc + x, dd, ''))
+# print(reduce(lambda acc, x: acc + x, dd, ''))
 
 
 class D(collections.deque):
