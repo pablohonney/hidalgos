@@ -1,2 +1,2 @@
-from .hashtable import HashTable
+from .hashtable import RehashedHashTable
 from .hashtable import ChainedHashTable

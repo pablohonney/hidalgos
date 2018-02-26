@@ -1,4 +1,33 @@
 """
+Hash collisions can be solved in two ways.
+  1. open hashing aka chaining
+     easier to implement. breaks the O(n) guaranty
+  2. closed hashing aka rehashing
+     2.1 linear probing
+     2.2 quadratic probing
+     2.3 double hashing
+
+When rehashing we get a rehash path that needs to be walked each time
+the key is looked for.
+
+Removing elements may leave gaps in these rehash paths. consider this:
+
+array of size 3, e is empty, <> is the checked index
+hashing is modulus, rehashing is linear probing,
+
+put 1      -hash> [<e>, e, e] -put> [1, e, e]
+put 4      -hash> [<1>, e, e] -rehash> [1, <e>, e] -put> [1, 4, e]
+get 4      -hash> [<1>, 4, e] -rehash> [1, <4>, e] -get> 4
+remove 1   -hash> [<1>, 4, e] -remove> [e, 4, e]
+get 4      -hash> [<e>, 4, e] -error> couldn't find
+
+solutions?
+1: rehash all values on remove. bad.
+2: rehash round robin on get/put/remove. bad.
+3: damn, any ideas ?  Gotcha. use chaining for a while.
+
+------------------------------------
+
 Base hash-table class with polymorphic closed rehashing
 
 write a custom hash function. should support salting !
@@ -8,10 +37,11 @@ Imitate sparse_index/dense_entry solution
 
 from src.lists import SinglyLinkedList
 
-empty = object()
+empty = object()  # never used. safe to stop here
+dummy = object()  # previously used. remove/get must continue rehashing.
 
 
-class HashTable(object):
+class RehashedHashTable(object):
     DEFAULT_CAPACITY = 8
     UPSCALE_LOAD_FACTOR = 0.7
     DOWNSCALE_LOAD_FACTOR = 0.2
@@ -38,12 +68,13 @@ class HashTable(object):
         if self.capacity < self.DEFAULT_CAPACITY:
             self.capacity = self.DEFAULT_CAPACITY
 
+        self.capacity = int(self.capacity)
         self.list = [empty] * self.capacity
 
-        # separate put and size counting codes.
-        # we need to reuse put, but not increase the size
+        # put increments the size.
+        # reassign the old size to avoid corruption.
         for item in old_list:
-            if item is not empty:
+            if item not in [empty, dummy]:
                 self.put(item)
         self.size = old_size
 
@@ -59,7 +90,7 @@ class HashTable(object):
 
     def put(self, key):
         i = self.index(key)
-        while self.list[i] is not empty:
+        while self.list[i] not in [empty, dummy]:
             if self.list[i] == key:
                 break
             else:
@@ -81,26 +112,11 @@ class HashTable(object):
 
         raise KeyError(key)
 
-    # TODO dragons be here
-    # removing elements leaves gaps in the rehash paths. consider this:
-    # array of size 3, e is empty, <> is the checked index
-    # hashing is modulus, rehashing is linear probing,
-
-    # put 1      -hash> [<e>, e, e] -put> [1, e, e]
-    # put 4      -hash> [<1>, e, e] -rehash> [1, <e>, e] -put> [1, 4, e]
-    # get 4      -hash> [<1>, 4, e] -rehash> [1, <4>, e] -get> 4
-    # remove 1   -hash> [<1>, 4, e] -remove> [e, 4, e]
-    # get 4      -hash> [<e>, 4, e] -error> couldn't find
-
-    # solutions?
-    # 1: rehash all values on remove. bad.
-    # 2: rehash round robin on get/put/remove. bad.
-    # 3: damn, any ideas ?  Gotcha. use chaining for a while.
     def remove(self, key):
         i = self.index(key)
         while self.list[i] is not empty:
             if self.list[i] == key:
-                self.list[i] = empty
+                self.list[i] = dummy
                 self.size -= 1
 
                 if self.size / self.capacity < self.DOWNSCALE_LOAD_FACTOR:
@@ -115,7 +131,7 @@ class HashTable(object):
         return int(self.size)
 
 
-class ChainedHashTable(HashTable):
+class ChainedHashTable(RehashedHashTable):
 
     DEFAULT_CAPACITY = 20
 
@@ -124,8 +140,13 @@ class ChainedHashTable(HashTable):
         if self.list[i] is empty:
             self.list[i] = SinglyLinkedList()
 
-        self.list[i].prepend(key)
-        self.size += 1
+        for j, item in enumerate(self.list[i]):
+            if item == key:
+                self.list[i][j] = item
+                break
+        else:
+            self.list[i].prepend(key)
+            self.size += 1
 
         # if self.size / self.capacity > self.UPSCALE_LOAD_FACTOR:
         #     self.reallocate(upscale=True)
