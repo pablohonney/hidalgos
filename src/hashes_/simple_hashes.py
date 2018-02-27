@@ -34,10 +34,10 @@ def pearson_hash(plaintext, mask, tab):
     return code & mask
 
 
-MAXBITS = 123  # ?
+MAXBITS = [123]  # ?
 
 
-def universal_hash(plaintext, mask, tab=[MAXBITS]):
+def universal_hash(plaintext, mask, tab=MAXBITS):
     code = 0
 
     for i in range(0, len(plaintext) << 3, 8):
@@ -55,7 +55,7 @@ def universal_hash(plaintext, mask, tab=[MAXBITS]):
         return code & mask
 
 
-def zobrist_hash(plaintext, mask, tab=[MAXBITS][256]):
+def zobrist_hash(plaintext, mask, tab=MAXBITS):
     code = 0
     for i, key in enumerate(plaintext):
         code ^= tab[i][ord(key)]

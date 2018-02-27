@@ -12,12 +12,12 @@ class TestRehashedHashTable(unittest.TestCase):
     def runTest(self, arr):
         ht = RehashedHashTable()
         for item in arr:
-            ht.put(item)
+            ht.put(item, None)
 
         self.assertEqual(len(ht), len(arr))
 
         for item in arr:
-            self.assertEqual(ht.get(item), item)
+            self.assertEqual(ht.get(item), (item, None))
             ht.remove(item)
             with self.assertRaises(KeyError):
                 ht.get(item)
