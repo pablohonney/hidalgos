@@ -131,7 +131,7 @@ class _RootNode(_Node):
     """
     A sentinel node.
 
-    It's used just a trick for better internal organization.
+    It's just a trick for better internal organization.
     While note carrying any data, it implies uniformity to our code.
     So that we don't need to check for any special cases when the node is the root.
     """
