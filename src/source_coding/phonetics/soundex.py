@@ -1,7 +1,7 @@
 import re
 
 
-def soundex(plain_text):
+def soundex(plain_text: str) -> str:
     """
     only single characters are replaced.
     no combos or conditional substitutions.
@@ -53,7 +53,7 @@ def soundex(plain_text):
     return head + (code + '000')[:3]
 
 
-def refined_soundex(plain_text):
+def refined_soundex(plain_text: str) -> str:
     if not isinstance(plain_text, str):
         raise TypeError
 

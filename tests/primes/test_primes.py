@@ -4,12 +4,14 @@ As our implementations become increasingly faster, let's check each with the pre
 import unittest
 from itertools import islice
 
-from hypothesis import strategies as st, given
-
 from src.primes import naive
-from src.primes import primes_stream
+from src.primes import naive_stream
+from src.primes.primes import naive_stream_memoized
 from src.primes import eratosthenes
 from src.primes import eratosthenes_bits
+from src.primes import sundaram
+
+N = 1000
 
 
 class TestNaive(unittest.TestCase):
@@ -27,33 +29,29 @@ class TestNaive(unittest.TestCase):
         self.assertListEqual(list(naive(20)), expected)
 
 
-class TestEratosthenes(unittest.TestCase):
-    @given(st.integers(min_value=0, max_value=1000))
-    def runTest(self, n):
-        expected = list(naive(n))
-        self.assertListEqual(list(eratosthenes(n)), expected)
+class TestSieves(unittest.TestCase):
+    def test_eratosthenes(self):
+        expected = list(naive(N))
+        self.assertListEqual(list(eratosthenes(N)), expected)
+
+    def test_eratosthenes_bits(self):
+        expected = list(naive(N))
+        self.assertListEqual(list(eratosthenes_bits(N)), expected)
+
+    def test_sundaram(self):
+        expected = list(naive(N))
+        actual = list(sundaram(N))[:len(expected)]
+        self.assertListEqual(expected, actual)
 
 
-class TestEratosthenesBits(unittest.TestCase):
-    @given(st.integers(min_value=0, max_value=1000))
-    def runTest(self, n):
-        expected = list(naive(n))
-        self.assertListEqual(list(eratosthenes_bits(n)), expected)
-
-
-class TestPrimesStream(unittest.TestCase):
+class TestStream(unittest.TestCase):
     def setUp(self):
         self.primes_pool = list(eratosthenes_bits(10 ** 4))
 
-    @given(st.integers(min_value=0, max_value=100))
-    def runTest(self, n):
-        expected = self.primes_pool[:n]
-        self.assertListEqual(list(islice(primes_stream(), n)), expected)
+    def test_naive_stream(self):
+        expected = self.primes_pool[:N]
+        self.assertListEqual(list(islice(naive_stream(), N)), expected)
 
-
-@unittest.skip('TODO sundaram')
-class TestSundaram(unittest.TestCase):
-    @given(st.integers(min_value=0, max_value=1000))
-    def runTest(self, n):
-        expected = list(naive(n))
-        # self.assertListEqual(list(eratosthenes_bits(n)), expected)
+    def test_naive_stream_memoized(self):
+        expected = self.primes_pool[:10]
+        self.assertListEqual(list(islice(naive_stream_memoized(), 10)), expected)

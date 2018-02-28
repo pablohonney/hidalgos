@@ -23,7 +23,7 @@ class DivideConquerSearch(object):
     def get_pivot(self, low, high):
         raise NotImplementedError
 
-    def search(self, sequence, item, left: bool = True):
+    def search(self, sequence, item, left: bool = True) -> int:
         """
         :param sequence:
         :param item:
@@ -116,7 +116,7 @@ class InterpolationSearch(DivideConquerSearch):
 
     With so many restrictions it may have very restricted usage.
     """
-    def search(self, sequence, item, left: bool = True):
+    def search(self, sequence, item, left: bool = True) -> int:
         if len(sequence) == 1:
             return 0 if self.key(sequence[0]) == item else -1
 

@@ -11,11 +11,11 @@ from functools import reduce
 from array import array
 
 
-def levenshtein_recursive(str1, str2):
+def levenshtein_recursive(str1: str, str2: str) -> int:
     return _levenshtein_recursive(str1, str2, len(str1), len(str2))
 
 
-def _levenshtein_recursive(str1, str2, i, j):
+def _levenshtein_recursive(str1: str, str2: str, i: int, j: int) -> int:
     if min(i, j) == 0:
         return max(i, j)
 
@@ -28,7 +28,7 @@ def _levenshtein_recursive(str1, str2, i, j):
     return reduce(min, [add, remove, replace])
 
 
-def levenshtein_matrix(str1, str2):
+def levenshtein_matrix(str1: str, str2: str) -> int:
     if not (str1 and str2):
         return len(str1) or len(str2)
 
@@ -56,7 +56,7 @@ def levenshtein_matrix(str1, str2):
     return matrix[-1][-1]
 
 
-def levenshtein_compressed_matrix(str1, str2):
+def levenshtein_compressed_matrix(str1: str, str2: str) -> int:
     if not (str1 and str2):
         return len(str1) or len(str2)
 
@@ -89,8 +89,8 @@ def levenshtein_compressed_matrix(str1, str2):
     return matrix[0][-1]
 
 
-# a slight rewrite
-def wagner_fischer_compressed_matrix(str1, str2):
+# another flavour of levenshtein
+def wagner_fischer_compressed_matrix(str1: str, str2: str) -> int:
     if not (str1 and str2):
         return len(str1) or len(str2)
 

@@ -42,23 +42,22 @@ observations on input cases:
 P.S. I've been told bubble sort is stupid and kept in zoos to entertain the young.
 Is it? It'd be nice to find some real habitats.
 """
-from src.commons import cmp_fun
 from src.commons import key_fun
 from src.commons import swap
 
 
-def bubble_sort(sequence, cmp=cmp_fun, key=key_fun):
+def bubble_sort(sequence, key=key_fun):
     is_over = False
 
     while not is_over:
         is_over = True
         for i in range(1, len(sequence)):
-            if cmp(key(sequence[i - 1]), key(sequence[i])) == 1:
+            if key(sequence[i - 1] > key(sequence[i])):
                 swap(sequence, i - 1, i)
                 is_over = False
 
 
-def shaker_sort(sequence, cmp=cmp_fun, key=key_fun):
+def shaker_sort(sequence, key=key_fun):
     is_over = False
     counter = 0
     ll = len(sequence)
@@ -67,12 +66,12 @@ def shaker_sort(sequence, cmp=cmp_fun, key=key_fun):
         counter += 1
         is_over = True
         for i in range(1, ll) if counter % 2 else range(ll - 1, 0, -1):
-            if cmp(key(sequence[i - 1]), key(sequence[i])) == 1:
+            if key(sequence[i - 1]) > key(sequence[i]):
                 swap(sequence, i - 1, i)
                 is_over = False
 
 
-def bubble_with_gaps(sequence, cmp=cmp_fun, key=key_fun):
+def bubble_with_gaps(sequence, key=key_fun):
     """
     Mitigate turtles problem.
     """
@@ -80,11 +79,11 @@ def bubble_with_gaps(sequence, cmp=cmp_fun, key=key_fun):
 
     while gap > 1:
         for i in range(len(sequence) - gap):
-            if cmp(key(sequence[i]), key(sequence[i + gap])) == 1:
+            if key(sequence[i]) > key(sequence[i + gap]):
                 swap(sequence, i, i + gap)
         gap //= 2
 
 
-def comb_sort(sequence, cmp=cmp_fun, key=key_fun):
-    bubble_with_gaps(sequence, cmp, key)
-    bubble_sort(sequence, cmp, key)
+def comb_sort(sequence, key=key_fun):
+    bubble_with_gaps(sequence, key)
+    bubble_sort(sequence, key)

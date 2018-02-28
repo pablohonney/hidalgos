@@ -25,7 +25,7 @@ we're done when text[i:m] == phrase
 """
 
 
-def naive_search(text, phrase):
+def naive_search(text: str, phrase: str) -> int:
     if not (isinstance(text, str) or isinstance(phrase, str)):
         raise TypeError
 

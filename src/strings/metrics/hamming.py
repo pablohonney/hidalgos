@@ -10,7 +10,7 @@ This condition can be checked right away.
 """
 
 
-def hamming_str(str1, str2):
+def hamming_str(str1: str, str2: str) -> int:
     if not (isinstance(str1, str) and isinstance(str2, str)):
         raise TypeError
 
@@ -24,7 +24,7 @@ def hamming_str(str1, str2):
     return distance
 
 
-def hamming_decimal(num1, num2):
+def hamming_decimal(num1: int, num2: int) -> int:
     if num1 == num2:
         return 0
 
@@ -39,7 +39,7 @@ def hamming_decimal(num1, num2):
     return distance
 
 
-def hamming_bits_shift(num1, num2):
+def hamming_bits_shift(num1: int, num2: int) -> int:
     if num1 == num2:
         return 0
 
@@ -54,7 +54,7 @@ def hamming_bits_shift(num1, num2):
     return distance
 
 
-def hamming_bits_and(num1, num2):
+def hamming_bits_and(num1: int, num2: int) -> int:
     if num1 == num2:
         return 0
 

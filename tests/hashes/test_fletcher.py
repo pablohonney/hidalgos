@@ -1,9 +1,6 @@
 import unittest
 
-from hypothesis import strategies as st, given
-
-from src.channel_coding.fletcher import fletcher16_optimized
-from src.channel_coding.fletcher import fletcher
+from src.hashes.fletcher import fletcher16_optimized
 
 
 class TestFletcher(unittest.TestCase):

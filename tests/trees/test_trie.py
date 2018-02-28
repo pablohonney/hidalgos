@@ -50,6 +50,7 @@ class TestTrie(unittest.TestCase):
         vocabulary = list(self.trie.words_starting_with('pre'))
         print(sorted(vocabulary))
 
+    @unittest.skip('TODO level first walk')
     def test_level_first_walk(self):
         for word in 'pretext pretend premise press price president'.split():
             self.trie.add(word)

@@ -35,15 +35,13 @@ Memory impact: Can be solved with constant auxiliary space with linked-list. Com
 
 from math import ceil
 
-from src.commons import cmp_fun
 from src.commons import key_fun
 
 
 class SimpleMergeSort(object):
     CUT_OFF = 2  # merge sort base case
 
-    def __init__(self, cmp=cmp_fun, key=key_fun, cut_off=CUT_OFF, callback=None):
-        self.cmp = cmp
+    def __init__(self, key=key_fun, cut_off=CUT_OFF, callback=None):
         self.key = key
         self.callback = callback if callback else None
         self.cut_off = cut_off
@@ -67,7 +65,7 @@ class SimpleMergeSort(object):
 
         if end - start < self.cut_off:
             if self.callback:
-                self.callback(arr, start, end, self.cmp, self.key)
+                self.callback(arr, start, end, self.key)
             return
 
         mid = int(ceil((start + end) / 2))  # PY2
@@ -93,7 +91,7 @@ class MergeSort(SimpleMergeSort):
 
         i, j = 0, 0
         while i < l_size and j < r_size:
-            if self.cmp(self.key(left[i]), self.key(arr[mid + j])) < 1:
+            if self.key(left[i]) <= self.key(arr[mid + j]):
                 arr[start + i + j] = left[i]
                 i += 1
             else:

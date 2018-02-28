@@ -6,6 +6,35 @@ The second checksum depends on the first one, As such it's stateful and sensitiv
 return both
 """
 
+# rewrite from C
+
+# def  fletcher16(data: int, bytes: int):
+#         sum1 = 0xff
+#         sum2 = 0xff
+#
+#         while bytes:
+#                 tlen = 20 if bytes > 20 else bytes
+#                 bytes -= tlen
+#
+#                 i = 0
+#                 sum1 += data[i]
+#                 sum2 += sum1
+#                 i += 1
+#                 while tlen:
+#                     tlen -= 1
+#                     i = 0
+#                     sum1 += data[i]
+#                     sum2 += sum1
+#                     i += 1
+#
+#                 sum1 = (sum1 & 0xff) + (sum1 >> 8)
+#                 sum2 = (sum2 & 0xff) + (sum2 >> 8)
+#
+#         # /* Second reduction step to reduce sums to 8 bits */
+#         sum1 = (sum1 & 0xff) + (sum1 >> 8)
+#         sum2 = (sum2 & 0xff) + (sum2 >> 8)
+#         return sum2 << 8 | sum1
+
 
 def fletcher16_simple(data, count):
     sum_1 = 0

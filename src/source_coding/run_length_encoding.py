@@ -4,7 +4,7 @@ Numbers must be escaped.
 """
 
 
-def encode_run_length(plain_text):
+def encode_run_length(plain_text: str) -> str:
     head = ''
     count = 0  # version 2: count = ''
     cipher_text = []
@@ -23,7 +23,7 @@ def encode_run_length(plain_text):
     return ''.join(cipher_text)
 
 
-def decode_run_length(cipher_text):
+def decode_run_length(cipher_text: str) -> str:
     count = ''
     plain_text = []
     for i in cipher_text:

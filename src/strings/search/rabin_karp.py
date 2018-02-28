@@ -25,14 +25,15 @@ The really great news is that multiple phrases can be compared against the text 
 It's said to be handy when checking for plagiarism with multiple keywords.
 """
 
+from typing import Tuple
 BASE = 101  # primes are favoured
 
 
-def rabin_fingerprint(plain_text):
+def rabin_fingerprint(plain_text: str) -> int:
     return _rabin_fingerprint(plain_text, 0, len(plain_text))
 
 
-def _rabin_fingerprint(plain_text, start, end):
+def _rabin_fingerprint(plain_text: str, start: int, end: int) -> int:
     code = 0
 
     for degree in range(end - start):
@@ -41,7 +42,7 @@ def _rabin_fingerprint(plain_text, start, end):
     return code
 
 
-def rabin_roller(plain_text, window):  # rewrite as a class to access the pointer info.
+def rabin_roller(plain_text: str, window: int):
     code = _rabin_fingerprint(plain_text, 0, window)
 
     yield code
@@ -55,7 +56,7 @@ def rabin_roller(plain_text, window):  # rewrite as a class to access the pointe
         yield code
 
 
-def rabin_karp(text, *phrases):
+def rabin_karp(text: str, *phrases: Tuple[str]) -> int:
     if len(set(map(len, phrases))) != 1:
         raise ValueError('all phrases must be of the same length')
 

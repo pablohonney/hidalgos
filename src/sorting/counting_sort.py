@@ -23,7 +23,7 @@ def counter_sort(sequence, key=key_fun):
     if not sequence:
         return []
 
-    less = _get_ordinary_histogram(sequence, key_fun)
+    less = _get_ordinary_histogram(sequence, key)
     _ordinary_to_cumulative_histogram(less)
 
     resulting_list = len(sequence) * [0]

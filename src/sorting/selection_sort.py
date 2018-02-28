@@ -1,14 +1,14 @@
-from src.commons import swap, cmp_fun, key_fun
+from src.commons import swap, key_fun
 
 
-def selection_sort(sequence, cmp=cmp_fun, key=key_fun):
+def selection_sort(sequence, key=key_fun):
     for head in range(len(sequence)):
         target = head
         min_ = sequence[target]
         k = key(min_)
 
         for j in range(head, len(sequence)):
-            if cmp(key(sequence[j]), k) < 0:
+            if key(sequence[j]) < k:
                 target = j
                 min_ = sequence[target]
                 k = key(min_)

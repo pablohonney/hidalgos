@@ -60,4 +60,4 @@ def zobrist_hash(plaintext, mask, tab=MAXBITS):
     for i, key in enumerate(plaintext):
         code ^= tab[i][ord(key)]
 
-    return hash & mask
+    return code & mask
