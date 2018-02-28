@@ -40,3 +40,7 @@ def eratosthenes_bits(n):
                 if arr & mask:
                     arr ^= mask
         loc += 1
+
+
+def sundaram(n):
+    pass
