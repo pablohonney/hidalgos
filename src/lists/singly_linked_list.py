@@ -1,6 +1,6 @@
 class SinglyLinkedList(object):
     def __init__(self, iterable=None):
-        self.root = _RootNode()
+        self.root = RootNode()
         self.length = 0
 
         # support instant read access on both ends
@@ -53,7 +53,7 @@ class SinglyLinkedList(object):
     def insert(self, item, index: int = -1):
         prev, head = self._get_nth_item(index)
 
-        node = _Node(item)
+        node = Node(item)
         prev.next = node
         if head:
             node.next = head
@@ -118,7 +118,7 @@ class SinglyLinkedList(object):
         return '%s(%s)' % (self.__class__.__name__, repr(list(self)))
 
 
-class _Node(object):
+class Node(object):
     def __init__(self, value):
         self.next = None
         self.value = value
@@ -126,8 +126,10 @@ class _Node(object):
     def __str__(self):
         return str(self.value)
 
+    __repr__ = __str__
 
-class _RootNode(_Node):
+
+class RootNode(Node):
     """
     A sentinel node.
 
@@ -137,4 +139,4 @@ class _RootNode(_Node):
     """
 
     def __init__(self):
-        super(_RootNode, self).__init__(None)
+        super(RootNode, self).__init__(None)

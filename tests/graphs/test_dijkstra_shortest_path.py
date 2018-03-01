@@ -1,17 +1,17 @@
 import unittest
 
-from src.graphs import dijkstra
+from src.graphs.shortest_path import dijkstra
 
 
 class TestDijkstra(unittest.TestCase):
     """
        4
-    A---->B
-    |   / |
-   2| 1/  |1
-    | /   |
-   \//   \/
-    C-----D
+    A----->B
+    |   /\ |
+   2| 1/   |1
+    | /    |
+   \//    \/
+   C----->D
        3
 
     A  B  C  D  vertices
