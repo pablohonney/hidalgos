@@ -9,3 +9,7 @@ from .sieves import sundaram
 
 # primality checkers
 from .checkers import fermat_pow_mod as fermat
+
+
+#  relative primes checkers
+from .checkers import are_relative_primes

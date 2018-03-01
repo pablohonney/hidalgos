@@ -23,6 +23,7 @@ Remember, they are approximate so that they may accept some composite numbers as
 
 cf. Poulet numbers, pseudo-primes
 """
+from src.arithmetic import gcd
 
 
 def chinese(n: int) -> bool:
@@ -48,12 +49,12 @@ pow(a, n-1) % n = 1
 """
 
 
-def fermat_pow_mod(n: int) -> bool:
+def fermat_pow_mod(n: int, base: int = 2) -> bool:
     """
     In fact pow & mod operation is so common that python's pow has got a secret parameter for it.
     This is a dedicated solution and said to be a highly optimized.
     """
-    return pow(2, n-1, n) == 1
+    return pow(base, n-1, n) == 1
 
 
 def fermat_shift_mod(n: int) -> bool:
@@ -61,3 +62,7 @@ def fermat_shift_mod(n: int) -> bool:
     Alternatively pow of 2 can be rewritten with bitwise shift.
     """
     return (2 << (n-2)) % n == 1
+
+
+def are_relative_primes(a, b):
+    return gcd(a, b) == 1
