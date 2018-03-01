@@ -9,6 +9,7 @@ from .sieves import sundaram
 
 # primality checkers
 from .checkers import fermat_pow_mod as fermat
+from .checkers import wilson
 
 
 #  relative primes checkers

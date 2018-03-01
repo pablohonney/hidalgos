@@ -2,6 +2,7 @@ import unittest
 
 from src.primes import eratosthenes_bits
 from src.primes import fermat
+from src.primes import wilson
 from src.primes import are_relative_primes
 
 primes_pool = list(eratosthenes_bits(10 ** 4))
@@ -25,6 +26,11 @@ class TestRelativePrimes(unittest.TestCase):
 class TestPrimesStream(unittest.TestCase):
     def setUp(self):
         self.primes_pool = primes_pool[1:]  # leave odd primes only
+
+    def test_wilson(self):
+        # factorial takes somewhat long. slice it.
+        for prime in self.primes_pool[:100]:
+            self.assertTrue(wilson(prime))
 
     def test_no_false_negatives(self):
         for prime in self.primes_pool:

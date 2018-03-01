@@ -23,6 +23,7 @@ Remember, they are approximate so that they may accept some composite numbers as
 
 cf. Poulet numbers, pseudo-primes
 """
+from math import factorial
 from src.arithmetic import gcd
 
 
@@ -66,3 +67,7 @@ def fermat_shift_mod(n: int) -> bool:
 
 def are_relative_primes(a, b):
     return gcd(a, b) == 1
+
+
+def wilson(n: int) -> int:
+    return factorial(n-1) % n == n - 1
