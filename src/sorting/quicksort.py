@@ -1,30 +1,146 @@
-from random import randint
+"""
+TODO description
+"""
+from src.commons import swap
+from src.commons import key_fun
 
 
-# TODO broken. old code.
-# need less/equal/more/rest buckets with three way comparison
-# hook for cut-off
-# refactor into a class
-# avoid pops, swap instead
+def get_median_of_three(sequence, lo, hi, key=key_fun):
+    """
+    This little func proved to be puzzling. It was hard to keep all pieces in memory.
+    Thus I first wrote it in combinatorial form. Which is redundant in comparisons.
 
+    if sequence[lo] < sequence[mid] < sequence[hi]:
+        pivot = mid
+    elif sequence[lo] > sequence[mid] > sequence[hi]:
+        pivot = mid
+    elif sequence[lo] < sequence[mid] > sequence[hi]:
+        pivot = lo if sequence[lo] > sequence[hi] else hi
+    elif sequence[lo] > sequence[mid] < sequence[hi]:
+        pivot = lo if sequence[lo] < sequence[hi] else hi
 
-def quick_sort(sequence):
-    _quick_sort(sequence, 0, len(sequence))
+    Than only factored out the repetitions ).
 
+    P.S. Median of three should be more randomized, but then it'd be hard to test.
+    """
+    mid = (hi + lo) // 2
 
-def _quick_sort(sequence, lo, hi):
-    if lo >= hi:
-        return
+    lo_val = key(sequence[lo])
+    mid_val = key(sequence[mid])
+    high_val = key(sequence[hi])
 
-    pivot = sequence.pop(randint(lo, hi))
-    sequence.insert(hi, pivot)
-
-    left = right = rest = 0
-    while rest < hi:
-        if sequence[rest] > pivot:
-            sequence.insert(right, sequence.pop(rest))
+    if lo_val < mid_val:
+        if mid_val < high_val:
+            pivot = mid
+        elif lo_val > high_val:
+            pivot = lo
         else:
-            pass
+            pivot = hi
+    else:
+        if mid_val > high_val:
+            pivot = mid
+        elif lo_val < high_val:
+            pivot = lo
+        else:
+            pivot = hi
 
-    _quick_sort(sequence, lo, left)
-    _quick_sort(sequence, left, hi)
+    return pivot
+
+
+class BaseQuickSort(object):
+    CUT_OFF = 2
+
+    def __init__(self, key=key_fun, get_pivot=get_median_of_three, cut_off=CUT_OFF, callback=None):
+        self.key = key
+        self.get_pivot = get_pivot
+        self.callback = callback if callback else None
+        self.cut_off = cut_off
+
+    def sort(self, sequence):
+        self._sort(sequence, 0, len(sequence))
+
+    def _sort(self, sequence, lo, hi):
+        if hi - lo < self.cut_off:
+            if self.callback:
+                self.callback(sequence, lo, hi, self.key)
+            return
+
+        pivot = self.get_pivot(sequence, lo, hi - 1, self.key)
+
+        pivot_lo, pivot_hi = self.partition(sequence, lo, hi-1, pivot)
+
+        self._sort(sequence, lo, pivot_lo)
+        self._sort(sequence, pivot_hi, hi)
+
+    def partition(self, sequence, lo, hi, pivot):
+        raise NotImplementedError
+
+
+class QuickSortLomuto(BaseQuickSort):
+
+    def partition(self, sequence, lo, hi, pivot):
+        swap(sequence, pivot, lo)
+        pivot = lo
+        p_value = self.key(sequence[pivot])
+
+        # while pivot < hi:
+        #     if p_value >
+
+
+class QuickSortHoare(BaseQuickSort):
+
+    def partition(self, sequence, lo, hi, pivot):  # Hoare partitioning
+        swap(sequence, pivot, lo)
+        pivot = lo
+        p_value = self.key(sequence[pivot])
+
+        lo += 1
+        while hi > lo:
+            if self.key(sequence[lo]) > p_value:
+                swap(sequence, lo, hi)
+                hi -= 1
+            else:
+                lo += 1
+
+        # depends on the which pointer had been changed the last time.
+        # design flaw? Control flow should be more uniform.
+        if self.key(sequence[lo]) > p_value:
+            lo -= 1
+
+        swap(sequence, pivot, lo)
+        pivot = lo
+
+        return pivot, pivot+1
+
+
+class QuickSortWithEquals(BaseQuickSort):
+
+    def partition(self, sequence, lo, hi, pivot):
+        swap(sequence, pivot, lo)
+        pivot = lo
+        p_value = self.key(sequence[pivot])
+
+        lower, equal, higher = lo + 1, lo + 1, hi - 1
+        while higher >= equal:
+            if self.key(sequence[equal]) > p_value:
+                swap(sequence, equal, higher)
+                higher -= 1
+            elif self.key(sequence[equal]) == p_value:
+                equal += 1
+            else:
+                swap(sequence, lower, equal)
+                lower += 1
+                equal += 1
+
+        # depends on the which pointer had been changed the last time.
+        # design flaw? Control flow should be more uniform.
+        if self.key(sequence[lower]) > p_value:
+            lower -= 1
+        if equal == len(sequence):
+            equal -= 1
+        if self.key(sequence[equal]) > p_value:
+            equal -= 1
+
+        swap(sequence, pivot, equal)
+
+        return lower, equal
