@@ -50,12 +50,11 @@ class TestQuickSortHoare(unittest.TestCase):
         self.assertListEqual(arr, expected)
 
 
-@unittest.skip('TODO QuickSortLomuto')
 class TestQuickSortLomuto(unittest.TestCase):
     @given(st.lists(st.integers()))
     def runTest(self, arr):
         expected = sorted(arr)
-        QuickSortWithEquals().sort(arr)
+        QuickSortLomuto().sort(arr)
         self.assertListEqual(arr, expected)
 
 

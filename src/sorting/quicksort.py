@@ -79,17 +79,30 @@ class BaseQuickSort(object):
 class QuickSortLomuto(BaseQuickSort):
 
     def partition(self, sequence, lo, hi, pivot):
-        swap(sequence, pivot, lo)
-        pivot = lo
-        p_value = self.key(sequence[pivot])
+        """
+        ... lo-> ... j-> ??? | pivot
 
-        # while pivot < hi:
-        #     if p_value >
+        Putting the pivot at the end is just a matter of tradition.
+        """
+        p_value = self.key(sequence[pivot])
+        swap(sequence, pivot, hi)
+
+        for j in range(lo, hi):
+            if sequence[j] < p_value:
+                swap(sequence, lo, j)
+                lo += 1
+        swap(sequence, lo, hi)
+        return lo, lo+1
 
 
 class QuickSortHoare(BaseQuickSort):
 
-    def partition(self, sequence, lo, hi, pivot):  # Hoare partitioning
+    def partition(self, sequence, lo, hi, pivot):
+        """
+        pivot | ... lo-> ??? <-hi ...
+
+        This is the original quick-sort. Takes less swaps.
+        """
         swap(sequence, pivot, lo)
         pivot = lo
         p_value = self.key(sequence[pivot])
@@ -116,6 +129,11 @@ class QuickSortHoare(BaseQuickSort):
 class QuickSortWithEquals(BaseQuickSort):
 
     def partition(self, sequence, lo, hi, pivot):
+        """
+        pivot | ... lo-> ... eq-> ??? <-hi ...
+
+        Prevents the values equal to the pivot from degrading the binary recursion tree.
+        """
         swap(sequence, pivot, lo)
         pivot = lo
         p_value = self.key(sequence[pivot])
