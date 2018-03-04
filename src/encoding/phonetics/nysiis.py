@@ -1,3 +1,6 @@
+import re
+
+
 def nysiis(plain_text):
     if not isinstance(plain_text, str):
         raise TypeError
@@ -5,21 +8,22 @@ def nysiis(plain_text):
     if not plain_text:
         raise ValueError
 
-    code = plain_text.upper()
+    code = re.sub(r'\W', '', plain_text)
+    code = code.upper()
 
     # K is a sub prefixes to KN
     # order matters
     prefix_rules = [
         ('MAC', 'MCC'),
-        ('KN', 'N'),
+        ('KN', 'N'),  # ('KN', 'NN')
         ('K', 'C'),
-        ('P', 'FF'),
+        ('P', 'FF'),  # ('PH', 'FF'),
         ('PF', 'FF'),
         ('SCH', 'SSS'),
     ]
     for old, new in prefix_rules:
         if code.startswith(old):
-            code.replace(old, new, 1)
+            code = code.replace(old, new, 1)
 
     # no sub prefixes, order is irrelevant
     ending_rules = [
