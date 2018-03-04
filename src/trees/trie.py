@@ -82,7 +82,7 @@ class Trie(object):
         yield from self._breadth_first_traversal(self.root)
 
     # traversal. use a general traversal api + a zipper
-    # how prefix to keep the prefix state. this is critical.
+    # it's critical to keep the prefix state
     def _breadth_first_traversal(self, node, prefix=''):
         queue = deque([node])
         while queue:

@@ -1,3 +1,13 @@
+"""
+Another 'smart data structures and dumb code' algorithm.
+
+properties:
+  greedy
+
+dependency:
+  disjoint_set
+"""
+
 from src.sets import DisjointSet
 
 

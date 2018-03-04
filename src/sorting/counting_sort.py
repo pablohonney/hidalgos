@@ -1,5 +1,5 @@
 """
-This distribution family breaks the paradigm with comparison sorting.
+This distribution family algorithm breaks the paradigm with comparison sorting.
 Instead of comparing the keys with each other, it puts them as indices into a statistics array.
 
 O(n) time for all cases
