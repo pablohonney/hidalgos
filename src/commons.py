@@ -5,6 +5,9 @@ import math
 def key_fun(item):
     """
     Identity function
+
+    We mostly use it as a default policy whenever key should be extracted
+    from the rest of the data (aka from the satellite or payload)
     """
     return item
 

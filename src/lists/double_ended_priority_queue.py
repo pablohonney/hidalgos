@@ -1,4 +1,4 @@
-from src.trees import BinarySearchTree
+from src.trees.search_trees import BinarySearchTree
 
 
 class DoubleEndedPriorityQueue(object):

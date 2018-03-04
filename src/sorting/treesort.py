@@ -7,7 +7,7 @@ Our BST was designed with map interface in mind so it doesn't count for duplicat
 We can only sort distinct elements now.
 """
 
-from src.trees import BinarySearchTree
+from src.trees.search_trees import BinarySearchTree
 from src.commons import key_fun
 
 

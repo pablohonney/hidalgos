@@ -8,4 +8,6 @@ from .stack import Stack
 from .queue import Queue
 
 # priority queues
+from .priority_queue import MinPriorityQueue
+from .priority_queue import MaxPriorityQueue
 from .double_ended_priority_queue import DoubleEndedPriorityQueue

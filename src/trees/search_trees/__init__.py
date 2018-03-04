@@ -61,3 +61,6 @@ Meanwhile tree itself is freed of heavy-weight duties and provides clear API.
 
 Remember 'smart data structures and dumb code' principle?
 """
+
+# search trees
+from src.trees.search_trees.binary_search_tree import BinarySearchTree

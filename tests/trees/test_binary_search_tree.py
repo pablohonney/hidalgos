@@ -2,7 +2,7 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.trees import BinarySearchTree
+from src.trees.search_trees import BinarySearchTree
 
 
 # force bigger values to avoid small values clustering

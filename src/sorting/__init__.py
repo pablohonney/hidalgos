@@ -21,9 +21,11 @@ how does one sort words? Seems trivial? Ok, then how does one sort kanji.
 from .bubble_sort import bubble_sort
 from .bubble_sort import shaker_sort
 from .bubble_sort import comb_sort
+from .quicksort import QuickSortHoare as QuickSort
 
 # selections sorts
 from .selection_sort import selection_sort
+from .heapsort import heap_sort
 
 # insertions sorts
 from .insertion_sort import insertion_sort

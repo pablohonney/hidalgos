@@ -8,7 +8,7 @@ from src.sorting import selection_sort
 class TestSelectionSort(unittest.TestCase):
 
     @given(st.lists(st.integers()))
-    def test_bubble_sort(self, arr):
+    def runTest(self, arr):
         expected = sorted(arr)
         selection_sort(arr)
         self.assertListEqual(arr, expected)
