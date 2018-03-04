@@ -7,7 +7,7 @@
 *.o
 *.so
 *.pyc
-.hypothesis
+*.hypothesis
 
 # Packages #
 ############
