@@ -23,8 +23,8 @@ def dijkstra(V, E, source, destination):
     # loop until destination is reached
     while current_vertex != destination:
 
-        for vertex in sorted(filter(lambda x: x[1] == current_vertex, E), key=lambda x: x[0]):  # O(|V|) + O(|V|**2)
-            distance, _, dest = vertex
+        for vertex in sorted(filter(lambda x: x[0] == current_vertex, E), key=lambda x: x[2]):  # O(|V|) + O(|V|**2)
+            _, dest, distance = vertex
             if current_distance + distance < vertices[dest][0]:
                 vertices[dest] = [current_distance + distance, current_vertex]
 
@@ -38,4 +38,4 @@ def dijkstra(V, E, source, destination):
         _, current_vertex = marked_vertices[current_vertex]
         path.append(current_vertex)
 
-    return [current_distance] + path[::-1]
+    return path[::-1] + [current_distance]

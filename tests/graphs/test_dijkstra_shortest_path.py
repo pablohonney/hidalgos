@@ -30,14 +30,14 @@ class TestDijkstra(unittest.TestCase):
     def runTest(self):
         vertices = ['A', 'B', 'C', 'D']
         edges = {
-            (4, 'A', 'B'),
-            (2, 'A', 'C'),
-            (1, 'C', 'B'),
-            (1, 'B', 'D'),
-            (3, 'C', 'D'),
+            ('A', 'B', 4),
+            ('A', 'C', 2),
+            ('C', 'B', 1),
+            ('B', 'D', 1),
+            ('C', 'D', 3),
         }
 
         self.assertEqual(
             dijkstra(vertices, edges, 'A', 'D'),
-            [4, 'A', 'C', 'B', 'D']
+            ['A', 'C', 'B', 'D', 4]
         )
