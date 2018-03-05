@@ -92,6 +92,17 @@ class BinaryHeap(object):
         self.list.append(item)
         self.up(len(self) - 1)
 
+    # takes O(n), needs research.
+    def update_priority(self, old, new):
+        for index, j in enumerate(self.list):
+            if j == old:
+                self.list[index] = new
+                if self.compare(self.key(new), self.key(old)):
+                    self.up(index)
+                else:
+                    self.down(index)
+                break
+
     def heapify(self):
         for i in range(len(self) // 2, -1, -1):
             self.down(i)

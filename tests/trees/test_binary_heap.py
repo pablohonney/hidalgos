@@ -34,6 +34,18 @@ class TestBinaryHeap(unittest.TestCase):
 
         self.assertEqual(len(bh), 0)
 
+    def test_min_heap_priority_update(self):
+        arr = [('last', 3), ('first', 1), ('middle', 4)]
+        bh = MinHeap(arr, key=lambda x: x[1])
+
+        self.assertEqual(bh.pop(), ('first', 1))
+        self.assertEqual(bh.peek(), ('last', 3))
+
+        bh.update_priority(('middle', 4), ('middle', 2))
+
+        self.assertEqual(bh.pop(), ('middle', 2))
+        self.assertEqual(bh.pop(), ('last', 3))
+
     @given(st.sets(st.integers()))
     def test_min_heap_with_satellite_data(self, arr):
         arr = [((value + salt) % 7, value) for salt, value in enumerate(arr)]

@@ -39,20 +39,42 @@ class TestTrie(unittest.TestCase):
 
         vocabulary = list(self.trie)
         self.assertListEqual(sorted(words), sorted(vocabulary))
-        # self.assertListEqual(vocabulary, sorted(vocabulary))
 
-    @unittest.skip('TODO fix common prefix retrieval')
     def test_words_with_common_prefix(self):
+        words = 'pretext price pretend prosody press'.split()
+        for word in words:
+            self.trie.add(word)
+
+        self.assertListEqual(
+            sorted(self.trie.words_starting_with('pre')),
+            sorted(x for x in words if x.startswith('pre'))
+        )
+
+    def test_tree_depth(self):
+        for word in ['abracadabra', 'abjad', 'abugida']:
+            self.trie.add(word)
+        self.assertEqual(self.trie.get_tree_depth(), len('abracadabra'))
+
+    def test_unlimited_closest_words_starting_with(self):
         words = 'pretext pretend premise press price president'.split()
         for word in words:
             self.trie.add(word)
 
-        vocabulary = list(self.trie.words_starting_with('pre'))
-        print(sorted(vocabulary))
+        self.assertListEqual(
+            sorted(self.trie.closest_words_starting_with('pre')),
+            sorted(x for x in words if x.startswith('pre'))
+        )
 
-    @unittest.skip('TODO level first walk')
-    def test_level_first_walk(self):
-        for word in 'pretext pretend premise press price president'.split():
+    def test_limited_closest_words_starting_with(self):
+        words = 'pretext pretend premise press price prey president'.split()
+        for word in words:
             self.trie.add(word)
 
-        print(list(self.trie.breadth_first_traversal()))
+        self.assertListEqual(
+            sorted(self.trie.closest_words_starting_with('pre', 2)),
+            ['press', 'prey']
+
+            # scalable but less readable
+            # sort by length, filter by pre, cut first two, sort again )
+            # sorted([x for x in sorted(words, key=len) if x.startswith('pre')][:2])
+        )
