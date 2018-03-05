@@ -30,7 +30,6 @@ Implementation notes:
 from src.commons import key_fun
 
 
-# TODO implement down and up with less swaps. cf. similar insertion sort optimization/
 class BinaryHeap(object):
     def __init__(self, sequence=None, key=key_fun):
         self.key = key
@@ -101,12 +100,48 @@ class BinaryHeap(object):
         return len(self.list)
 
 
-class MinHeap(BinaryHeap):
+class OptimizedBinaryHeap(BinaryHeap):
+
+    # minimize swaps. cf insertion sort
+    def up(self, index):
+        item = self.list[index]
+        key = self.key(item)
+        parent_index = self.get_parent(index)
+
+        while parent_index >= 0:
+            if self.compare(key, self.key(self.list[parent_index])):
+                self.list[index] = self.list[parent_index]
+                index = parent_index
+                parent_index = self.get_parent(index)
+            else:
+                break
+
+        self.list[index] = item
+
+    # minimize swaps. cf insertion sort
+    def down(self, index):
+        child_index = self.get_child(index)
+        if child_index >= len(self):
+            return
+        item = self.list[index]
+        key = self.key(item)
+
+        while child_index < len(self):
+            if self.compare(self.key(self.list[child_index]), key):
+                self.list[index] = self.list[child_index]
+                index = child_index
+                child_index = self.get_child(index)
+            else:
+                break
+
+        self.list[index] = item
+
+
+class MinHeap(OptimizedBinaryHeap):
     def compare(self, i, j):
         return i < j
 
 
-class MaxHeap(BinaryHeap):
+class MaxHeap(OptimizedBinaryHeap):
     def compare(self, i, j):
         return i > j
-

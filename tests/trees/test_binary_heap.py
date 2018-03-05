@@ -34,6 +34,18 @@ class TestBinaryHeap(unittest.TestCase):
 
         self.assertEqual(len(bh), 0)
 
+    @given(st.sets(st.integers()))
+    def test_min_heap_with_satellite_data(self, arr):
+        arr = [((value + salt) % 7, value) for salt, value in enumerate(arr)]
+        bh = MinHeap(arr, key=lambda x: x[1])
+        self.assertEqual(len(bh), len(arr))
+
+        for i in sorted(arr, key=lambda x: x[1]):
+            self.assertEqual(bh.peek(), i)
+            self.assertEqual(bh.pop(), i)
+
+        self.assertEqual(len(bh), 0)
+
     @given(st.lists(st.integers()))
     def test_max_heap(self, arr):
         bh = MaxHeap(arr)
