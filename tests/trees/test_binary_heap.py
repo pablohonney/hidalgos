@@ -8,6 +8,8 @@ from src.trees.heaps import MaxHeap
 
 class TestBinaryHeap(unittest.TestCase):
 
+    # heapq.heapify would make tests scalable and work nice with hypothesis.
+    # alas heapq.heapify internally renders the array differently
     def test_simple_min_heap(self):
         bh = MinHeap()
         for i in range(9, -1, -1):
