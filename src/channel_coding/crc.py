@@ -3,7 +3,7 @@ from src.commons import binary_length
 MASK = 0
 
 
-def crc(data, divisor, mask=MASK):
+def crc(data: int, divisor: int, mask: int = MASK) -> int:
     shift = binary_length(divisor) - 1
     data <<= shift
     data |= mask

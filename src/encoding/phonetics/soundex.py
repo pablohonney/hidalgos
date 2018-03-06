@@ -99,7 +99,7 @@ def refined_soundex(plain_text: str) -> str:
     return head + code
 
 
-def daitch_mokotoff(plain_text):
+def daitch_mokotoff(plain_text: str) -> str:
     if not isinstance(plain_text, str):
         raise TypeError
 

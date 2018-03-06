@@ -9,11 +9,13 @@ This is the core principle.
 
 time: O(|E| + |V|log|V|) worst case
 """
-# TODO priorities be update-able !!
+from typing import List
+
+# TODO priorities must be update-able !!
 from src.lists import MinPriorityQueue
 
 
-def dijkstra(V, E, source, destination):
+def dijkstra(V, E, source, destination) -> List:
     # setup
     distances = {v: float('inf') for v in V}  # O(|V|) memory
     distances[source] = 0
