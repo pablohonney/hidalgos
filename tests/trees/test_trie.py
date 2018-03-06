@@ -1,4 +1,5 @@
 import unittest
+from string import ascii_lowercase as letters
 
 from hypothesis import strategies as st, given
 
@@ -10,21 +11,40 @@ class TestTrie(unittest.TestCase):
     def setUp(self):
         self.trie = Trie()
 
-    def test_random_access(self):
+    def test_random_access_simple(self):
         self.trie.add('hello')
+        self.trie.add('hello')  # check idempotency
         self.trie.add('world')
         self.assertEqual(len(self.trie), 2)
 
         self.assertIn('hello', self.trie)
         self.assertNotIn('bye', self.trie)
 
-    @unittest.skip('TODO remove on trie')
-    def test_remove(self):
+    def test_remove_simple(self):
         self.trie.add('hello')
-        self.trie.remove('hello')
+        self.trie.add('help')
 
+        self.trie.remove('hello')
         self.assertNotIn('hello', self.trie)
+        self.assertEqual(len(self.trie), 1)
+
+        self.trie.remove('help')
+        self.assertNotIn('help', self.trie)
         self.assertEqual(len(self.trie), 0)
+
+    @given(st.lists(st.text(letters)))
+    def test_date_driven(self, words):
+        trie = Trie()
+        for word in words:
+            trie.add(word)
+        self.assertEqual(len(trie), len(set(words)))
+
+        for word in set(words):
+            self.assertIn(word, trie)
+            trie.remove(word)
+            self.assertNotIn(word, trie)
+
+        self.assertEqual(len(trie), 0)
 
     def test_repr(self):
         pass

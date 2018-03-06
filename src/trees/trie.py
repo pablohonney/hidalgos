@@ -44,8 +44,10 @@ class Trie(object):
                 node.children[char] = _Node(char)
             node = node.children[char]
 
-        node.is_word = Trie
-        self.size += 1
+        # make it idempotent
+        if not node.is_word:
+            node.is_word = True
+            self.size += 1
 
     def _get_node(self, word: str) -> Optional[_Node]:
         node = self.root
@@ -59,7 +61,8 @@ class Trie(object):
 
     def __contains__(self, word):
         node = self._get_node(word)
-        if node:
+
+        if node and node.is_word:  # word membership only
             return True
         else:
             return False
@@ -74,11 +77,28 @@ class Trie(object):
         self._remove_node(self.root, word, 0)
 
     def _remove_node(self, node: _Node, word: str, index: int):
-        if index < len(word):
-            return node
+        if index == len(word):
+            if not node.is_word:
+                raise KeyError(word)
 
-        self._remove_node(node, word, index + 1)
+            node.is_word = False
+            self.size -= 1
 
+        else:
+            if word[index] not in node.children:
+                raise KeyError(word)
+
+            if self._remove_node(node.children[word[index]], word, index+1):
+                del node.children[word[index]]
+            else:
+                return False
+
+        if node.children or node.is_word:
+            return False  # there are other descendants
+        else:
+            return True  # safe to remove the node
+
+    # --- TRAVERSALS ---
     def words_starting_with(self, prefix: str) -> Generator:
         node = self._get_node(prefix)
         if node:
@@ -98,7 +118,7 @@ class Trie(object):
         else:
             yield from self._bft_via_dft(prefix, limit)
 
-    # bad news. BFS doesn't keep the prefixes. Unlike DFS.
+    # bad news. BFS doesn't keep the prefixes.
     def _native_breadth_first_traversal(self, node: _Node, prefix: str = ''):
         queue = deque([node])
         while queue:
