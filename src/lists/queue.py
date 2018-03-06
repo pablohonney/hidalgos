@@ -43,3 +43,7 @@ class Queue(object):
     def __repr__(self):
         ll = list(self.output.list) + list(self.input.list)[::-1]
         return '%s(%s)' % (self.__class__.__name__, repr(ll))
+
+
+class QueueViaSinglyLinkedList(object):
+    pass

@@ -9,7 +9,7 @@ def kahn_sort(V, E) -> List:
     for _, b in E:
         dependency_counter[b] += 1
 
-    # if there're no cycles in the graph all the nodes will eventually be reached
+    # if there're no cycles in the graph all the vertices will eventually be reached
     queue = Queue(x for x, y in dependency_counter.items() if y == 0)
     sorted_list = []
     while queue:
@@ -21,7 +21,7 @@ def kahn_sort(V, E) -> List:
                 if dependency_counter[dependent] == 0:
                     queue.push(dependent)  # dependent no more )
 
-    # if the free nodes' queue gets empty before all the dependencies are resolved
+    # if the free vertices' queue gets empty before all the dependencies are resolved
     # there must have been cycles in the graph. we've been fooled... Alarm.
     if sum(dependency_counter.values()):
         raise TypeError('Not a DAG')
