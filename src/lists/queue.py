@@ -59,3 +59,50 @@ class QueueViaSinglyLinkedList(object):
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, list(self.list))
+
+
+class QueueViaArray(object):
+    """
+    Use modular arithmetic to imitate a ring.
+
+       tail          head
+        |              |
+    ----xxxxxxxxxxxxxxxx----------
+
+
+       head          tail
+        |              |
+    xxxxx--------------xxxxxxxxxxx
+    """
+
+    def __init__(self, size: int, iterable=None):
+        self.size = size
+        self.list = [None]*size
+        self.head = 0
+        self.tail = 0
+
+        if iterable:
+            for item in iterable:
+                self.push(item)
+
+    def push(self, item):
+        self.list[self.head] = item
+        self.head = (self.head + 1) % self.size
+
+    def pop(self):
+        value = self.list[self.tail]
+        del self.list[self.tail]
+        self.tail = (self.tail + 1) % self.size
+        return value
+
+    def peek(self):
+        return self.list[self.tail]
+
+    def __len__(self):
+        if self.tail > self.head:
+            return self.tail - self.head
+        else:
+            return len(self.list) - self.tail - self.head
+
+    def __repr__(self):
+        return '%s(%r)' % (self.__class__.__name__, list(self.list))
