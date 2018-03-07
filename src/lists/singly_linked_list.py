@@ -1,3 +1,27 @@
+"""
+         head                         tail
+          |                            |
+root ---> a ---> b ---> c ---> d ---> e
+
+      add O(1)                     add O(1)
+     peek O(1)                    peek O(1)
+      pop O(1)                     pop O(n)
+
+
+Optimization:
+    keep a tail pointer.
+
+    Without the tail, append would take O(n). It could be mitigated this way.
+
+    for i in range(len(iterable) - 1, -1, -1):
+        self.insert(iterable[i], 0)
+
+    If iterable is random access, we get O(1) iterable access and O(1) list insertion.
+    If iterable is one-way sequential, we get O(n) on next element access and O(1) on list insertion.
+    If iterable is two-way sequential, we get O(1) on next element access and O(1) on list insertion.
+"""
+
+
 class SinglyLinkedList(object):
     def __init__(self, iterable=None):
         self.root = RootNode()
@@ -7,19 +31,8 @@ class SinglyLinkedList(object):
         self.head = self.root
 
         if iterable:
-            # insert at index 0 takes O(1) time, but it reverses the input order
-            if isinstance(iterable, range):
-                # can't help about this
-                for item in iterable:
-                    self.append(item)
-            else:
-                # we can cheat by double reversing.
-
-                # if iterable is random access, we get O(1) access and O(1) insert.
-                # if iterable its sequential, we get O(n) access and O(1) insert.
-                # which is bad, but we'd get it with append() anyway
-                for i in range(len(iterable) - 1, -1, -1):
-                    self.insert(iterable[i], 0)
+            for item in iterable:
+                self.append(item)
 
     def _normalize_index(self, index):
         if index < 0:
@@ -43,13 +56,19 @@ class SinglyLinkedList(object):
 
         return prev, node
 
-    # deque-like interface
-    def append(self, item):
-        self.insert(item, len(self))
+    # --- DEQUE-LIKE INTERFACE ---
 
+    # like self.insert(item, len(self)), but takes O(1) time
+    def append(self, item):
+        self.head.next = Node(item)
+        self.head = self.head.next
+        self.length += 1
+
+    # O(1) time
     def prepend(self, item):
         self.insert(item, 0)
 
+    # iterates the list. O(n) time
     def insert(self, item, index: int = -1):
         prev, head = self._get_nth_item(index)
 

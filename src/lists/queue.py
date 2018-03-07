@@ -1,17 +1,12 @@
 """
 To support FIFO behaviour queues need instant O(1) set and get operations on the opposite ends.
-
-It'd be easy with DoublyLinkedList class.
-DLL is overkill though. It's got some nice features we don't really need that also imply memory overhead.
-We'd keep it for a deque behaviour rather.
-
-As for plain queues, we can combine two stacks to imitate one.
 """
 
 from src.lists import Stack
+from src.lists import SinglyLinkedList
 
 
-class Queue(object):
+class QueueViaStack(object):
     def __init__(self, iterable=None):
         self.input = Stack(iterable)
         self.output = Stack()
@@ -42,8 +37,25 @@ class Queue(object):
 
     def __repr__(self):
         ll = list(self.output.list) + list(self.input.list)[::-1]
-        return '%s(%s)' % (self.__class__.__name__, repr(ll))
+        return '%s(%r)' % (self.__class__.__name__, ll)
 
 
 class QueueViaSinglyLinkedList(object):
-    pass
+
+    def __init__(self, iterable=None):
+        self.list = SinglyLinkedList(iterable)
+
+    def push(self, item):
+        self.list.append(item)
+
+    def pop(self):
+        return self.list.pop(0)
+
+    def peek(self):
+        return self.list[0]
+
+    def __len__(self):
+        return len(self.list)
+
+    def __repr__(self):
+        return '%s(%r)' % (self.__class__.__name__, list(self.list))

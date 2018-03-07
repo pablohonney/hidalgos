@@ -5,7 +5,7 @@ from .singly_linked_list import SinglyLinkedList
 from .stack import Stack
 
 # fifo lists
-from .queue import Queue
+from .queue import QueueViaSinglyLinkedList as Queue
 
 # priority queues
 from .priority_queue import MinPriorityQueue
