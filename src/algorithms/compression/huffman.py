@@ -1,6 +1,5 @@
 """
-Huffman coding is a variable-size prefix-tree encoding system used for
-data compression.
+Huffman coding is a variable-width prefix-tree encoding system used for data compression.
 
 Observations.
     Symbols in texts do have different frequencies. It's naive encoding all the
