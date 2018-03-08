@@ -4,17 +4,17 @@ Here's yet another two-cars-start-moving-from-the-same-point problem.
 There's a loop on the road, so the two are gonna meet somewhere on it.
 
 given:
-S - start point
+S - starting point
 K - knot point, where the loop starts
-d - distance from s to k
+d - distance from S to K
 l - loop length
 
-We launch the tortoise and the hair.
+With respect to the established terminology we launch a tortoise and a hair.
 T - tortoise
 H - Hair
 
 H moves twice as fast as T
-v(H) = 2* v(T)
+speed(H) = 2 * speed(T)
 
 Find K, d, l )
 Seems to much? Let's solve a sub-problem first.
@@ -37,7 +37,7 @@ S----T----H----
           |   |
           -----
 
-By the time T reaches k passing distance d, H will have gone 2*d, with half of it on the loop.
+By the time T reaches K passing the distance d, H will have gone 2*d, with half of it on the loop.
 
     d        l
 S---------T----
@@ -48,7 +48,7 @@ S---------T----
 Distance from T to H thus will be (d % l).
 Distance from H to T is (l - d % l).
 
-Therefore as T passes (l - d % l), H will pass twice as much and they'l meet at point M.
+After this as T passes (l - d % l), H will pass twice as much and they'l meet at point M.
 
     d        l
 S---------K----
@@ -62,17 +62,13 @@ Let's open and spread the loop for clarity.
 ------H--------------T--------------M------------------------------
 K                    K                    K                    K
 
-M is also (l - d % l) from beginning of the loop K.
+Distance from K to M is also (l - d % l).
+Distance from M to K is thus l - (l - d % l) = d % l
 
-Great. But we've got a problem. We don't really know d.
-Can we find it as well?
-
-So far distance from M to K is l - (l - d % l) = d % l
-
-We know d = n * l + d % l; n in N.
+We know d = n * l + d % l; with n a natural number.
 
 So if we move d distance from M we'll reach K.
-But how do we count the d distance.
+But how do we count the d distance?
 
 We start 2 Ts this time from S and M.
 
