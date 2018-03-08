@@ -9,9 +9,9 @@ K - knot point, where the loop starts
 d - distance from S to K
 l - loop length
 
-With respect to the established terminology we launch a tortoise and a hair.
+With respect to the established terminology we launch a tortoise and a hare.
 T - tortoise
-H - hair
+H - hare
 
 H moves twice as fast as T
 speed(H) = 2 * speed(T)
@@ -29,7 +29,7 @@ T ->      |   |
 H -->     |   |
           -----
 
-When H reaches k, T is still in the midway.
+When H reaches k, T is still on the midway.
 
     d        l
 S----T----H----
@@ -37,7 +37,7 @@ S----T----H----
           |   |
           -----
 
-By the time T reaches K passing the distance d, H will have gone 2*d, with half of it on the loop.
+By the time T reaches K after passing the distance d, H will have gone 2*d, with half of it on the loop.
 
     d        l
 S---------T----
@@ -100,14 +100,14 @@ def floyd(head):
     hare = hare.next.next
 
     # find the meeting place
-    while tortoise != hare:
+    while tortoise.value != hare.value:
         tortoise = tortoise.next
         hare = hare.next.next
 
     # find the d distance and the K knot
     distance = 0
     tortoise = head
-    while tortoise != hare:
+    while tortoise.value != hare.value:
         tortoise = tortoise.next
         hare = hare.next
         distance += 1
@@ -117,7 +117,7 @@ def floyd(head):
     # find the l loop length
     length = 1  # count the edge that closes the loop
     hare = tortoise.next
-    while tortoise != hare:
+    while tortoise.value != hare.value:
         hare = hare.next
         length += 1
 
