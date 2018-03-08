@@ -2,8 +2,7 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.dictionaries import HashTableDict
-from src.dictionaries import TreeDict
+from src.data_types.dictionaries import HashTableDict
 
 
 class TestHashTableDict(unittest.TestCase):

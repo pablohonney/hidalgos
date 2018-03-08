@@ -3,7 +3,7 @@ from string import ascii_lowercase as letters
 
 from hypothesis import strategies as st, given
 
-from src.trees import Trie
+from src.data_types.trees.tries import Trie
 
 
 class TestTrie(unittest.TestCase):

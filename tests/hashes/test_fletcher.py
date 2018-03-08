@@ -1,6 +1,6 @@
 import unittest
 
-from src.hashes.fletcher import fletcher16_optimized
+from src.algorithms.hashes.fletcher import fletcher16_optimized
 
 
 class TestFletcher(unittest.TestCase):

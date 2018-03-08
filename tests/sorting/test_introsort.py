@@ -3,8 +3,8 @@ from math import log2
 
 from hypothesis import strategies as st, given
 
-from src.sorting import QuickSort
-from src.sorting import heap_sort
+from src.algorithms.sorting import QuickSort
+from src.algorithms.sorting import heap_sort
 
 
 @unittest.skip('TODO adapt heap_sort and cut_off should be a func')

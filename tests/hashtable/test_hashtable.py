@@ -2,8 +2,8 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.hashtable import RehashedHashTable
-from src.hashtable import ChainedHashTable
+from src.data_types.hashtable import RehashedHashTable
+from src.data_types.hashtable import ChainedHashTable
 
 
 class TestRehashedHashTable(unittest.TestCase):

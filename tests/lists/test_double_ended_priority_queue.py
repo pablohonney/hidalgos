@@ -1,7 +1,5 @@
 import unittest
 
-from src.lists import DoubleEndedPriorityQueue
-
 
 class TestDoubleEndedPriorityQueue(unittest.TestCase):
 

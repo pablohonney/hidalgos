@@ -1,6 +1,6 @@
 import unittest
 
-from src.strings.metrics import jaro
+from src.algorithms.strings.metrics import jaro
 
 
 @unittest.skip('TODO jaro')

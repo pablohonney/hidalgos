@@ -2,7 +2,7 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.sorting import tree_sort
+from src.algorithms.sorting import tree_sort
 
 
 class TestTreeSort(unittest.TestCase):

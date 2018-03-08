@@ -3,8 +3,8 @@ from string import ascii_letters as letters
 
 from hypothesis import strategies as st, given
 
-from src.encoding import encode_run_length
-from src.encoding import decode_run_length
+from src.algorithms.encoding import encode_run_length
+from src.algorithms.encoding import decode_run_length
 
 
 class TestRunLengthEncoding(unittest.TestCase):

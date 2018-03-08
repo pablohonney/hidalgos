@@ -4,12 +4,12 @@ As our implementations become increasingly faster, let's check each with the pre
 import unittest
 from itertools import islice
 
-from src.primes import naive
-from src.primes import naive_stream
-from src.primes.primes import naive_stream_memoized
-from src.primes import eratosthenes
-from src.primes import eratosthenes_bits
-from src.primes import sundaram
+from src.algorithms.primes import naive
+from src.algorithms.primes import naive_stream
+from src.algorithms.primes.primes import naive_stream_memoized
+from src.algorithms.primes import eratosthenes
+from src.algorithms.primes import eratosthenes_bits
+from src.algorithms.primes import sundaram
 
 N = 1000
 

@@ -1,9 +1,12 @@
 import unittest
 
-from src.strings.metrics.hamming import hamming_str
-from src.strings.metrics.hamming import hamming_decimal
-from src.strings.metrics.hamming import hamming_bits_shift
-from src.strings.metrics.hamming import hamming_bits_and
+# public
+from src.algorithms.strings.metrics import hamming_str
+from src.algorithms.strings.metrics import hamming_decimal
+
+# private
+from src.algorithms.strings.metrics.hamming import hamming_bits_shift
+from src.algorithms.strings.metrics.hamming import hamming_bits_and
 
 
 class TestHammingDistance(unittest.TestCase):

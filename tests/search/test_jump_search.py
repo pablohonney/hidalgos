@@ -2,7 +2,7 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.search import jump_search
+from src.algorithms.search import jump_search
 # from src.lists import DoublyLinkedList
 
 from tests.search import _search

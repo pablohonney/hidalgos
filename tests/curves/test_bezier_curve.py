@@ -1,6 +1,6 @@
 import unittest
 
-from src.curves import bezier_curve
+from src.algorithms.curves import bezier_curve
 
 
 class TestBezierCurve(unittest.TestCase):

@@ -1,9 +1,9 @@
 import unittest
 
-from src.strings.metrics.levenshtein import levenshtein_recursive
-from src.strings.metrics.levenshtein import levenshtein_matrix
-from src.strings.metrics.levenshtein import levenshtein_compressed_matrix
-from src.strings.metrics.levenshtein import wagner_fischer_compressed_matrix
+from src.algorithms.strings.metrics.levenshtein import levenshtein_recursive
+from src.algorithms.strings.metrics.levenshtein import levenshtein_matrix
+from src.algorithms.strings.metrics.levenshtein import levenshtein_compressed_matrix
+from src.algorithms.strings.metrics.levenshtein import wagner_fischer_compressed_matrix
 
 cases = [
     ['kitten', 'sitten', 1],

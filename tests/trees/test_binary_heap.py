@@ -2,8 +2,8 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.trees.heaps import MinHeap
-from src.trees.heaps import MaxHeap
+from src.data_types.trees.heaps import MinHeap
+from src.data_types.trees.heaps import MaxHeap
 
 
 class TestBinaryHeap(unittest.TestCase):

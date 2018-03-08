@@ -2,11 +2,10 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.linear_algebra import Matrix
-from src.linear_algebra import DefaultMatrix
-from src.linear_algebra import RandomMatrix
-from src.linear_algebra import Zeros
-from src.linear_algebra import Ones
+from src.data_types.linear_algebra import DefaultMatrix
+from src.data_types.linear_algebra import RandomMatrix
+from src.data_types.linear_algebra import Zeros
+from src.data_types.linear_algebra import Ones
 
 
 class TestMatrix(unittest.TestCase):

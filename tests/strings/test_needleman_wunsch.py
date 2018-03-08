@@ -1,6 +1,6 @@
 import unittest
 
-from src.strings.alignment import needleman_wunsch
+from src.algorithms.strings.alignment import needleman_wunsch
 
 
 class TestNeedlemanWunsch(unittest.TestCase):

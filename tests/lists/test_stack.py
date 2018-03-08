@@ -2,7 +2,7 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.lists import Stack
+from src.data_types.stack import Stack
 
 
 class TestStack(unittest.TestCase):

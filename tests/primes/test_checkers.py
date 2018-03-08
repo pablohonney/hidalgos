@@ -1,9 +1,9 @@
 import unittest
 
-from src.primes import eratosthenes_bits
-from src.primes import fermat
-from src.primes import wilson
-from src.primes import are_relative_primes
+from src.algorithms.primes import eratosthenes_bits
+from src.algorithms.primes import fermat
+from src.algorithms.primes import wilson
+from src.algorithms.primes import are_relative_primes
 
 primes_pool = list(eratosthenes_bits(10 ** 4))
 

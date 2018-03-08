@@ -2,10 +2,10 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.search import BinarySearch
-from src.search import GoldenSectionSearch
-from src.search import FibonacciSearch
-from src.search import InterpolationSearch
+from src.algorithms.search import BinarySearch
+from src.algorithms.search import GoldenSectionSearch
+from src.algorithms.search import FibonacciSearch
+from src.algorithms.search import InterpolationSearch
 
 from tests.search import _search
 

@@ -2,8 +2,8 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.sorting import QuickSort
-from src.sorting.selection_sort import selection_sort_slice
+from src.algorithms.sorting import QuickSort
+from src.algorithms.sorting.selection_sort import selection_sort_slice
 
 
 class TestIntroSelect(unittest.TestCase):

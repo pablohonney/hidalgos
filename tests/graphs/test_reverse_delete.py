@@ -1,8 +1,8 @@
 import unittest
 from copy import deepcopy as copy
 
-from src.graphs.minimum_spanning_tree import reverse_delete
-from src.graphs.minimum_spanning_tree.reverse_delete import are_connected
+from src.algorithms.graphs.minimum_spanning_tree import reverse_delete
+from src.algorithms.graphs.minimum_spanning_tree.reverse_delete import are_connected
 
 from tests.graphs import simple_mst
 from tests.graphs import cost_mst

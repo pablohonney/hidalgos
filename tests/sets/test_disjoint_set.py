@@ -1,6 +1,6 @@
 import unittest
 
-from src.sets import DisjointSet
+from src.data_types.sets import DisjointSet
 
 
 class TestDisjointSet(unittest.TestCase):

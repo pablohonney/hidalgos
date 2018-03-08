@@ -1,6 +1,6 @@
 import unittest
 
-from src.encoding import nysiis
+from src.algorithms.encoding import nysiis
 
 
 @unittest.skip('TODO nysiis. use NIST specs')

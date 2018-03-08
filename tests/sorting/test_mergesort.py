@@ -2,7 +2,7 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.sorting import MergeSort
+from src.algorithms.sorting import MergeSort
 
 
 class TestMerge(unittest.TestCase):

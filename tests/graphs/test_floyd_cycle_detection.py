@@ -2,8 +2,8 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.graphs.cycle_detection import floyd
-from src.lists.singly_linked_list import Node
+from src.algorithms.graphs.cycle_detection import floyd
+from src.data_types.lists.singly_linked_list import Node
 
 
 class TestFloydCycleDetection(unittest.TestCase):

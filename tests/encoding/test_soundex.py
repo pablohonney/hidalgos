@@ -1,8 +1,8 @@
 import unittest
 
-from src.encoding import soundex
-from src.encoding import refined_soundex
-from src.encoding import daitch_mokotoff
+from src.algorithms.encoding import soundex
+from src.algorithms.encoding import refined_soundex
+from src.algorithms.encoding import daitch_mokotoff
 
 
 class TestSoundex(unittest.TestCase):

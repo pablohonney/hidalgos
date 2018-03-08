@@ -3,9 +3,9 @@ from random import randint
 
 from hypothesis import strategies as st, given
 
-from src.sorting import insertion_sort
-from src.sorting import shell_sort
-from src.sorting.insertion_sort import insertion_sort_slice
+from src.algorithms.sorting import insertion_sort
+from src.algorithms.sorting import shell_sort
+from src.algorithms.sorting.insertion_sort import insertion_sort_slice
 
 
 class TestInsertionSort(unittest.TestCase):

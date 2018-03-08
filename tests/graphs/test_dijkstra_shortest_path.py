@@ -1,6 +1,6 @@
 import unittest
 
-from src.graphs.shortest_path import dijkstra
+from src.algorithms.graphs.shortest_path import dijkstra
 
 
 class TestDijkstra(unittest.TestCase):

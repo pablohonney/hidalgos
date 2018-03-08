@@ -1,8 +1,6 @@
 import unittest
 
-from hypothesis import strategies as st, given
-
-from src.hashes import jenkins
+from src.algorithms.hashes import jenkins
 
 
 class TestJenkins(unittest.TestCase):

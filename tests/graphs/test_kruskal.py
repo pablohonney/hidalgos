@@ -1,6 +1,6 @@
 import unittest
 
-from src.graphs.minimum_spanning_tree import kruskal
+from src.algorithms.graphs.minimum_spanning_tree import kruskal
 
 from tests.graphs import simple_mst
 from tests.graphs import cost_mst

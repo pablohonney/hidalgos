@@ -3,97 +3,132 @@ from random import randint
 
 from hypothesis import strategies as st, given
 
-from src.lists import SinglyLinkedList
+from src.data_types.lists import SinglyLinkedList
 
 
 class TestSinglyLinkedList(unittest.TestCase):
-    def test_append(self):
-        sll = SinglyLinkedList()
-        for i in range(1, 100):
-            sll.append(i)
-            self.assertEqual(len(sll), i)
-
-        sll2 = SinglyLinkedList(range(1, 100))
-        self.assertEqual(len(sll2), 99)
 
     def test_insert(self):
-        sll1 = SinglyLinkedList()
-        sll2 = SinglyLinkedList()
-        for i in range(1, 100):
-            sll1.prepend(i)
-            sll2.append(i)
+        expected = []
+        ll = SinglyLinkedList()
+        for index in range(100):
+            expected.insert(len(expected)//2, index)
+            ll.insert(index, len(ll)//2)
 
-        self.assertEqual(len(sll1), 99)
-        self.assertEqual(len(sll2), 99)
-        self.assertListEqual(list(sll1), list(sll2)[::-1])
+        self.assertListEqual(expected, list(ll))
+
+    def test_insert_left_right(self):
+        ll1 = SinglyLinkedList()
+        ll2 = SinglyLinkedList()
+        for i in range(100):
+            ll1.insert_left(i)
+            ll2.insert_right(i)
+
+        self.assertTrue(len(ll1), 100)
+        self.assertEqual(len(ll2), 100)
+        self.assertListEqual(list(ll1), list(ll2)[::-1])
+
+    def test_pop(self):
+        control = list(range(100))
+        ll = SinglyLinkedList(range(100))
+
+        expected = []
+        while control:
+            expected.append(control.pop(len(control)//2))
+
+        actual = []
+        while ll:
+            actual.append(ll.pop(len(ll)//2))
+
+        self.assertListEqual(expected, actual)
+
+    def test_pop_left_right(self):
+        control = list(range(100))
+        ll = SinglyLinkedList(range(100))
+
+        expected = []
+        actual = []
+        for i in range(100):
+            if i % 2:
+                expected.append(control.pop(0))
+                actual.append(ll.pop_left())
+            else:
+                expected.append(control.pop(-1))
+                actual.append(ll.pop_right())
+
+        self.assertListEqual(expected, actual)
+
+    def test_peek(self):
+        pass
+
 
     @given(st.lists(st.integers()))
     def test_queue_pop(self, arr):
-        sll = SinglyLinkedList(arr)
+        ll = SinglyLinkedList(arr)
 
-        self.assertListEqual([sll.pop(0) for _ in range(len(sll))], arr)
-        self.assertEqual(len(sll), 0)
+        self.assertListEqual([ll.pop(0) for _ in range(len(ll))], arr)
+        self.assertEqual(len(ll), 0)
         with self.assertRaises(IndexError):
-            sll.pop()
+            ll.pop()
 
     @given(st.lists(st.integers()))
     def test_stack_pop(self, arr):
-        sll = SinglyLinkedList(arr)
+        ll = SinglyLinkedList(arr)
 
-        self.assertListEqual([sll.pop() for _ in range(len(sll))], arr[::-1])
-        self.assertEqual(len(sll), 0)
+        self.assertListEqual([ll.pop() for _ in range(len(ll))], arr[::-1])
+        self.assertEqual(len(ll), 0)
         with self.assertRaises(IndexError):
-            sll.pop()
+            ll.pop()
 
     def test_membership(self):
         arr = list(range(100))
-        sll = SinglyLinkedList(arr)
+        ll = SinglyLinkedList(arr)
 
         for i in arr:
-            self.assertIn(i, sll)
+            self.assertIn(i, ll)
 
         for i in range(100, 200):
-            self.assertNotIn(i, sll)
+            self.assertNotIn(i, ll)
 
     @given(st.lists(st.integers()))
     def test_random_pop(self, arr):
-        sll = SinglyLinkedList(arr)
+        ll = SinglyLinkedList(arr)
 
         permutation = []
         for _ in range(len(arr)):
-            permutation.append(sll.pop(randint(0, len(sll) - 1)))
+            permutation.append(ll.pop(randint(0, len(ll) - 1)))
 
-        self.assertEqual(len(sll), 0)
+        self.assertEqual(len(ll), 0)
         self.assertListEqual(sorted(permutation), sorted(arr))
 
-    def test_head(self):
-        sll = SinglyLinkedList(range(10))
-        self.assertEqual(sll.head.value, 9)
-        sll.pop()
-        self.assertEqual(sll.head.value, 8)
-        sll.append(15)
-        self.assertEqual(sll.head.value, 15)
+    def test_tail(self):
+        ll = SinglyLinkedList(range(10))
+        self.assertEqual(ll.tail.value, 9)
+        ll.pop()
+        self.assertEqual(ll.tail.value, 8)
+        ll.insert_right(15)
+        self.assertEqual(ll.tail.value, 15)
 
     def test_random_access(self):
-        sll = SinglyLinkedList(range(10))
+        ll = SinglyLinkedList(range(10))
         for i in range(10):
-            self.assertEqual(sll[i], i)  # get
-            sll[i] = i ** 2  # set
-            self.assertEqual(sll[i], i ** 2)  # get
+            self.assertEqual(ll[i], i)  # get
+            ll[i] = i ** 2  # set
+            self.assertEqual(ll[i], i ** 2)  # get
         for i in range(10, 20):
             try:
-                self.assertEqual(sll[i], i)
+                self.assertEqual(ll[i], i)
             except IndexError:
                 pass
 
     @given(st.lists(st.integers()))
     def test_serialization(self, arr):
         serialized = repr(SinglyLinkedList(arr))
-        sll = eval(serialized)
+        ll = eval(serialized)
 
-        self.assertListEqual(list(sll), arr)
+        self.assertListEqual(list(ll), arr)
 
     @given(st.lists(st.integers()))
     def test_sequential_access(self, arr):
-        sll = SinglyLinkedList(arr)
-        self.assertListEqual(list(sll), arr)
+        ll = SinglyLinkedList(arr)
+        self.assertListEqual(list(ll), arr)

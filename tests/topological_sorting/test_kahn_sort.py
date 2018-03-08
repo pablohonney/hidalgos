@@ -1,6 +1,6 @@
 import unittest
 
-from src.sorting.topological import kahn_sort
+from src.algorithms.sorting.topological import kahn_sort
 
 from tests.topological_sorting import DAG1, DAG2, CYCLIC_GRAPH
 

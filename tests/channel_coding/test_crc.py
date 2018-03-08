@@ -2,7 +2,7 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.channel_coding import crc
+from src.algorithms.channel_coding import crc
 
 
 class TestCrc(unittest.TestCase):

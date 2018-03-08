@@ -2,8 +2,8 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.search import linear_search
-from src.search import unbound_linear_search
+from src.algorithms.search import linear_search
+from src.algorithms.search import unbound_linear_search
 
 from tests.search import _search
 

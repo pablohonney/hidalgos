@@ -3,10 +3,10 @@ from itertools import combinations
 
 from hypothesis import strategies as st, given
 
-from src.sorting.quicksort import QuickSortHoare
-from src.sorting.quicksort import QuickSortLomuto
-from src.sorting.quicksort import QuickSortWithEquals
-from src.sorting.quicksort import get_median_of_three
+from src.algorithms.sorting.quicksort import QuickSortHoare
+from src.algorithms.sorting.quicksort import QuickSortLomuto
+from src.algorithms.sorting.quicksort import QuickSortWithEquals
+from src.algorithms.sorting.quicksort import get_median_of_three
 
 
 class TestGetPivot(unittest.TestCase):

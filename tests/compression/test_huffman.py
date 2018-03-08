@@ -2,9 +2,9 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.compression import get_huffman_encoding
-from src.compression import huffman_encode
-from src.compression import huffman_decode
+from src.algorithms.compression import get_huffman_encoding
+from src.algorithms.compression import huffman_encode
+from src.algorithms.compression import huffman_decode
 
 
 class TestHuffman(unittest.TestCase):

@@ -2,8 +2,8 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.sorting import selection_sort
-from src.sorting.selection_sort import selection_sort_slice
+from src.algorithms.sorting import selection_sort
+from src.algorithms.sorting.selection_sort import selection_sort_slice
 
 
 class TestSelectionSort(unittest.TestCase):

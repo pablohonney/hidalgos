@@ -4,11 +4,14 @@ from random import randint
 
 from hypothesis import strategies as st, given, assume
 
-from src.strings.search import naive_search
-from src.strings.search import rabin_karp
-from src.strings.search.rabin_karp import rabin_fingerprint
-from src.strings.search.rabin_karp import rabin_roller
-from src.strings.search.rabin_karp import BASE
+# public
+from src.algorithms.strings.search import naive_search
+
+# private
+from src.algorithms.strings.search.rabin_karp import rabin_karp
+from src.algorithms.strings.search.rabin_karp import rabin_fingerprint
+from src.algorithms.strings.search.rabin_karp import rabin_roller
+from src.algorithms.strings.search.rabin_karp import BASE
 
 
 class TestNaiveSearch(unittest.TestCase):

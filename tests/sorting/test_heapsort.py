@@ -2,7 +2,7 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.sorting import heap_sort
+from src.algorithms.sorting import heap_sort
 
 
 class TestHeapSort(unittest.TestCase):
