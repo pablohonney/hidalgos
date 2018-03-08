@@ -11,13 +11,13 @@ l - loop length
 
 With respect to the established terminology we launch a tortoise and a hair.
 T - tortoise
-H - Hair
+H - hair
 
 H moves twice as fast as T
 speed(H) = 2 * speed(T)
 
-Find K, d, l )
-Seems to much? Let's solve a sub-problem first.
+Find K, d, l :)
+Seems too much? Let's solve a sub-problem first.
 
 Find the meeting site M.
 
