@@ -79,7 +79,7 @@ class SinglyLinkedList(ListADT):
         self.tail = self.tail.next
         self.length += 1
 
-    def pop(self, index: int = -1):
+    def pop(self, index: int):
         prev, tail = self._get_nth_item(index)
         if not tail:
             raise IndexError()
@@ -93,11 +93,14 @@ class SinglyLinkedList(ListADT):
     def peek(self, index: int):  # O(n) time
         prev, tail = self._get_nth_item(index)
         if not tail:
-            raise IndexError()
+            raise IndexError
 
         return tail.value
 
     def peek_right(self):  # O(1) time
+        if self.tail is self.head:
+            raise IndexError
+
         return self.tail.value
 
     # random access

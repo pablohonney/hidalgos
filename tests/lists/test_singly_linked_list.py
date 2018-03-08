@@ -1,5 +1,4 @@
 import unittest
-from random import randint
 
 from hypothesis import strategies as st, given
 
@@ -8,47 +7,51 @@ from src.data_types.lists import SinglyLinkedList
 
 class TestSinglyLinkedList(unittest.TestCase):
 
-    def test_insert(self):
+    List = SinglyLinkedList
+
+    @given(st.lists(st.integers()))
+    def test_insert(self, control):
         expected = []
-        ll = SinglyLinkedList()
-        for index in range(100):
-            expected.insert(len(expected)//2, index)
-            ll.insert(index, len(ll)//2)
+        ll = self.List()
+        for index, _ in enumerate(control):
+            expected.insert(len(expected) // 2, index)
+            ll.insert(index, len(ll) // 2)
 
         self.assertListEqual(expected, list(ll))
 
-    def test_insert_left_right(self):
-        ll1 = SinglyLinkedList()
-        ll2 = SinglyLinkedList()
-        for i in range(100):
-            ll1.insert_left(i)
-            ll2.insert_right(i)
+    @given(st.lists(st.integers()))
+    def test_insert_left_right(self, control):
+        ll1 = self.List()
+        ll2 = self.List()
+        for item in control:
+            ll1.insert_left(item)
+            ll2.insert_right(item)
 
-        self.assertTrue(len(ll1), 100)
-        self.assertEqual(len(ll2), 100)
+        self.assertEqual(len(ll1), len(control))
+        self.assertEqual(len(ll2), len(control))
         self.assertListEqual(list(ll1), list(ll2)[::-1])
 
-    def test_pop(self):
-        control = list(range(100))
-        ll = SinglyLinkedList(range(100))
+    @given(st.lists(st.integers()))
+    def test_pop(self, control):
+        ll = self.List(control)
 
         expected = []
         while control:
-            expected.append(control.pop(len(control)//2))
+            expected.append(control.pop(len(control) // 2))
 
         actual = []
         while ll:
-            actual.append(ll.pop(len(ll)//2))
+            actual.append(ll.pop(len(ll) // 2))
 
         self.assertListEqual(expected, actual)
 
-    def test_pop_left_right(self):
-        control = list(range(100))
-        ll = SinglyLinkedList(range(100))
+    @given(st.lists(st.integers()))
+    def test_pop_left_right(self, control):
+        ll = self.List(control)
 
         expected = []
         actual = []
-        for i in range(100):
+        for i, _ in enumerate(control):
             if i % 2:
                 expected.append(control.pop(0))
                 actual.append(ll.pop_left())
@@ -58,31 +61,43 @@ class TestSinglyLinkedList(unittest.TestCase):
 
         self.assertListEqual(expected, actual)
 
-    def test_peek(self):
-        pass
+    def test_pop_empty(self):
+        ll = self.List()
 
-
-    @given(st.lists(st.integers()))
-    def test_queue_pop(self, arr):
-        ll = SinglyLinkedList(arr)
-
-        self.assertListEqual([ll.pop(0) for _ in range(len(ll))], arr)
-        self.assertEqual(len(ll), 0)
         with self.assertRaises(IndexError):
-            ll.pop()
-
-    @given(st.lists(st.integers()))
-    def test_stack_pop(self, arr):
-        ll = SinglyLinkedList(arr)
-
-        self.assertListEqual([ll.pop() for _ in range(len(ll))], arr[::-1])
-        self.assertEqual(len(ll), 0)
+            ll.pop(0)
         with self.assertRaises(IndexError):
-            ll.pop()
+            ll.pop_left()
+        with self.assertRaises(IndexError):
+            ll.pop_right()
+
+    @given(st.lists(st.integers()), st.lists(st.integers()))
+    def test_peek(self, arr1, arr2):
+        ll = self.List()
+        for item in arr1:
+            ll.insert_left(item)
+            self.assertEqual(ll.peek_left(), item)
+
+        for item in arr2:
+            ll.insert_right(item)
+            self.assertEqual(ll.peek_right(), item)
+
+        for index, item in enumerate(arr1[::-1] + arr2):
+            self.assertEqual(ll.peek(index), item)
+
+    def test_peek_empty(self):
+        ll = self.List()
+
+        with self.assertRaises(IndexError):
+            ll.peek(0)
+        with self.assertRaises(IndexError):
+            ll.peek_left()
+        with self.assertRaises(IndexError):
+            ll.peek_right()
 
     def test_membership(self):
         arr = list(range(100))
-        ll = SinglyLinkedList(arr)
+        ll = self.List(arr)
 
         for i in arr:
             self.assertIn(i, ll)
@@ -90,27 +105,8 @@ class TestSinglyLinkedList(unittest.TestCase):
         for i in range(100, 200):
             self.assertNotIn(i, ll)
 
-    @given(st.lists(st.integers()))
-    def test_random_pop(self, arr):
-        ll = SinglyLinkedList(arr)
-
-        permutation = []
-        for _ in range(len(arr)):
-            permutation.append(ll.pop(randint(0, len(ll) - 1)))
-
-        self.assertEqual(len(ll), 0)
-        self.assertListEqual(sorted(permutation), sorted(arr))
-
-    def test_tail(self):
-        ll = SinglyLinkedList(range(10))
-        self.assertEqual(ll.tail.value, 9)
-        ll.pop()
-        self.assertEqual(ll.tail.value, 8)
-        ll.insert_right(15)
-        self.assertEqual(ll.tail.value, 15)
-
     def test_random_access(self):
-        ll = SinglyLinkedList(range(10))
+        ll = self.List(range(10))
         for i in range(10):
             self.assertEqual(ll[i], i)  # get
             ll[i] = i ** 2  # set
@@ -122,13 +118,13 @@ class TestSinglyLinkedList(unittest.TestCase):
                 pass
 
     @given(st.lists(st.integers()))
-    def test_serialization(self, arr):
-        serialized = repr(SinglyLinkedList(arr))
-        ll = eval(serialized)
-
+    def test_serial_access(self, arr):
+        ll = self.List(arr)
         self.assertListEqual(list(ll), arr)
 
     @given(st.lists(st.integers()))
-    def test_sequential_access(self, arr):
-        ll = SinglyLinkedList(arr)
+    def test_serialization(self, arr):
+        serialized = repr(self.List(arr))
+        ll = eval(serialized)
+
         self.assertListEqual(list(ll), arr)

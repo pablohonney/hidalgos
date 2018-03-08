@@ -1,73 +1,103 @@
 import unittest
-from random import randint
 
 from hypothesis import strategies as st, given
 
 from src.data_types.lists import DoublyLinkedList
 
 
-@unittest.skip('TODO doubly linked list')
+@unittest.skip('TODO DoublyLinkedList')
 class TestDoublyLinkedList(unittest.TestCase):
+    List = DoublyLinkedList
 
-    def test_append(self):
-        ll = DoublyLinkedList()
-        for i in range(1, 100):
-            ll.insert_right(i)
-            self.assertEqual(len(ll), i)
+    @given(st.lists(st.integers()))
+    def test_insert(self, control):
+        expected = []
+        ll = self.List()
+        for index, _ in enumerate(control):
+            expected.insert(len(expected) // 2, index)
+            ll.insert(index, len(ll) // 2)
 
-        ll2 = DoublyLinkedList(range(1, 100))
-        self.assertEqual(len(ll2), 99)
+        self.assertListEqual(expected, list(ll))
 
-    def test_prepend(self):
-        ll = DoublyLinkedList()
-        for i in range(1, 100):
-            ll.insert_left(i)
-            self.assertEqual(len(ll), i)
+    @given(st.lists(st.integers()))
+    def test_insert_left_right(self, control):
+        ll1 = self.List()
+        ll2 = self.List()
+        for item in control:
+            ll1.insert_left(item)
+            ll2.insert_right(item)
 
-        ll2 = DoublyLinkedList(range(1, 100))
-        self.assertEqual(len(ll2), 99)
-
-    def test_insert(self):
-        ll1 = DoublyLinkedList()
-        ll2 = DoublyLinkedList()
-        for i in range(1, 100):
-            ll1.insert_left(i)
-            ll2.insert_right(i)
-
-        self.assertEqual(len(ll1), 99)
-        self.assertEqual(len(ll2), 99)
+        self.assertEqual(len(ll1), len(control))
+        self.assertEqual(len(ll2), len(control))
         self.assertListEqual(list(ll1), list(ll2)[::-1])
 
-    def test_insert_middle(self):
+    @given(st.lists(st.integers()))
+    def test_pop(self, control):
+        ll = self.List(control)
+
         expected = []
-        ll = DoublyLinkedList()
-        for i in range(10):
-            expected.insert(len(expected)//2, i)
-            ll.insert(len(ll)//2, i)
-        print(expected)
-        print(list(ll))
+        while control:
+            expected.append(control.pop(len(control) // 2))
+
+        actual = []
+        while ll:
+            actual.append(ll.pop(len(ll) // 2))
+
+        self.assertListEqual(expected, actual)
 
     @given(st.lists(st.integers()))
-    def test_queue_pop(self, arr):
-        ll = DoublyLinkedList(arr)
+    def test_pop_left_right(self, control):
+        ll = self.List(control)
 
-        self.assertListEqual([ll.pop(0) for _ in range(len(ll))], arr)
-        self.assertEqual(len(ll), 0)
+        expected = []
+        actual = []
+        for i, _ in enumerate(control):
+            if i % 2:
+                expected.append(control.pop(0))
+                actual.append(ll.pop_left())
+            else:
+                expected.append(control.pop(-1))
+                actual.append(ll.pop_right())
+
+        self.assertListEqual(expected, actual)
+
+    def test_pop_empty(self):
+        ll = self.List()
+
         with self.assertRaises(IndexError):
-            ll.pop()
-
-    @given(st.lists(st.integers()))
-    def test_stack_pop(self, arr):
-        ll = DoublyLinkedList(arr)
-
-        self.assertListEqual([ll.pop() for _ in range(len(ll))], arr[::-1])
-        self.assertEqual(len(ll), 0)
+            ll.pop(0)
         with self.assertRaises(IndexError):
-            ll.pop()
+            ll.pop_left()
+        with self.assertRaises(IndexError):
+            ll.pop_right()
+
+    @given(st.lists(st.integers()), st.lists(st.integers()))
+    def test_peek(self, arr1, arr2):
+        ll = self.List()
+        for item in arr1:
+            ll.insert_left(item)
+            self.assertEqual(ll.peek_left(), item)
+
+        for item in arr2:
+            ll.insert_right(item)
+            self.assertEqual(ll.peek_right(), item)
+
+        for index, item in enumerate(arr1[::-1] + arr2):
+            self.assertEqual(ll.peek(index), item)
+
+    def test_peek_empty(self):
+        ll = self.List()
+
+        with self.assertRaises(IndexError):
+            ll.peek(0)
+        with self.assertRaises(IndexError):
+            ll.peek_left()
+        with self.assertRaises(IndexError):
+            ll.peek_right()
 
     def test_membership(self):
         arr = list(range(100))
-        ll = DoublyLinkedList(arr)
+        ll = self.List(arr)
 
         for i in arr:
             self.assertIn(i, ll)
@@ -75,27 +105,8 @@ class TestDoublyLinkedList(unittest.TestCase):
         for i in range(100, 200):
             self.assertNotIn(i, ll)
 
-    @given(st.lists(st.integers()))
-    def test_random_pop(self, arr):
-        ll = DoublyLinkedList(arr)
-
-        permutation = []
-        for _ in range(len(arr)):
-            permutation.append(ll.pop(randint(0, len(ll) - 1)))
-
-        self.assertEqual(len(ll), 0)
-        self.assertListEqual(sorted(permutation), sorted(arr))
-
-    def test_head(self):
-        ll = DoublyLinkedList(range(10))
-        self.assertEqual(ll.head.value, 9)
-        ll.pop()
-        self.assertEqual(ll.head.value, 8)
-        ll.append(15)
-        self.assertEqual(ll.head.value, 15)
-
     def test_random_access(self):
-        ll = DoublyLinkedList(range(10))
+        ll = self.List(range(10))
         for i in range(10):
             self.assertEqual(ll[i], i)  # get
             ll[i] = i ** 2  # set
@@ -107,13 +118,13 @@ class TestDoublyLinkedList(unittest.TestCase):
                 pass
 
     @given(st.lists(st.integers()))
-    def test_serialization(self, arr):
-        serialized = repr(DoublyLinkedList(arr))
-        ll = eval(serialized)
-
+    def test_serial_access(self, arr):
+        ll = self.List(arr)
         self.assertListEqual(list(ll), arr)
 
     @given(st.lists(st.integers()))
-    def test_sequential_access(self, arr):
-        ll = DoublyLinkedList(arr)
+    def test_serialization(self, arr):
+        serialized = repr(self.List(arr))
+        ll = eval(serialized)
+
         self.assertListEqual(list(ll), arr)
