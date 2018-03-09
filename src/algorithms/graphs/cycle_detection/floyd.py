@@ -29,7 +29,7 @@ T ->      |   |
 H -->     |   |
           -----
 
-When H reaches k, T is still on the midway.
+When H reaches K, T is still on the midway.
 
     d        l
 S----T----H----
@@ -48,7 +48,7 @@ S---------T----
 Distance from T to H thus will be (d % l).
 Distance from H to T is (l - d % l).
 
-After this as T passes (l - d % l), H will pass twice as much and they'l meet at point M.
+After this as T passes (l - d % l), H will pass twice as much and they'll meet at point M.
 
     d        l
 S---------K----

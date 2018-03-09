@@ -8,6 +8,7 @@ class ListADT(object):
     But usually have better solutions.
     """
 
+    # TODO should abs(index) > len(self) be valid like with built-ins?
     def insert(self, item, index: int):
         raise NotImplementedError
 

@@ -45,7 +45,7 @@ Observations.
 from collections import Counter
 from typing import Generator
 
-from src.data_types.priority_queue import MinPriorityQueue
+from src.data_types.priority_queues import MinPriorityQueue
 
 
 class HuffmanNode(object):

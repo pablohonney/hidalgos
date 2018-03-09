@@ -9,8 +9,8 @@ Properties:
     non-stable
 """
 from src.commons import key_fun
-from src.data_types.priority_queue import MinPriorityQueue
-from src.data_types.priority_queue import MaxPriorityQueue
+from src.data_types.priority_queues import MinPriorityQueue
+from src.data_types.priority_queues import MaxPriorityQueue
 
 
 def heap_sort(sequence, key=key_fun, reverse=False):

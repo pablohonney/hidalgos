@@ -23,41 +23,7 @@ class DoublyLinkedList(ListADT):
             for item in iterable:
                 self.insert_right(item)
 
-    def insert(self, item, index: int = 0):
-        index = self.normalize_index(index)
-        head = self.head
-
-        for i in range(index):
-            if head:
-                head.next = head
-
-        node = Node(item)
-
-        node.next = head.next  # two way linking
-        node.prev = head
-
-        self.size += 1
-
-    def insert_right(self, item):
-        tail = Node(item)
-
-        self.tail.next = tail  # two way linking
-        tail.prev = self.tail
-
-        self.tail = tail  # update tail
-
-        self.size += 1
-
-    def insert_left(self, item):
-        head = Node(item)
-
-        head.next = self.head.next  # two way linking
-        head.prev = self.head
-        self.head.next = head  # update tail
-
-        self.size += 1
-
-    def normalize_index(self, index):
+    def _normalize_index(self, index):
         if index < 0:
             index += len(self)
 
@@ -66,27 +32,100 @@ class DoublyLinkedList(ListADT):
 
         return index
 
-    def get_node(self, index):
-        pass
+    def _get_node(self, index: int):
+        index = self._normalize_index(index)
+        node = self.head
+        for _ in range(index):
+            if node:
+                node = node.next
+            else:
+                break
 
+        if not node:
+            raise IndexError
 
-    def pop(self):
-        pass
+        return node
 
+    # TODO count from head/tail depending on index
+    def insert(self, item, index: int):
+        node = self._get_node(index)
+
+        new_node = Node(item)
+
+        # four-way linking
+        if node.next:
+            new_node.next = node.next
+            node.next.prev = new_node
+
+        new_node.prev = node
+        node.next = new_node
+
+        if node is self.tail:
+            self.tail = new_node
+
+        self.size += 1
+
+    def insert_right(self, item):
+        node = Node(item)
+
+        # two-way linking
+        node.prev = self.tail
+        self.tail.next = node
+
+        # update tail
+        self.tail = node
+
+        self.size += 1
+
+    def pop(self, index: int):
+        node = self._get_node(index)
+        node = node.next
+        if not node:
+            raise IndexError(index)
+
+        # two-way linking
+        node.prev.next = node.next
+        if node.next:
+            node.next.prev = node.prev
+
+        if node is self.tail:
+            self.tail = node.prev
+
+        self.size -= 1
+
+        return node.value
+
+    def peek(self, index: int):
+        node = self._get_node(index)
+        node = node.next
+        if not node:
+            raise IndexError(index)
+
+        return node.value
+
+    # supports __contains__ quite well
     def __iter__(self):
         node = self.head.next
         while node:
             yield node.value
             node = node.next
 
-    def __getitem__(self, item):
-        pass
+    def __setitem__(self, index, value):
+        node = self._get_node(index)
+        node = node.next
+        if not node:
+            raise IndexError(index)
+
+        node.value = value
+
+    def __getitem__(self, index):
+        return self.peek(index)
 
     def __len__(self):
         return self.size
 
     def __repr__(self):
-        pass
+        return '%s(%s)' % (self.__class__.__name__, repr(list(self)))
 
 
 class Node(object):

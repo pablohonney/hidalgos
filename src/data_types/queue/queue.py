@@ -2,7 +2,7 @@
 To support FIFO behaviour queues need instant O(1) set and get operations on the opposite ends.
 """
 
-from src.data_types.stack import Stack
+from src.data_types.stacks import Stack
 from src.data_types.lists import SinglyLinkedList
 
 

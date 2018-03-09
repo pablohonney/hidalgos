@@ -5,7 +5,7 @@ from hypothesis import strategies as st, given
 from src.data_types.lists import DoublyLinkedList
 
 
-@unittest.skip('TODO DoublyLinkedList')
+# @unittest.skip('TODO DoublyLinkedList')
 class TestDoublyLinkedList(unittest.TestCase):
     List = DoublyLinkedList
 

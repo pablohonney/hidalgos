@@ -2,8 +2,8 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.data_types.priority_queue import MinPriorityQueue
-from src.data_types.priority_queue import MaxPriorityQueue
+from src.data_types.priority_queues import MinPriorityQueue
+from src.data_types.priority_queues import MaxPriorityQueue
 
 
 class TestPriorityQueue(unittest.TestCase):
