@@ -2,16 +2,16 @@ import unittest
 
 from hypothesis import strategies as st, given
 
-from src.algorithms.compression import get_huffman_encoding
-from src.algorithms.compression import huffman_encode
-from src.algorithms.compression import huffman_decode
+from src.algorithms.compression import get_huffman_table
+from src.algorithms.compression import encode
+from src.algorithms.compression import decode
 
 
 class TestHuffman(unittest.TestCase):
 
     @given(st.text())
     def test_encoding_table(self, plain_text):
-        encoding_table = get_huffman_encoding(plain_text)
+        encoding_table = get_huffman_table(plain_text)
 
         items = sorted(encoding_table.values(), key=len)
         for i, item in enumerate(items):
@@ -21,16 +21,16 @@ class TestHuffman(unittest.TestCase):
     def test_hello_world(self):
         plain_text = "hello world"
 
-        encoding_table = get_huffman_encoding(plain_text)
-        code = ''.join(list(huffman_encode(plain_text, encoding_table)))
-        restored = huffman_decode(code, encoding_table)
+        table = get_huffman_table(plain_text)
+        code = ''.join(list(encode(plain_text, table)))
+        restored = decode(code, table)
 
         self.assertEqual(plain_text, restored)
 
     @given(st.text())
     def test_data_driven(self, plain_text):
-        encoding_table = get_huffman_encoding(plain_text)
-        code = ''.join(list(huffman_encode(plain_text, encoding_table)))
-        restored = huffman_decode(code, encoding_table)
+        encoding_table = get_huffman_table(plain_text)
+        code = ''.join(list(encode(plain_text, encoding_table)))
+        restored = decode(code, encoding_table)
 
         self.assertEqual(plain_text, restored)

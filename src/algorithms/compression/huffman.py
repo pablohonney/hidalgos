@@ -48,6 +48,24 @@ from typing import Generator
 from src.data_types.priority_queues import MinPriorityQueue
 
 
+def get_huffman_table(plain_text: str) -> dict:
+    if not plain_text:
+        return {}
+
+    histogram = Counter(plain_text)
+    nodes = [HuffmanNode(i, freq / len(plain_text)) for i, freq in histogram.items()]
+    queue = MinPriorityQueue(nodes, lambda x: x.priority)
+
+    while len(queue) > 1:
+        left = queue.pop()
+        right = queue.pop()
+        queue.push(HuffmanMetaNode(left.priority + right.priority, left, right))
+
+    root = queue.pop()
+    encoding_table = _assemble_table(root)
+    return encoding_table
+
+
 class HuffmanNode(object):
     def __init__(self, value, priority: float, left=None, right=None):
         self.value = value
@@ -70,46 +88,8 @@ def _walk_the_tree(node: HuffmanNode, prefix: str) -> Generator:
         yield node.value, prefix
 
 
-def assemble_table(node: HuffmanNode) -> dict:
+def _assemble_table(node: HuffmanNode) -> dict:
     if not (node.left or node.right):
         return {node.value: '0'}
 
     return {v: prefix for v, prefix in _walk_the_tree(node, '')}
-
-
-def get_huffman_encoding(plain_text: str) -> dict:
-    if not plain_text:
-        return {}
-
-    histogram = Counter(plain_text)
-    nodes = [HuffmanNode(i, freq / len(plain_text)) for i, freq in histogram.items()]
-    queue = MinPriorityQueue(nodes, lambda x: x.priority)
-
-    while len(queue) > 1:
-        left = queue.pop()
-        right = queue.pop()
-        queue.push(HuffmanMetaNode(left.priority + right.priority, left, right))
-
-    root = queue.pop()
-    encoding_table = assemble_table(root)
-    return encoding_table
-
-
-def huffman_encode(plaintext: str, encoding_table: dict) -> str:
-    for char in plaintext:
-        yield encoding_table[char]
-
-
-def huffman_decode(code: str, encoding_table: dict) -> str:
-    decoding_table = {v: k for k, v in encoding_table.items()}
-
-    plain_text = []
-
-    word = ''
-    for i in code:
-        word += i
-        if word in decoding_table:
-            plain_text.append(decoding_table[word])
-            word = ''
-
-    return ''.join(plain_text)
