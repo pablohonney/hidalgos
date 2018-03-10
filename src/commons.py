@@ -1,5 +1,7 @@
 import random
 import math
+from itertools import count
+from typing import Generator
 
 
 def key_fun(item):
@@ -52,3 +54,14 @@ def binary_length(number):
     if not number:
         return 0
     return int(math.floor(math.log(number, 2)) + 1)
+
+
+def float_to_binary(number: float) -> Generator[int, None, None]:
+    for power in count(1):
+
+        fraction = 1. / (2 ** power)
+        if number >= fraction:
+            number %= fraction
+            yield 1
+        else:
+            yield 0

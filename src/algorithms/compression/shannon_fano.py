@@ -12,8 +12,8 @@ def get_shannon_fano_table(plain_text: str) -> dict:
 
     frequencies = []
     chars = []
-    for char, freq in histogram.most_common():
-        frequencies.append(freq / len(plain_text))
+    for char, count in histogram.most_common():
+        frequencies.append(count / len(plain_text))
         chars.append(char)
 
     encoding_table = {}
@@ -27,21 +27,26 @@ def _get_code_per_freq(frequencies, prefix):
     if len(frequencies) <= 1:
         yield prefix
     else:
-        index = get_equal_sums_dividing_index(frequencies)
+        index = get_middle_index_of_equal_sums(frequencies)
         yield from _get_code_per_freq(frequencies[:index], prefix + '0')
         yield from _get_code_per_freq(frequencies[index:], prefix + '1')
 
 
-def get_equal_sums_dividing_index(iterable) -> int:
+def get_middle_index_of_equal_sums(iterable) -> int:
     """
-    Imagine two sum pools:
+    Imagine two pools of values:
 
-    left_pool = sum(iterable)
-    right_pool = 0
+    left_pool = iterable
+    right_pool = []
+
+    The corresponding sums will be:
+
+    left_sum = sum(iterable)
+    right_sum = 0
 
     define diff of sums:
 
-    diff = left_pool - right_pool
+    diff = left_sum - right_sum
 
     As we iterate subsequent values pass from one pull to the other.
     This gives 2 * value change in diff.

@@ -8,7 +8,7 @@ from src.algorithms.compression import encode
 from src.algorithms.compression import decode
 
 # private
-from src.algorithms.compression.shannon_fano import get_equal_sums_dividing_index
+from src.algorithms.compression.shannon_fano import get_middle_index_of_equal_sums
 
 
 class TestGetEqualSumsDividingIndex(unittest.TestCase):
@@ -16,24 +16,24 @@ class TestGetEqualSumsDividingIndex(unittest.TestCase):
     # https://en.wikipedia.org/wiki/Shannon%E2%80%93Fano_coding
     def test_wiki_example(self):
         values = [0.38461538, 0.17948718, 0.15384615, 0.15384615, 0.12820513]
-        index = get_equal_sums_dividing_index(values)
+        index = get_middle_index_of_equal_sums(values)
         self.assertEqual(index, 2)
 
     def test_2(self):
         values = [1, 2, 3, 4, 5]
-        index = get_equal_sums_dividing_index(values)
+        index = get_middle_index_of_equal_sums(values)
         self.assertEqual(index, 3)
 
     def test_3(self):
         values = [1, 2, 3, 3, 3, 9, 10]
-        index = get_equal_sums_dividing_index(values)
+        index = get_middle_index_of_equal_sums(values)
         self.assertEqual(index, 5)
 
 
 class TestShannonFano(unittest.TestCase):
 
     @given(st.text())
-    def test_encoding_table(self, plain_text):
+    def test_prefix_code(self, plain_text):
         encoding_table = get_shannon_fano_table(plain_text)
 
         items = sorted(encoding_table.values(), key=len)

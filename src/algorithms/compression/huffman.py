@@ -53,7 +53,7 @@ def get_huffman_table(plain_text: str) -> dict:
         return {}
 
     histogram = Counter(plain_text)
-    nodes = [HuffmanNode(i, freq / len(plain_text)) for i, freq in histogram.items()]
+    nodes = [HuffmanNode(char, count / len(plain_text)) for char, count in histogram.items()]
     queue = MinPriorityQueue(nodes, lambda x: x.priority)
 
     while len(queue) > 1:
