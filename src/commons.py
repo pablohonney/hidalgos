@@ -61,7 +61,24 @@ def float_to_binary(number: float) -> Generator[int, None, None]:
 
         fraction = 1. / (2 ** power)
         if number >= fraction:
-            number %= fraction
+            number -= fraction
             yield 1
         else:
             yield 0
+
+
+# supports slice protocol
+def get_min(sequence, start, end, key=key_fun):
+    """
+    Get the first index of data element with minimum key.
+    """
+    index = start
+    min_data = sequence[index]
+    min_key = key(min_data)
+
+    for j in range(start, end):
+        if key(sequence[j]) < min_key:
+            index = j
+            min_data = sequence[index]
+            min_key = key(min_data)
+    return index

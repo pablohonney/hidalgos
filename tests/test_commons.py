@@ -5,6 +5,7 @@ from hypothesis import strategies as st, given, assume
 
 from src.commons import binary_length
 from src.commons import float_to_binary
+from src.commons import get_min
 
 
 class TestBinaryLength(unittest.TestCase):
@@ -50,3 +51,16 @@ class TestFloatToBinary(unittest.TestCase):
                 digits.append(str(digit))
 
             self.assertEqual(''.join(digits), expected)
+
+
+class TestGetMin(unittest.TestCase):
+
+    @given(st.lists(st.integers()))
+    def runTest(self, arr):
+        assume(len(arr) > 0)
+
+        min_data = min(arr)
+        expected_index = list(arr).index(min_data)
+
+        actual_index = get_min(arr, 0, len(arr))
+        self.assertEqual(actual_index, expected_index)

@@ -94,7 +94,7 @@ def naive_stream_memoized() -> Generator[int, None, None]:
     This approach isn't new after all. Remember how we skipped the even numbers altogether?
     Why? They happened to be multiples of 2. And 2 is prime.
 
-    This approach is further exploited in sieves.
+    This approach is further utilized in sieves.
     """
     yield 2
     primes = [2]
