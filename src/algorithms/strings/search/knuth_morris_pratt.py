@@ -28,6 +28,22 @@ optimization:
     to customize the backtracking policy. As such naive search can be thought of
     as a dumb version of KMP where all table values are -1.
 
+
+
+thoughts:
+        abcababc
+        abcababc false string can't be prefix/suffix to itself (no propers)
+      a Bcababc  false
+     ab Cababc   false
+    abc Ababc    true
+    abc ABabc    true
+    abc ABabc    false
+  abcAB Abc      true
+  abcAB ABc      true
+  abcAB ABC      true
+
+
+
 Another 'smart data structures and dumb code' algorithm.
 """
 
@@ -35,28 +51,23 @@ Another 'smart data structures and dumb code' algorithm.
 def knuth_morris_pratt(text: str, phrase: str) -> int:
     table = get_suffix_to_prefix_jump_table(phrase)
 
+    i = 0
     j = 0
-    k = 0
-    # P = {}
-    # p = 0
 
-    while j < len(text):
-        if phrase[k] == text[k]:
+    while i < len(text) - len(phrase) + 1:
+        if text[i+j] == phrase[j]:
+            i += 1
             j += 1
-            k += 1
-            if k == len(phrase):
-                # P[p] = p
-                # p += 1
-                # k = table[k]
-                return j
+            if j == len(phrase):
+                return i
 
             else:
-                k += 1
-        else:
-            k = table[k]
-            if k < 0:
                 j += 1
-                k += 1
+        else:
+            j = table[j]
+            if j < 0:
+                i += 1
+                j += 1
 
     return -1
 
@@ -81,12 +92,12 @@ def get_suffix_to_prefix_jump_table(phrase: str) -> dict:
             pos += 1
             cdn += 1
 
-    # table[pos] = cdn
+    # table[pos] = cdn  # odd
 
     return table
 
 
-def get_suffix_to_prefix_jump_table_2(phrase: str) -> dict:
+def get_suffix_to_prefix_jump_table2(phrase: str) -> dict:
     table = {0: -1}  # list/array could be used instead.
     prefix_index = 0
     suffix_index = 1
@@ -109,3 +120,13 @@ def get_suffix_to_prefix_jump_table_2(phrase: str) -> dict:
     # table[pos] = cdn
 
     return table
+
+
+def get_table_active_state(pattern):
+    shifts = [1] * (len(pattern) + 1)
+    shift = 1
+    for pos in range(len(pattern)):
+        while shift <= pos and pattern[pos] != pattern[pos-shift]:
+            shift += shifts[pos-shift]
+        shifts[pos+1] = shift
+    return shifts

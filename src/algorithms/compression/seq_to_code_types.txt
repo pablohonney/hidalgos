@@ -1,0 +1,9 @@
+chars vs codes | examples
+               |
+fixed    fixed | ASCII
+fixed    var   | Huffman, Shannon*
+var      fixed | Tunstall
+var      var   | LZ ?
+               |
+
+variable size chars and codes should be prefix-free for certainty of encoding/parsing.

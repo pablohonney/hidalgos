@@ -10,9 +10,16 @@ from src.algorithms.strings.search import knuth_morris_pratt
 # private
 from src.algorithms.strings.search.knuth_morris_pratt import get_suffix_to_prefix_jump_table
 
+from src.algorithms.strings.search.knuth_morris_pratt import get_table_active_state
+
 
 # https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm
 class TestGetSuffixToPrefixJumpTable(unittest.TestCase):
+
+    def test_get_table_active_state(self):
+        phrase = 'ABABABE'
+        print(list(get_suffix_to_prefix_jump_table(phrase).keys()))
+        print(get_table_active_state(phrase))
 
     def test_1(self):
         phrase = 'ABABAB'
