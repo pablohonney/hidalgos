@@ -32,6 +32,9 @@ class PriorityQueue(object):
     def __len__(self):
         return len(self.heap)
 
+    def __str__(self):
+        return '%s(%r)' % (self.__class__.__name__, self.heap.list)
+
 
 class MinPriorityQueue(PriorityQueue):
     Heap = MinHeap

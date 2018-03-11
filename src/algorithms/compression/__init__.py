@@ -7,3 +7,4 @@ from .variable_width_codecs import encode
 from .variable_width_codecs import decode
 
 
+from .tunstall import tunstall
