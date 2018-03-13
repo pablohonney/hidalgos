@@ -9,51 +9,26 @@ from src.algorithms.strings.search import knuth_morris_pratt
 
 # private
 from src.algorithms.strings.search.knuth_morris_pratt import get_suffix_to_prefix_jump_table
-
-from src.algorithms.strings.search.knuth_morris_pratt import get_table_subsets
-from src.algorithms.strings.search.knuth_morris_pratt import kmp
+from src.algorithms.strings.search.knuth_morris_pratt import get_suffix_to_prefix_jump_table_naive
 
 
-class TestStupid(unittest.TestCase):
+class TestGetSuffixToPrefixJumpTable(unittest.TestCase):
 
-    def test_get_table_subsets(self):
-        phrase = 'ABCABC'
-        print(get_table_subsets(phrase))
-
-    def test_kmp(self):
-        text = 'abcabdabcabc'
-        phrase = 'abcabc'
-        result = kmp(text, phrase)
-        print(result)
-
-    @given(st.text(letters))
-    def test_hit(self, text):
-        start = randint(0, len(text))
-        end = randint(start, len(text))
-
-        phrase = text[start: end]
-        self.assertGreaterEqual(text.find(phrase), 0)
-
-        # print(kmp(text, phrase))
-        # print(text.find(phrase))
-        self.assertEqual(kmp(text, phrase), text.find(phrase))
+    @given(st.text('abcdefg'))
+    def runTest(self, phrase):
+        self.assertListEqual(
+            get_suffix_to_prefix_jump_table(phrase),
+            get_suffix_to_prefix_jump_table_naive(phrase),
+        )
 
 
 # https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm
+@unittest.skip('')
 class TestGetSuffixToPrefixJumpTable(unittest.TestCase):
 
     def test_ABCABCCC(self):
         phrase = 'ABCDABCD'
-        expected = {
-            0: -1,  # A
-            1: 0,  # B
-            2: 0,  # C
-            3: -1,  # A
-            4: 0,  # B
-            5: -1,  # C
-            6: -1,  # C
-            7: -1,  # C
-        }
+        expected = [-1, 0, 0, -1, 0, -1, -1, -1]
 
         table = get_suffix_to_prefix_jump_table(phrase)
         print(table)
@@ -61,48 +36,29 @@ class TestGetSuffixToPrefixJumpTable(unittest.TestCase):
 
     def test_wiki_1(self):
         phrase = 'ABCDABD'
-        expected = {
-            0: -1,  # A
-            1: 0,  # B
-            2: 0,  # C
-            3: 0,  # D
-            4: -1,  # A
-            5: 0,  # B
-            6: 2,  # D
-        }
+        expected = [-1, 0, 0, 0, -1, 0, 2]
 
         table = get_suffix_to_prefix_jump_table(phrase)
         self.assertDictEqual(table, expected)
 
     def test_wiki_2(self):
         phrase = 'ABACABABC'
-        expected = {
-            0: -1,  # A
-            1: 0,  # B
-            2: -1,  # A
-            3: 1,  # C
-            4: -1,  # A
-            5: 0,  # B
-            6: -1,  # A
-            7: 3,  # B
-            8: 2,  # C
-        }
+        expected = [-1, 0, -1, 1, -1, 0, -1, 3, 2]
 
         table = get_suffix_to_prefix_jump_table(phrase)
         self.assertDictEqual(table, expected)
 
     def test_wiki_3(self):
         phrase = 'PARTICIPATE IN PARACHUTE'
-        expected = {
-            0: -1, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: -1, 8: 0, 9: 2, 10: 0, 11: 0, 12: 0,
-            13: 0, 14: 0, 15: -1, 16: 0, 17: 0, 18: 3, 19: 0, 20: 0, 21: 0, 22: 0, 23: 0
-        }
+        expected = [
+            -1, 0, 0, 0, 0, 0, 0, -1, 0, 2, 10, 10, 10,
+            10, 10, 1 - 1, 10, 10, 13, 10, 20, 20, 20, 20
+        ]
 
         table = get_suffix_to_prefix_jump_table(phrase)
         self.assertDictEqual(table, expected)
 
 
-@unittest.skip('TODO KMP')
 class TestKnuthMorrisPratt(unittest.TestCase):
 
     @given(st.text(letters))
@@ -113,9 +69,7 @@ class TestKnuthMorrisPratt(unittest.TestCase):
         phrase = text[start: end]
         self.assertGreaterEqual(text.find(phrase), 0)
 
-        print(knuth_morris_pratt(text, phrase))
-        print(text.find(phrase))
-        # self.assertEqual(knuth_morris_pratt(text, phrase), text.find(phrase))
+        self.assertEqual(knuth_morris_pratt(text, phrase), text.find(phrase))
 
     @given(st.text(letters), st.text(letters))
     def test_miss(self, text, phrase):

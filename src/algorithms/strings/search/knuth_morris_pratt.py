@@ -29,26 +29,73 @@ optimization:
     as a dumb version of KMP where all table values are -1.
 
 
-
-thoughts:
-        abcababc
-        abcababc false string can't be prefix/suffix to itself (no propers)
-      a Bcababc  false
-     ab Cababc   false
-    abc Ababc    true
-    abc ABabc    true
-    abc ABabc    false
-  abcAB Abc      true
-  abcAB ABc      true
-  abcAB ABC      true
-
-
-
 Another 'smart data structures and dumb code' algorithm.
 """
 
 
-def knuth_morris_pratt(text: str, phrase: str) -> int:
+def knuth_morris_pratt(text: str, phrase: str, table: list = None) -> int:
+    if not phrase:
+        return 0
+
+    if not table:
+        table = get_suffix_to_prefix_jump_table(phrase)
+
+    i = 0
+    j = 0
+    while i < len(text) - len(phrase) + 1:
+        if text[i + j] == phrase[j]:
+            j += 1
+            if j == len(phrase):
+                return i
+        else:
+            if j == 0:
+                i += 1
+            else:
+                i += j - table[j - 1]
+                j = table[j - 1]
+    return -1
+
+
+def get_suffix_to_prefix_jump_table_naive(pattern: str) -> list:
+    table = []
+
+    for j in range(1, len(pattern) + 1):
+        subpattern = pattern[:j]
+
+        proper_prefixes = {subpattern[:i] for i in range(len(subpattern))}
+        proper_suffixes = {subpattern[i:] for i in range(1, len(subpattern) + 1)}
+
+        common = proper_prefixes & proper_suffixes
+        table.append(len(max(common)))
+
+    return table
+
+
+def get_suffix_to_prefix_jump_table(pattern: str) -> list:
+    if not pattern:
+        return []
+
+    table = [0]
+
+    i, j = 1, 0
+    while i < len(pattern):
+        if pattern[i] == pattern[j]:
+            i += 1
+            j += 1
+            table.append(j)
+        else:
+            if j == 0:
+                table.append(j)
+                i += 1
+            else:
+                j = table[j - 1]
+
+    return table
+
+
+# ---------------------------
+
+def kmp(text: str, phrase: str) -> int:
     table = get_suffix_to_prefix_jump_table(phrase)
 
     i = 0
@@ -72,8 +119,8 @@ def knuth_morris_pratt(text: str, phrase: str) -> int:
     return -1
 
 
-def get_suffix_to_prefix_jump_table(phrase: str) -> dict:
-    table = {0: -1}  # list/array could be used instead.
+def kmp_jump_table(phrase: str) -> list:
+    table = [-1]  # list/array could be used instead.
     pos = 1
     cdn = 0
 
@@ -93,67 +140,5 @@ def get_suffix_to_prefix_jump_table(phrase: str) -> dict:
             cdn += 1
 
     # table[pos] = cdn  # odd
-
-    return table
-
-
-def get_suffix_to_prefix_jump_table2(phrase: str) -> dict:
-    table = {0: -1}  # list/array could be used instead.
-    prefix_index = 0
-    suffix_index = 1
-
-    while suffix_index < len(phrase):
-        if phrase[suffix_index] == phrase[prefix_index]:
-            table[suffix_index] = table[prefix_index] + 1
-            prefix_index += 1
-            suffix_index += 1
-        else:
-            table[suffix_index] = table[prefix_index]
-            prefix_index = table[prefix_index]
-
-            while prefix_index >= 0 and phrase[suffix_index] != phrase[prefix_index]:
-                prefix_index = table[prefix_index]
-
-            prefix_index += 1
-            suffix_index += 1
-
-    # table[pos] = cdn
-
-    return table
-
-
-def kmp(text, phrase):
-    if not phrase:
-        return 0
-
-    table = get_table_subsets(phrase)
-
-    i = 0
-    j = 0
-    while i < len(text) - len(phrase) + 1:
-        if text[i+j] == phrase[j]:
-            j += 1
-            if j == len(phrase):
-                return i
-        else:
-            if j == 0:
-                i += 1
-                j = 0
-            else:
-                i += j - table[j-1]
-                j = table[j-1]
-
-
-def get_table_subsets(pattern):
-    table = []
-
-    for j in range(1, len(pattern)+1):
-        subpattern = pattern[:j]
-
-        proper_prefixes = {subpattern[:i] for i in range(len(subpattern))}
-        proper_suffixes = {subpattern[i:] for i in range(1, len(subpattern)+1)}
-
-        common = proper_prefixes & proper_suffixes
-        table.append(len(max(common)))
 
     return table
