@@ -10,32 +10,37 @@ from src.algorithms.strings.search import knuth_morris_pratt
 # private
 from src.algorithms.strings.search.knuth_morris_pratt import get_suffix_to_prefix_jump_table
 
-from src.algorithms.strings.search.knuth_morris_pratt import get_table_active_state
+from src.algorithms.strings.search.knuth_morris_pratt import get_table_subsets
+from src.algorithms.strings.search.knuth_morris_pratt import kmp
+
+
+class TestStupid(unittest.TestCase):
+
+    def test_get_table_subsets(self):
+        phrase = 'ABCABC'
+        print(get_table_subsets(phrase))
+
+    def test_kmp(self):
+        text = 'abcabdabcabc'
+        phrase = 'abcabc'
+        result = kmp(text, phrase)
+        print(result)
+
+    @given(st.text(letters))
+    def test_hit(self, text):
+        start = randint(0, len(text))
+        end = randint(start, len(text))
+
+        phrase = text[start: end]
+        self.assertGreaterEqual(text.find(phrase), 0)
+
+        # print(kmp(text, phrase))
+        # print(text.find(phrase))
+        self.assertEqual(kmp(text, phrase), text.find(phrase))
 
 
 # https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm
 class TestGetSuffixToPrefixJumpTable(unittest.TestCase):
-
-    def test_get_table_active_state(self):
-        phrase = 'ABABABE'
-        print(list(get_suffix_to_prefix_jump_table(phrase).keys()))
-        print(get_table_active_state(phrase))
-
-    def test_1(self):
-        phrase = 'ABABAB'
-        table = get_suffix_to_prefix_jump_table(phrase)
-        print([i for _, i in sorted(table.items(), key=lambda x:x[0])])
-
-    def test_AAA(self):
-        phrase = 'AAA'
-        expected = {
-            0: -1,
-            1: -1,
-            2: -1,
-        }
-
-        table = get_suffix_to_prefix_jump_table(phrase)
-        self.assertDictEqual(table, expected)
 
     def test_ABCABCCC(self):
         phrase = 'ABCDABCD'

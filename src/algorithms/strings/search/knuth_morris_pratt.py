@@ -55,7 +55,7 @@ def knuth_morris_pratt(text: str, phrase: str) -> int:
     j = 0
 
     while i < len(text) - len(phrase) + 1:
-        if text[i+j] == phrase[j]:
+        if text[i + j] == phrase[j]:
             i += 1
             j += 1
             if j == len(phrase):
@@ -122,11 +122,38 @@ def get_suffix_to_prefix_jump_table2(phrase: str) -> dict:
     return table
 
 
-def get_table_active_state(pattern):
-    shifts = [1] * (len(pattern) + 1)
-    shift = 1
-    for pos in range(len(pattern)):
-        while shift <= pos and pattern[pos] != pattern[pos-shift]:
-            shift += shifts[pos-shift]
-        shifts[pos+1] = shift
-    return shifts
+def kmp(text, phrase):
+    if not phrase:
+        return 0
+
+    table = get_table_subsets(phrase)
+
+    i = 0
+    j = 0
+    while i < len(text) - len(phrase) + 1:
+        if text[i+j] == phrase[j]:
+            j += 1
+            if j == len(phrase):
+                return i
+        else:
+            if j == 0:
+                i += 1
+                j = 0
+            else:
+                i += j - table[j-1]
+                j = table[j-1]
+
+
+def get_table_subsets(pattern):
+    table = []
+
+    for j in range(1, len(pattern)+1):
+        subpattern = pattern[:j]
+
+        proper_prefixes = {subpattern[:i] for i in range(len(subpattern))}
+        proper_suffixes = {subpattern[i:] for i in range(1, len(subpattern)+1)}
+
+        common = proper_prefixes & proper_suffixes
+        table.append(len(max(common)))
+
+    return table
