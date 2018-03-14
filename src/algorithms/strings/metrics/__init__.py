@@ -3,13 +3,13 @@ String metrics are often times edit distance algorithms.
 
 They compute how many edit operations should be performed to turn one string into the other.
 There are a few edit operations. namely...
-    add a char
-    remove a char
-    replace a char with a new one (technically add and remove at once)
+    insert a char
+    delete a char
+    replace a char with a new one (technically insert and delete at once)
     keep the char. (technically replace with the same char)
     swap 2 chars
 
-    * when add/remove have the same cost they may be referred to as indel (insertion/deletion)
+    * when insert/delete have the same cost they are often referred to as indel
 
 Edit distance algorithms are customized to work with different subsets of operations.
 Each operation has a cost assigned to it.
