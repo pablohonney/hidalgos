@@ -28,5 +28,5 @@ from .hamming import hamming_decimal
 from .hamming import hamming_bits_and as hamming_bits
 from .levenshtein import levenshtein_compressed_matrix as levenshtein
 from .levenshtein import wagner_fischer_compressed_matrix as wagner_fischer
-from .jaro import jaro
-
+from .levenshtein import damerau_levenshtein_matrix as damerau_levenshtein
+from .jaro import jaro_similarity
