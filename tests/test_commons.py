@@ -6,10 +6,10 @@ from hypothesis import strategies as st, given, assume
 from src.commons import binary_length
 from src.commons import float_to_binary
 from src.commons import get_min
+from src.commons import common_prefix_length
 
 
 class TestBinaryLength(unittest.TestCase):
-
     @given(st.integers(min_value=1))
     def test_length(self, number):
         binary_string = bin(number)[2:]
@@ -26,7 +26,6 @@ class TestBinaryLength(unittest.TestCase):
 
 
 class TestFloatToBinary(unittest.TestCase):
-
     def test_36(self):
         digits = []
         for digit in islice(float_to_binary(0.36), 4):
@@ -54,7 +53,6 @@ class TestFloatToBinary(unittest.TestCase):
 
 
 class TestGetMin(unittest.TestCase):
-
     @given(st.lists(st.integers()))
     def runTest(self, arr):
         assume(len(arr) > 0)
@@ -64,3 +62,19 @@ class TestGetMin(unittest.TestCase):
 
         actual_index = get_min(arr, 0, len(arr))
         self.assertEqual(actual_index, expected_index)
+
+
+class TestCommonPrefixLength(unittest.TestCase):
+    @given(st.text('abcd'), st.text('efgh'), st.text('ijkl'))
+    def test_unbounded_length(self, str1, str2, prefix):
+        expected_length = len(prefix)
+        actual_length = common_prefix_length(prefix + str1, prefix + str2)
+
+        self.assertEqual(actual_length, expected_length)
+
+    @given(st.text('abcd'), st.text('efgh'), st.text('ijkl'))
+    def test_bounded_length(self, str1, str2, prefix):
+        expected_length = min(len(prefix), 5)
+        actual_length = common_prefix_length(prefix + str1, prefix + str2, 5)
+
+        self.assertEqual(actual_length, expected_length)

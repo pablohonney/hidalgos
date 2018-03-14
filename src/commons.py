@@ -2,6 +2,7 @@ import random
 import math
 from itertools import count
 from typing import Generator
+from typing import Sequence
 
 
 def key_fun(item):
@@ -82,3 +83,17 @@ def get_min(sequence, start, end, key=key_fun):
             min_data = sequence[index]
             min_key = key(min_data)
     return index
+
+
+def common_prefix_length(str1: Sequence, str2: Sequence, max_length: int = -1) -> int:
+    if max_length < 0:
+        max_length = float('inf')
+
+    length = 0
+    while length < min(len(str1), len(str2)):
+        if str1[length] != str2[length] or max_length == 0:
+            break
+        max_length -= 1
+        length += 1
+
+    return length

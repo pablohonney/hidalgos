@@ -27,7 +27,7 @@ def _levenshtein_recursive(str1: str, str2: str, i: int, j: int) -> int:
     delete = _levenshtein_recursive(str1, str2, i, j - 1) + 1
     replace = _levenshtein_recursive(str1, str2, i - 1, j - 1) + cost  # replace/keep
 
-    distance = min([insert, delete, replace])
+    distance = min(insert, delete, replace)
 
     return distance
 
@@ -55,7 +55,7 @@ def levenshtein_matrix(str1: str, str2: str) -> int:
             delete = matrix[i][j - 1] + 1
             replace = matrix[i - 1][j - 1] + cost  # replace/keep
 
-            distance = min([insert, delete, replace])
+            distance = min(insert, delete, replace)
             matrix[i][j] = distance
 
     return matrix[-1][-1]
@@ -84,9 +84,10 @@ def levenshtein_compressed_matrix(str1: str, str2: str) -> int:
             delete = matrix[1][j - 1] + 1
             replace = matrix[0][j - 1] + cost  # replace/keep
 
-            distance = min([insert, delete, replace])
+            distance = min(insert, delete, replace)
             matrix[1][j] = distance
 
+        # shift last two rows
         for pos, cell in enumerate(matrix[1]):
             matrix[0][pos] = cell
             matrix[1][pos] = 0
@@ -120,7 +121,7 @@ def wagner_fischer_compressed_matrix(str1: str, str2: str) -> int:
                 delete = matrix[1][j - 1] + 1
                 replace = matrix[0][j - 1] + 1  # replace
 
-                distance = min([insert, delete, replace])
+                distance = min(insert, delete, replace)
                 matrix[1][j] = distance
 
         for pos, cell in enumerate(matrix[1]):
@@ -145,11 +146,11 @@ def _damerau_levenshtein_recursive(str1: str, str2: str, i: int, j: int) -> int:
     delete = _damerau_levenshtein_recursive(str1, str2, i, j - 1) + 1
     replace = _damerau_levenshtein_recursive(str1, str2, i - 1, j - 1) + cost  # replace/keep
 
-    distance = min([insert, delete, replace])
+    distance = min(insert, delete, replace)
 
     if i > 1 and j > 1 and str1[i-1] == str2[j-2] and str1[i-2] == str2[j-1]:
         swap = _damerau_levenshtein_recursive(str1, str2, i - 2, j - 2) + 1
-        distance = min([distance, swap])
+        distance = min(distance, swap)
 
     return distance
 
@@ -177,11 +178,11 @@ def damerau_levenshtein_matrix(str1: str, str2: str) -> int:
             delete = matrix[i][j - 1] + 1
             replace = matrix[i - 1][j - 1] + cost  # replace/keep
 
-            distance = min([insert, delete, replace])
+            distance = min(insert, delete, replace)
 
             if i and j and str1[i-1] == str2[j - 2] and str1[i - 2] == str2[j-1]:
                 swap = matrix[i - 2][j - 2] + 1
-                distance = min([distance, swap])
+                distance = min(distance, swap)
 
             matrix[i][j] = distance
 
