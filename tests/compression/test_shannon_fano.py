@@ -4,8 +4,8 @@ from hypothesis import strategies as st, given
 
 # public
 from src.algorithms.compression import get_shannon_fano_table
-from src.algorithms.compression import encode
-from src.algorithms.compression import decode
+from src.algorithms.compression import encode_var_code as encode
+from src.algorithms.compression import decode_var_code as decode
 
 # private
 from src.algorithms.compression.shannon_fano import get_middle_index_of_equal_sums

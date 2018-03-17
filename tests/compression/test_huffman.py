@@ -3,8 +3,8 @@ import unittest
 from hypothesis import strategies as st, given
 
 from src.algorithms.compression import get_huffman_table
-from src.algorithms.compression import encode
-from src.algorithms.compression import decode
+from src.algorithms.compression import encode_var_code as encode
+from src.algorithms.compression import decode_var_code as decode
 
 
 class TestHuffman(unittest.TestCase):

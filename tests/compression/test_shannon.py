@@ -1,11 +1,10 @@
 import unittest
-from itertools import islice
 
 from hypothesis import strategies as st, given
 
-from src.algorithms.compression import encode
 from src.algorithms.compression import get_shannon_table
-from src.algorithms.compression import decode
+from src.algorithms.compression import encode_var_code as encode
+from src.algorithms.compression import decode_var_code as decode
 
 
 class TestShannon(unittest.TestCase):
