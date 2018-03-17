@@ -2,6 +2,7 @@ import unittest
 
 from hypothesis import strategies as st, given
 
+from src.data_types.linear_algebra import Matrix
 from src.data_types.linear_algebra import DefaultMatrix
 from src.data_types.linear_algebra import RandomMatrix
 from src.data_types.linear_algebra import Zeros
@@ -46,10 +47,22 @@ class TestMatrix(unittest.TestCase):
         matrix = RandomMatrix(x, y, min_value, max_value)
         self.assertTrue(x * y * min_value <= matrix.sum <= x * y * max_value)
 
-    @unittest.skip('TODO fix da determinant')
-    def test_determinant(self):
-        m = RandomMatrix(5, 5, -300, 300)
-        print(m.delta)
+    @given(st.lists(st.integers(), min_size=4, max_size=4))
+    def test_determinant_2(self, arr):
+        l = [arr[:2], arr[2:]]
+        m = Matrix(l)
+        self.assertEqual(m.delta, l[0][0] * l[1][1] - l[0][1] * l[1][0])
+
+    @given(st.lists(st.integers(), min_size=9, max_size=9))
+    def test_determinant(self, arr):
+        l = [arr[:3], arr[3:6], arr[6:]]
+        m = Matrix(l)
+        self.assertEqual(
+            m.delta,
+            l[0][0] * (l[1][1] * l[2][2] - l[1][2] * l[2][1]) -
+            l[0][1] * (l[1][0] * l[2][2] - l[1][2] * l[2][0]) +
+            l[0][2] * (l[1][0] * l[2][1] - l[1][1] * l[2][0])
+        )
 
 
 class TestMatrixArithmetic(unittest.TestCase):
@@ -76,12 +89,12 @@ class TestMatrixArithmetic(unittest.TestCase):
     def test_sub(self, x, y):
         self.assertEqual(
             DefaultMatrix(self.rows, self.cols, x) - DefaultMatrix(self.rows, self.cols, y),
-            DefaultMatrix(self.rows, self.cols, x-y)
+            DefaultMatrix(self.rows, self.cols, x - y)
         )
 
         self.assertEqual(
             DefaultMatrix(self.rows, self.cols, x) - y,
-            DefaultMatrix(self.rows, self.cols, x-y)
+            DefaultMatrix(self.rows, self.cols, x - y)
         )
 
     @given(st.integers(), st.integers())

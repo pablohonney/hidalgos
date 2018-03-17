@@ -58,7 +58,7 @@ class Matrix(object):
     def __init__(self, multilist=None):
 
         if isinstance(multilist, (str, bytes)):
-            multilist = map(lambda x: map(lambda y: int(y), x.split()), multilist.strip().split('\n'))
+            multilist = [[int(y) for y in row.split()] for row in multilist.strip().split('\n')]
 
         if multilist:
             self.check_dimensions(multilist)
@@ -66,21 +66,19 @@ class Matrix(object):
         else:
             self._matrix = []
 
-    def __call__(self, raw, column):
-        return self._matrix[raw][column]
+    def __call__(self, row, column):
+        return self._matrix[row][column]
 
     def __repr__(self):
         size = max(map(lambda x: len(str(x)), [self.max, self.min]))
-        l = list(
-            map(lambda raw: ' '.join(map(lambda letter: '%{0}s'.format(size) % letter, raw)), self._matrix))
+        l = [' '.join(map(lambda letter: '%{0}s'.format(size) % letter, row)) for row in self._matrix]
 
         return '%s(%s)' % (self.__class__.__name__, repr(l))
 
     def __str__(self):
         size = max(map(lambda x: len(str(x)), [self.max, self.min]))
-        return '\n'.join(
-            map(lambda raw: ' '.join(map(lambda letter: '%{0}s'.format(size) % letter, raw)), self._matrix))
-        # return '\n'.join(map(lambda raw: str(raw), self._matrix))
+        return '\n'.join(' '.join(map(lambda letter: '%{0}s'.format(size) % letter, row)) for row in self._matrix)
+        # return '\n'.join(map(lambda row: str(row), self._matrix))
 
     def __len__(self):
         return len(self._matrix)
@@ -90,13 +88,13 @@ class Matrix(object):
 
     @property
     def delta(self):
-        raw_size = len(self)
+        row_size = len(self)
         column_size = self.check_dimensions(self)
 
-        if raw_size != column_size:
+        if row_size != column_size:
             raise MatrixEqualEdgesError
 
-        if raw_size == column_size == 2:
+        if row_size == column_size == 2:
             return self(0, 0) * self(1, 1) - self(1, 0) * self(0, 1)
 
         head = self[0]
@@ -104,21 +102,21 @@ class Matrix(object):
 
         delta = 0
 
-        for i, raw in enumerate(self._matrix):
-            delta += (-1) ** i * head[i] * Matrix(map(lambda x: x[:i] + x[i + 1:], body)).delta
+        for i, row in enumerate(self._matrix):
+            delta += (-1) ** i * head[i] * Matrix([x[:i] + x[i + 1:] for x in body]).delta
 
         return delta
 
     # -------- ITERATIONS --------
 
-    def raws(self):
+    def rows(self):
         return iter(self._matrix)
 
     def columns(self):
         return iter(map(lambda x: list(x), zip(*self._matrix)))
 
     def __iter__(self):
-        return self.raws()
+        return self.rows()
 
     # -------- COMPARISONS --------
 
@@ -135,20 +133,20 @@ class Matrix(object):
         if not self.compare_size(other):
             return False
 
-        return all(map(lambda x: x[0] == x[1], zip(self, other)))
+        return all(x == y for x, y in zip(self, other))
 
     def __ne__(self, other):
-        return not self != other
+        return not self == other
 
     def op(self, other, func):
 
         if isinstance(other, (int, float)):
-            return Matrix([[func(self(i, j), other) for j, _ in enumerate(raw)] for i, raw in enumerate(self)])
+            return Matrix([[func(self(i, j), other) for j, _ in enumerate(row)] for i, row in enumerate(self)])
 
         if not self.compare_size(other):
             raise MatrixMismatchError
 
-        return Matrix([[func(self(i, j), other(i, j)) for j, _ in enumerate(raw)] for i, raw in enumerate(self)])
+        return Matrix([[func(self(i, j), other(i, j)) for j, _ in enumerate(row)] for i, row in enumerate(self)])
 
     def __add__(self, other):
         return self.op(other, lambda x, y: x + y)
