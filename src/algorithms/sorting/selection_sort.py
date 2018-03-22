@@ -1,3 +1,31 @@
+"""
+Selection sort consists of the loops.
+
+External loop walks the length of the array.
+Internal loop is a min/max selection function (in-lined here)
+
+After finding the min/max value in each iteration we pop it
+from the original list and put into a new sorted one.
+
+This can be done in place, virtually dividing the input list in two.
+A sorted region and an unsorted region with a Head and a tail.
+
+H------------------------n
+
+...
+
+  sorted   unsorted tail (selection function applies here)
+0--------H---------------n
+0---------H--------------n
+0----------H-------------n
+
+...
+
+0------------------------H
+
+We're done.
+
+"""
 from src.commons import swap, key_fun
 from src.commons import get_min
 
