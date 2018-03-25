@@ -16,5 +16,5 @@ from .variable_width_codecs import encode_var_word
 from .variable_width_codecs import decode_var_word
 
 # # dictionary/substitution coding
-from .lempel_ziv import lzw_compress
-from .lempel_ziv import lzw_decompress
+from .lempel_ziv_welch import lzw_compress
+from .lempel_ziv_welch import lzw_decompress
