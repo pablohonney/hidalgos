@@ -27,28 +27,28 @@ class TestGetLongestRun(unittest.TestCase):
         self.assertEqual((0, 0), get_longest_run([1]))
         self.assertEqual((0, 0), get_longest_run([1, 2]))
 
-    def test_3_up(self):
+    def test_3_monotonic_up(self):
         given = [1, 2, 3]
         expected = (0, 0)
 
         got = get_longest_run(given)
         self.assertEqual(expected, got)
 
-    def test_3_down(self):
+    def test_3_monotonic_down(self):
         given = [3, 2, 1]
         expected = (0, 0)
 
         got = get_longest_run(given)
         self.assertEqual(expected, got)
 
-    def test_3_up_down(self):
+    def test_3_with_1_run(self):
         given = [1, 3, 2]
         expected = (0, 3)
 
         got = get_longest_run(given)
         self.assertEqual(expected, got)
 
-    def test_4_up_down(self):
+    def test_4_with_1_run(self):
         given = [1, 3, 2, 4]
         expected = (0, 4)
 
@@ -62,28 +62,28 @@ class TestGetLongestRun(unittest.TestCase):
         got = get_longest_run(given)
         self.assertEqual(expected, got)
 
-    def test_second_of_2(self):
+    def test_second_of_2_runs(self):
         given = [1, 4, 2, 5, 6, 7, 4, 9, 2, 5]
         expected = (4, 10)
 
         got = get_longest_run(given)
         self.assertEqual(expected, got)
 
-    def test_first_of_2(self):
+    def test_first_of_2_runs(self):
         given = [1, 4, 2, 5, 2, 6, 7, 4, 9]
         expected = (0, 6)
 
         got = get_longest_run(given)
         self.assertEqual(expected, got)
 
-    def test_middle_of_3(self):
+    def test_middle_of_3_runs(self):
         given = [5, 4, 7, 5, 1, 4, 2, 6, 1, 5, 2, 6, 7, 4, 9]
         expected = (3, 12)
 
         got = get_longest_run(given)
         self.assertEqual(expected, got)
 
-    def test_exercise(self):
+    def test_original_exercise(self):
         given = [1, 3, 2, 8, 5, 7, 6, 4, 3]
         expected = (0, 7)
 
@@ -92,7 +92,7 @@ class TestGetLongestRun(unittest.TestCase):
 
 
 class TestGetAllRuns(unittest.TestCase):
-    def test_4_up_down(self):
+    def test_4_wth_1_run(self):
         given = [1, 3, 2, 4]
         expected = [(0, 4)]
 
@@ -106,21 +106,21 @@ class TestGetAllRuns(unittest.TestCase):
         got = get_all_runs(given)
         self.assertEqual(expected, got)
 
-    def test_second_of_2(self):
+    def test_2_runs(self):
         given = [1, 4, 2, 5, 6, 7, 4, 9, 2, 5]
         expected = [(0, 4), (4, 10)]
 
         got = get_all_runs(given)
         self.assertEqual(expected, got)
 
-    def test_first_of_2(self):
+    def test_2_runs_take_2(self):
         given = [1, 4, 2, 5, 2, 6, 7, 4, 9]
         expected = [(0, 6), (5, 9)]
 
         got = get_all_runs(given)
         self.assertEqual(expected, got)
 
-    def test_middle_of_3(self):
+    def test_3_runs(self):
         given = [5, 4, 7, 5, 1, 4, 2, 6, 1, 5, 2, 6, 7, 4, 9]
         expected = [(0, 4), (3, 12), (11, 15)]
 
