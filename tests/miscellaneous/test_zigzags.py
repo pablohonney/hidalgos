@@ -2,8 +2,8 @@ import unittest
 
 from src.algorithms.miscellaneous.zigzags import (
     zigzags,
-    LongestRun,
-    AllRuns,
+    LongestRunHandler,
+    AllRunsHandler,
 )
 
 REGRESSION = 1
@@ -13,8 +13,12 @@ def regression(method):
     return unittest.skipUnless(REGRESSION, 'regression test')(method)
 
 
-get_longest_run = lambda s: zigzags(s, LongestRun())
-get_all_runs = lambda s: zigzags(s, AllRuns())
+def get_longest_run(seq):
+    return zigzags(seq, LongestRunHandler())
+
+
+def get_all_runs(seq):
+    return zigzags(seq, AllRunsHandler())
 
 
 class TestGetLongestRun(unittest.TestCase):
@@ -122,7 +126,3 @@ class TestGetAllRuns(unittest.TestCase):
 
         got = get_all_runs(given)
         self.assertEqual(expected, got)
-
-
-if __name__ == '__main__':
-    unittest.main()

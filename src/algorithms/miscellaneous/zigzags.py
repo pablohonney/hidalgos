@@ -1,4 +1,17 @@
-class LongestRun(object):
+from abc import ABC, abstractmethod
+
+
+class ZigzagHandler(ABC):
+    @abstractmethod
+    def __call__(self, start, end):
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_results(self):
+        raise NotImplementedError
+
+
+class LongestRunHandler(ZigzagHandler):
     """
     Keep the longest run
     """
@@ -17,7 +30,7 @@ class LongestRun(object):
         return self.max_start, self.max_start + self.max_length
 
 
-class AllRuns(object):
+class AllRunsHandler(ZigzagHandler):
     """
     Keep all runs
     """
