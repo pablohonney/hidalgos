@@ -18,3 +18,6 @@ from .variable_width_codecs import decode_var_word
 # # dictionary/substitution coding
 from .lempel_ziv_welch import lzw_compress
 from .lempel_ziv_welch import lzw_decompress
+
+from .move_to_front import encode_move_to_front
+from .move_to_front import decode_move_to_front
